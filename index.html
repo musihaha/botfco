@@ -2,65 +2,152 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <title>Tra cứu SPID FC Online - Search Seasons</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FC Online Player Database</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f2f5; margin: 0; padding: 20px; }
-        .container { max-width: 1100px; margin: auto; background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #1a237e; margin-top: 0; }
-        
-        .search-box { display: flex; gap: 15px; margin-bottom: 25px; background: #f8f9fa; padding: 20px; border-radius: 10px; }
-        .input-group { flex: 1; position: relative; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; color: #444; }
-        input[type="text"] { width: 100%; padding: 12px; border: 2px solid #ddd; border-radius: 6px; font-size: 16px; box-sizing: border-box; }
-        input[type="text"]:focus { border-color: #1a237e; outline: none; }
-        
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th { background: #1a237e; color: white; padding: 15px; text-align: left; position: sticky; top: 0; }
-        td { padding: 12px 15px; border-bottom: 1px solid #eee; }
-        tr:hover { background: #f1f4ff; }
-        
-        .spid { font-weight: bold; color: #c62828; background: #ffebee; padding: 3px 8px; border-radius: 4px; font-family: monospace; }
-        .season-info { display: flex; align-items: center; gap: 10px; }
-        .season-img { width: 30px; height: auto; }
-        .loading { text-align: center; font-weight: bold; color: #1a237e; padding: 20px; }
-        .stats { margin-bottom: 10px; color: #666; font-style: italic; }
+        :root {
+            --primary-color: #00e676;
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --text-color: #e0e0e0;
+            --border-color: #333;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .search-container {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            width: 100%;
+            max-width: 800px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        input {
+            background: #2c2c2c;
+            border: 1px solid var(--border-color);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            outline: none;
+            transition: border 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--primary-color);
+        }
+
+        #stats {
+            grid-column: span 2;
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            max-width: 850px;
+            overflow-x: auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+        th {
+            background-color: #252525;
+            padding: 15px;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: middle;
+        }
+
+        tr:hover {
+            background-color: #252525;
+        }
+
+        .spid {
+            font-family: 'Courier New', monospace;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        .season-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .season-img {
+            width: 32px;
+            height: auto;
+            object-fit: contain;
+        }
+
+        #loading {
+            padding: 20px;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .search-container { grid-template-columns: 1fr; }
+            #stats { grid-column: span 1; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>⚽ Tra cứu SPID Cầu thủ & Mùa thẻ</h1>
-    
-    <div class="search-box">
-        <div class="input-group">
-            <label>Tên cầu thủ:</label>
-            <input type="text" id="nameSearch" placeholder="Ví dụ: Ronaldo, Messi..." onkeyup="filterData()">
-        </div>
-
-        <div class="input-group">
-            <label>Mùa giải:</label>
-            <input type="text" id="seasonInput" list="seasonData" placeholder="Gõ tên mùa (Ví dụ: 25 TOTY, ICON...)" oninput="filterData()">
-            <datalist id="seasonData"></datalist>
-        </div>
+    <div class="search-container">
+        <input type="text" id="nameSearch" placeholder="Nhập tên cầu thủ (VD: Ronaldo)..." oninput="filterData()">
+        <input type="text" id="seasonInput" list="seasonData" placeholder="Chọn hoặc nhập mùa giải..." oninput="filterData()">
+        <datalist id="seasonData"></datalist>
+        <div id="stats">Đang khởi tạo dữ liệu...</div>
     </div>
 
-    <div id="loading" class="loading">Đang tải dữ liệu...</div>
-    <div id="stats" class="stats"></div>
+    <div id="loading">⏳ Đang tải dữ liệu cầu thủ, vui lòng đợi...</div>
 
-    <table>
-        <thead>
-            <tr>
-                <th style="width: 15%;">SPID ↓</th>
-                <th style="width: 45%;">Tên Cầu Thủ</th>
-                <th style="width: 40%;">Mùa Giải</th>
-            </tr>
-        </thead>
-        <tbody id="playerTable"></tbody>
-    </table>
-</div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>SPID</th>
+                    <th>Tên Cầu Thủ</th>
+                    <th>Mùa Giải</th>
+                </tr>
+            </thead>
+            <tbody id="playerTable"></tbody>
+        </table>
+    </div>
 
 <script>
-    // Dữ liệu mùa giải (ĐÃ SỬA LỖI CÚ PHÁP)
+    // 1. Dữ liệu mùa giải (Đã tối ưu cấu trúc)
     const seasons = [
         {"seasonId": 100, "className": "ICONTM", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm.png"},
         {"seasonId": 110, "className": "ICON TM(Bound)", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm_b.png"},
@@ -200,20 +287,23 @@
         {"seasonId": 318, "className": "18LIVE", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/18.png"},
         {"seasonId": 317, "className": "17LIVE", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/17.png"},
         {"seasonId": 812, "className": "LKI", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/lki.png"},
-	{"seasonId": 854, "className": "26TY", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26toty.png"},
-	{"seasonId": 855, "className": "26TYN", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26totn.png"}
-	
+        {"seasonId": 855, "className": "26TYN", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26totn.png"},
+        {"seasonId": 854, "className": "26TY", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26toty.png"}
     ];
+
+    // 2. Map để truy xuất mùa giải theo ID cực nhanh (O(1))
+    const seasonMap = new Map(seasons.map(s => [s.seasonId, s]));
 
     let playerDB = [];
 
+    // 3. Hàm tải dữ liệu
     async function loadData() {
         try {
-            // Thêm ./ để đảm bảo đường dẫn đúng
             const response = await fetch('./spid_translated.json');
-            if (!response.ok) throw new Error("Không tìm thấy file dữ liệu!");
+            if (!response.ok) throw new Error("Không tìm thấy file spid_translated.json!");
             playerDB = await response.json();
             
+            // Đổ dữ liệu vào datalist để gợi ý
             const datalist = document.getElementById('seasonData');
             seasons.forEach(s => {
                 const option = document.createElement('option');
@@ -222,63 +312,89 @@
             });
 
             document.getElementById('loading').style.display = 'none';
-            document.getElementById('stats').textContent = `Đã tải ${playerDB.length.toLocaleString()} cầu thủ.`;
+            updateStats(`Đã sẵn sàng: ${playerDB.length.toLocaleString()} cầu thủ.`);
         } catch (error) {
             document.getElementById('loading').innerHTML = `❌ Lỗi: ${error.message}`;
             console.error(error);
         }
     }
 
+    // 4. Hàm lọc dữ liệu (Đã sửa lỗi ICON vs ICONTM)
     function filterData() {
         const nameQuery = document.getElementById('nameSearch').value.toLowerCase().trim();
-        const seasonInputText = document.getElementById('seasonInput').value.toLowerCase().trim();
+        const seasonQuery = document.getElementById('seasonInput').value.trim();
+        const seasonQueryLower = seasonQuery.toLowerCase();
         const tbody = document.getElementById('playerTable');
         
-        if (nameQuery.length < 2 && seasonInputText === "") {
+        // Điều kiện bắt đầu tìm kiếm
+        if (nameQuery.length < 2 && seasonQuery === "") {
             tbody.innerHTML = "";
-            document.getElementById('stats').textContent = "Nhập tên hoặc mùa giải để tìm...";
+            updateStats("Nhập ít nhất 2 ký tự tên hoặc chọn mùa giải...");
             return;
         }
 
-        let targetSeasonId = null;
-        if (seasonInputText !== "") {
-            const foundSeason = seasons.find(s => s.className.toLowerCase().includes(seasonInputText));
-            if (foundSeason) targetSeasonId = foundSeason.seasonId;
-        }
-
-        // 1. Lọc dữ liệu
         const filtered = playerDB.filter(p => {
-            const nameMatch = p.name.toLowerCase().includes(nameQuery);
+            // Lấy thông tin mùa của cầu thủ này
             const pSeasonId = Math.floor(p.id / 1000000);
-            const seasonMatch = (seasonInputText === "" || pSeasonId === targetSeasonId);
+            const seasonObj = seasonMap.get(pSeasonId);
+            const seasonName = seasonObj ? seasonObj.className : "";
+            const seasonNameLower = seasonName.toLowerCase();
+
+            // Khớp tên
+            const nameMatch = nameQuery === "" || p.name.toLowerCase().includes(nameQuery);
+            
+            // Khớp mùa giải (Logic sửa lỗi)
+            let seasonMatch = true;
+            if (seasonQuery !== "") {
+                // Ưu tiên khớp tuyệt đối (Exact Match) để gõ ICON ra đúng ICON, không ra ICONTM
+                const isExactMatch = (seasonNameLower === seasonQueryLower);
+                // Hoặc khớp một phần nếu chuỗi tìm kiếm đủ dài (để tìm "26" ra "26TY")
+                const isPartialMatch = seasonNameLower.includes(seasonQueryLower) && seasonQuery.length >= 2;
+                
+                seasonMatch = isExactMatch || isPartialMatch;
+            }
+
             return nameMatch && seasonMatch;
         });
 
-        // 2. Sắp xếp SPID từ CAO đến THẤP
-        filtered.sort((a, b) => b.id - a.id);
-
-        // 3. Hiển thị dữ liệu
-        tbody.innerHTML = "";
-        filtered.slice(0, 200).forEach(p => {
-            const pSeasonId = Math.floor(p.id / 1000000);
-            const seasonObj = seasons.find(s => s.seasonId === pSeasonId);
-            
-            const tr = document.createElement('tr');
-            tr.innerHTML = `
-                <td><span class="spid">${p.id}</span></td>
-                <td><strong>${p.name}</strong></td>
-                <td>
-                    <div class="season-info">
-                        ${seasonObj ? `<img src="${seasonObj.seasonImg}" class="season-img"> <span>${seasonObj.className}</span>` : `Mùa ${pSeasonId}`}
-                    </div>
-                </td>
-            `;
-            tbody.appendChild(tr);
-        });
-
-        document.getElementById('stats').textContent = `Tìm thấy ${filtered.length.toLocaleString()} kết quả.`;
+        // Sắp xếp ID giảm dần và hiển thị tối đa 200 kết quả đầu tiên
+        renderTable(filtered.sort((a, b) => b.id - a.id).slice(0, 200));
+        updateStats(`Tìm thấy ${filtered.length.toLocaleString()} kết quả.`);
     }
 
+    // 5. Hàm render bảng (Dùng chuỗi Template để nhanh hơn appendChild)
+    function renderTable(data) {
+        const tbody = document.getElementById('playerTable');
+        if (data.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;">Không tìm thấy kết quả phù hợp</td></tr>';
+            return;
+        }
+
+        tbody.innerHTML = data.map(p => {
+            const pSeasonId = Math.floor(p.id / 1000000);
+            const season = seasonMap.get(pSeasonId);
+            
+            return `
+                <tr>
+                    <td><span class="spid">${p.id}</span></td>
+                    <td><strong>${p.name}</strong></td>
+                    <td>
+                        <div class="season-info">
+                            ${season 
+                                ? `<img src="${season.seasonImg}" class="season-img" loading="lazy"> <span>${season.className}</span>` 
+                                : `<span>Mùa ${pSeasonId}</span>`}
+                        </div>
+                    </td>
+                </tr>
+            `;
+        }).join('');
+    }
+
+    function updateStats(text) {
+        document.getElementById('stats').textContent = text;
+    }
+
+    // Khởi chạy
     window.onload = loadData;
 </script>
 
