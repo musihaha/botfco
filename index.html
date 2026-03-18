@@ -65,6 +65,22 @@
             font-weight: 500;
         }
 
+        .search-tips {
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .search-tips kbd {
+            background: #333;
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #aaa;
+            border: 1px solid #444;
+        }
+
         .table-container {
             width: 100%;
             max-width: 900px;
@@ -171,6 +187,13 @@
             color: #efefef;
         }
 
+        .highlight {
+            color: var(--primary-color);
+            background: rgba(0, 230, 118, 0.15);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
         #loading-overlay {
             padding: 40px;
             text-align: center;
@@ -188,11 +211,14 @@
 
     <div class="search-wrapper">
         <div class="search-grid">
-            <input type="text" id="nameInput" placeholder="🔍 Tên cầu thủ" oninput="filterData()">
-            <input type="text" id="seasonInput" list="seasonList" placeholder="🏆 Mùa thẻ" oninput="filterData()">
+            <input type="text" id="nameInput" placeholder="🔍 Tên cầu thủ (VD: hulsmann, mbappe...)" oninput="debouncedFilter()">
+            <input type="text" id="seasonInput" list="seasonList" placeholder="🏆 Mùa thẻ" oninput="debouncedFilter()">
             <datalist id="seasonList"></datalist>
         </div>
         <div id="stats">Đang chuẩn bị dữ liệu...</div>
+        <div class="search-tips">
+            💡 Mẹo: Gõ không dấu, bỏ qua ký tự đặc biệt — VD: <kbd>hulsmann</kbd> → T. Hülsmann · <kbd>mbappe</kbd> → Mbappé · <kbd>o sullivan</kbd> → O'Sullivan
+        </div>
     </div>
 
     <div id="loading-overlay">⏳ Đang tải cơ sở dữ liệu cầu thủ...</div>
@@ -357,25 +383,79 @@
 
     const seasonMap = new Map(seasons.map(s => [s.seasonId, s]));
     let playerDB = [];
+    // ===== INDEX ĐÃ CHUẨN HÓA - tính 1 lần khi load =====
+    let playerIndex = [];
+
+    // ===== BẢNG CHUYỂN ĐỔI KÝ TỰ ĐẶC BIỆT =====
+    // Những ký tự mà NFD KHÔNG phân tách được
+    const SPECIAL_CHAR_MAP = {
+        'ø': 'o', 'Ø': 'O',
+        'đ': 'd', 'Đ': 'D',
+        'ð': 'd', 'Ð': 'D',
+        'ß': 'ss',
+        'æ': 'ae', 'Æ': 'AE',
+        'œ': 'oe', 'Œ': 'OE',
+        'ł': 'l', 'Ł': 'L',
+        'þ': 'th', 'Þ': 'TH',
+        'ı': 'i', 'İ': 'I',
+        'ş': 's', 'Ş': 'S',
+        'ğ': 'g', 'Ğ': 'G',
+        'ŧ': 't', 'Ŧ': 'T',
+        'ħ': 'h', 'Ħ': 'H',
+        'ŋ': 'ng', 'Ŋ': 'NG',
+        'ĸ': 'k',
+        'ŀ': 'l', 'Ŀ': 'L',
+        'ĳ': 'ij', 'Ĳ': 'IJ',
+        // Ký tự Cyrillic phổ biến trong tên cầu thủ
+        'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
+        'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i',
+        'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n',
+        'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
+        'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch',
+        'ш': 'sh', 'щ': 'shch', 'ъ': '', 'ы': 'y', 'ь': '',
+        'э': 'e', 'ю': 'yu', 'я': 'ya',
+    };
+
+    // ===== HÀM CHUẨN HÓA THÔNG MINH =====
+    function smartNormalize(str) {
+        if (!str) return "";
+        
+        let result = str;
+        
+        // Bước 1: Thay thế các ký tự đặc biệt trước khi NFD
+        for (const [char, replacement] of Object.entries(SPECIAL_CHAR_MAP)) {
+            result = result.split(char).join(replacement);
+        }
+        
+        // Bước 2: NFD decomposition - tách dấu khỏi ký tự gốc
+        // VD: ü → u + ¨  |  é → e + ́  |  ñ → n + ~
+        result = result.normalize("NFD");
+        
+        // Bước 3: Xóa tất cả combining diacritical marks (U+0300 → U+036F)
+        result = result.replace(/[\u0300-\u036f]/g, "");
+        
+        // Bước 4: Xóa mọi ký tự không phải chữ/số/space
+        // (dấu chấm, ngoặc, gạch ngang, nháy đơn... đều bị loại)
+        result = result.replace(/[^a-zA-Z0-9\s]/g, "");
+        
+        // Bước 5: Gộp khoảng trắng thừa & lowercase
+        result = result.replace(/\s+/g, " ").trim().toLowerCase();
+        
+        return result;
+    }
 
     // ===== LẤY PID TỪ SPID =====
     function getPidFromSpid(spid) {
         return spid % 1000000;
     }
 
-    // ===== DANH SÁCH URL FALLBACK - ĐÃ SỬA =====
     function getPlayerImageUrls(spid) {
         const pid = getPidFromSpid(spid);
-        
-        // Thử nhiều domain và format khác nhau
         return [
-            // FC Online Vietnam CDN
             `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${spid}.png`,
             `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${pid}.png`,
             `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${spid}.png`,
             `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${pid}.png`,
-            
-            // FO4 Korea CDN (Backup)
             `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${spid}.png`,
             `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${pid}.png`,
             `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${spid}.png`,
@@ -383,7 +463,6 @@
         ];
     }
 
-    // ===== XỬ LÝ FALLBACK ẢNH =====
     function handleImageError(img, spid) {
         const urls = getPlayerImageUrls(spid);
         let currentIndex = parseInt(img.dataset.urlIndex || "0");
@@ -392,13 +471,10 @@
         if (currentIndex < urls.length) {
             img.dataset.urlIndex = currentIndex;
             img.src = urls[currentIndex];
-            
-            // Nếu chuyển sang portrait (index >= 2 và index >= 6), bỏ class action
             if (currentIndex === 2 || currentIndex === 3 || currentIndex === 6 || currentIndex === 7) {
                 img.classList.remove('action-img');
             }
         } else {
-            // Hết URL -> Hiện fallback icon
             img.style.display = 'none';
             const wrapper = img.parentElement;
             if (wrapper) {
@@ -407,22 +483,35 @@
         }
     }
 
-    function cleanString(str) {
-        if (!str) return "";
-        return str.normalize("NFD")
-                  .replace(/[\u0300-\u036f]/g, "")
-                  .replace(/đ/g, "d").replace(/Đ/g, "D")
-                  .replace(/[^a-zA-Z0-9 ]/g, "")
-                  .toLowerCase()
-                  .trim();
+    // ===== DEBOUNCE - tránh gọi filter liên tục khi gõ nhanh =====
+    let debounceTimer;
+    function debouncedFilter() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(filterData, 150);
     }
 
+    // ===== LOAD DATA + XÂY INDEX =====
     async function loadData() {
         try {
             const response = await fetch('./spid_translated.json');
             if (!response.ok) throw new Error("File spid_translated.json không tồn tại!");
             playerDB = await response.json();
+
+            // Xây index chuẩn hóa 1 lần — search sẽ rất nhanh
+            updateStats(`Đang xây dựng chỉ mục tìm kiếm...`);
             
+            playerIndex = playerDB.map(p => {
+                const pSeasonId = Math.floor(p.id / 1000000);
+                const season = seasonMap.get(pSeasonId);
+                return {
+                    ref: p,
+                    nameNorm: smartNormalize(p.name),
+                    seasonNorm: season ? season.className.toLowerCase() : "",
+                    seasonId: pSeasonId
+                };
+            });
+
+            // Populate season datalist
             const datalist = document.getElementById('seasonList');
             seasons.forEach(s => {
                 const option = document.createElement('option');
@@ -431,51 +520,129 @@
             });
 
             document.getElementById('loading-overlay').style.display = 'none';
-            updateStats(`Sẵn sàng: ${playerDB.length.toLocaleString()} cầu thủ.`);
+            updateStats(`✅ Sẵn sàng: ${playerDB.length.toLocaleString()} cầu thủ đã được lập chỉ mục.`);
         } catch (error) {
             document.getElementById('loading-overlay').innerHTML = `❌ Lỗi: ${error.message}`;
             console.error(error);
         }
     }
 
+    // ===== BỘ LỌC THÔNG MINH =====
     function filterData() {
         const nameQueryRaw = document.getElementById('nameInput').value;
-        const nameQuery = cleanString(nameQueryRaw);
+        const nameNorm = smartNormalize(nameQueryRaw);
         
         const seasonQueryRaw = document.getElementById('seasonInput').value;
         const seasonQuery = seasonQueryRaw.trim().toLowerCase();
 
         const tbody = document.getElementById('playerList');
         
-        if (nameQuery.length < 2 && seasonQuery === "") {
+        if (nameNorm.length < 2 && seasonQuery === "") {
             tbody.innerHTML = "";
-            updateStats("Vui lòng nhập thêm thông tin để tìm kiếm...");
+            updateStats("Nhập ít nhất 2 ký tự để tìm kiếm...");
             return;
         }
 
-        const filtered = playerDB.filter(p => {
-            const pSeasonId = Math.floor(p.id / 1000000);
-            const seasonObj = seasonMap.get(pSeasonId);
-            const seasonName = seasonObj ? seasonObj.className.toLowerCase() : "";
+        // Tách thành nhiều token → TẤT CẢ phải khớp
+        // VD: "son heung" → ["son", "heung"] → cả hai phải có trong tên
+        const nameTokens = nameNorm.split(/\s+/).filter(t => t.length > 0);
 
-            const playerNameClean = cleanString(p.name);
-            const isNameMatch = nameQuery === "" || playerNameClean.includes(nameQuery);
-            
+        const filtered = playerIndex.filter(entry => {
+            // ===== Kiểm tra tên =====
+            let isNameMatch = true;
+            if (nameTokens.length > 0) {
+                // Mỗi token phải xuất hiện trong tên đã chuẩn hóa
+                isNameMatch = nameTokens.every(token => entry.nameNorm.includes(token));
+            }
+
+            // ===== Kiểm tra mùa =====
             let isSeasonMatch = true;
             if (seasonQuery !== "") {
-                const exactMatch = (seasonName === seasonQuery);
-                const partialMatch = seasonName.includes(seasonQuery) && seasonQuery.length >= 2;
+                const exactMatch = (entry.seasonNorm === seasonQuery);
+                const partialMatch = entry.seasonNorm.includes(seasonQuery) && seasonQuery.length >= 2;
                 isSeasonMatch = exactMatch || partialMatch;
             }
 
             return isNameMatch && isSeasonMatch;
         });
 
-        renderResults(filtered.sort((a, b) => b.id - a.id).slice(0, 200));
-        updateStats(`Tìm thấy ${filtered.length.toLocaleString()} cầu thủ.`);
+        // Sắp xếp: ưu tiên khớp chính xác hơn lên trước
+        const scored = filtered.map(entry => {
+            let score = 0;
+            
+            // Tên bắt đầu bằng token đầu tiên → ưu tiên cao
+            if (nameTokens.length > 0 && entry.nameNorm.startsWith(nameTokens[0])) {
+                score += 100;
+            }
+            
+            // Có từ nào trong tên bắt đầu bằng token → ưu tiên
+            const nameWords = entry.nameNorm.split(" ");
+            for (const token of nameTokens) {
+                if (nameWords.some(w => w.startsWith(token))) {
+                    score += 50;
+                }
+                // Khớp chính xác một từ
+                if (nameWords.some(w => w === token)) {
+                    score += 30;
+                }
+            }
+            
+            // Tên ngắn hơn (khớp chặt hơn) → ưu tiên
+            score -= entry.nameNorm.length;
+            
+            return { entry, score };
+        });
+
+        scored.sort((a, b) => b.score - a.score || b.entry.ref.id - a.entry.ref.id);
+
+        const top200 = scored.slice(0, 200).map(s => s.entry.ref);
+        renderResults(top200, nameTokens);
+        updateStats(`🔍 Tìm thấy ${filtered.length.toLocaleString()} kết quả${filtered.length > 200 ? " (hiển thị 200 đầu)" : ""}`);
     }
 
-    function renderResults(data) {
+    // ===== HIGHLIGHT KẾT QUẢ =====
+    function highlightName(originalName, tokens) {
+        if (!tokens || tokens.length === 0) return escapeHtml(originalName);
+        
+        const nameNorm = smartNormalize(originalName);
+        const chars = [...originalName];
+        const normChars = [...smartNormalize(originalName)];
+        
+        // Tạo mapping giữa vị trí ký tự gốc và ký tự đã chuẩn hóa
+        // Do smartNormalize có thể thay đổi độ dài (ß→ss), ta dùng cách đơn giản hơn
+        let highlighted = escapeHtml(originalName);
+        
+        for (const token of tokens) {
+            // Tìm vị trí token trong chuỗi đã normalize
+            const idx = nameNorm.indexOf(token);
+            if (idx === -1) continue;
+            
+            // Dùng regex case-insensitive trên chuỗi gốc
+            // Tạo pattern linh hoạt: mỗi ký tự trong token match ký tự gốc + dấu tùy ý
+            let pattern = "";
+            for (const ch of token) {
+                // Mỗi ký tự match: chính nó hoặc phiên bản có dấu
+                pattern += ch + "[\\u0300-\\u036f]*[.'\\-]?\\s?";
+            }
+            
+            try {
+                const regex = new RegExp(`(${pattern.slice(0, -4)})`, 'gi');
+                highlighted = highlighted.replace(regex, '<span class="highlight">$1</span>');
+            } catch(e) {
+                // Fallback nếu regex lỗi
+            }
+        }
+        
+        return highlighted;
+    }
+
+    function escapeHtml(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+    }
+
+    function renderResults(data, nameTokens) {
         const tbody = document.getElementById('playerList');
         if (data.length === 0) {
             tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding: 30px; color: #888;">Không tìm thấy kết quả phù hợp</td></tr>';
@@ -486,6 +653,7 @@
             const pSeasonId = Math.floor(p.id / 1000000);
             const season = seasonMap.get(pSeasonId);
             const imgUrls = getPlayerImageUrls(p.id);
+            const displayName = highlightName(p.name, nameTokens);
             
             return `
                 <tr>
@@ -496,14 +664,14 @@
                                 <img 
                                     src="${imgUrls[0]}" 
                                     class="player-avatar action-img" 
-                                    alt="${p.name}"
+                                    alt="${escapeHtml(p.name)}"
                                     data-spid="${p.id}"
                                     data-url-index="0"
                                     onerror="handleImageError(this, ${p.id})"
                                     loading="lazy"
                                 >
                             </div>
-                            <span class="player-name">${p.name}</span>
+                            <span class="player-name">${displayName}</span>
                         </div>
                     </td>
                     <td>
