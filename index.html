@@ -6,7 +6,7 @@
     <title>FC Online Player Database - Professional Search</title>
     <style>
         :root {
-            --primary-color: #00e676; /* Màu xanh lá đặc trưng bóng đá */
+            --primary-color: #00e676;
             --bg-color: #0f0f0f;
             --card-bg: #1a1a1a;
             --text-main: #ffffff;
@@ -25,7 +25,6 @@
             align-items: center;
         }
 
-        /* Khung tìm kiếm chuyên nghiệp */
         .search-wrapper {
             background: var(--card-bg);
             padding: 24px;
@@ -66,7 +65,6 @@
             font-weight: 500;
         }
 
-        /* Bảng dữ liệu */
         .table-container {
             width: 100%;
             max-width: 900px;
@@ -102,7 +100,33 @@
             background: rgba(255, 255, 255, 0.03);
         }
 
-        /* Định dạng nội dung ô */
+        /* ===== PHẦN MỚI: STYLE CHO ẢNH CẦU THỦ ===== */
+        .player-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .player-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            border: 2px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .player-avatar.error {
+            /* Fallback khi ảnh lỗi */
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #666;
+        }
+
         .spid-code {
             font-family: 'JetBrains Mono', 'Fira Code', monospace;
             color: var(--primary-color);
@@ -137,9 +161,9 @@
             font-weight: bold;
         }
 
-        /* Hiệu ứng mượt cho mobile */
         @media (max-width: 600px) {
             .search-grid { grid-template-columns: 1fr; }
+            .player-avatar { width: 40px; height: 40px; }
         }
     </style>
 </head>
@@ -170,7 +194,6 @@
     </div>
 
 <script>
-    // 1. Danh sách mùa giải (Full Data)
     const seasons = [
         {"seasonId": 100, "className": "ICONTM", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm.png"},
         {"seasonId": 110, "className": "ICON TM(Bound)", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm_b.png"},
@@ -312,33 +335,35 @@
         {"seasonId": 812, "className": "LKI", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/lki.png"},
         {"seasonId": 855, "className": "26TYN", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26totn.png"},
         {"seasonId": 854, "className": "26TY", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26toty.png"},
-	{"seasonId": 856, "className": "25UCL", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25ucl.png"}
-
+        {"seasonId": 856, "className": "25UCL", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25ucl.png"}
     ];
 
-    // Tạo Map để tối ưu tốc độ tìm mùa giải từ ID cầu thủ
     const seasonMap = new Map(seasons.map(s => [s.seasonId, s]));
     let playerDB = [];
 
-    // HÀM CHUẨN HÓA: Bỏ dấu tiếng Việt, bỏ ký tự đặc biệt như ' `
     function cleanString(str) {
         if (!str) return "";
         return str.normalize("NFD")
-                  .replace(/[\u0300-\u036f]/g, "") // Bỏ dấu
+                  .replace(/[\u0300-\u036f]/g, "")
                   .replace(/đ/g, "d").replace(/Đ/g, "D")
-                  .replace(/[^a-zA-Z0-9 ]/g, "") // Bỏ ký tự đặc biệt như dấu nháy '
+                  .replace(/[^a-zA-Z0-9 ]/g, "")
                   .toLowerCase()
                   .trim();
     }
 
-    // Tải dữ liệu từ file JSON
+    // ===== HÀM TẠO URL ẢNH CẦU THỦ =====
+    function getPlayerImageUrl(spid) {
+        // API FC Online cung cấp ảnh cầu thủ theo format:
+        // https://fconline.nexon.com/DataCenter/PlayerInfo?spid=XXXXXXXXX&n=0
+        return `https://fconline.nexon.com/DataCenter/PlayerInfo?spid=${spid}&n=0`;
+    }
+
     async function loadData() {
         try {
             const response = await fetch('./spid_translated.json');
             if (!response.ok) throw new Error("File spid_translated.json không tồn tại!");
             playerDB = await response.json();
             
-            // Render gợi ý mùa giải vào Datalist
             const datalist = document.getElementById('seasonList');
             seasons.forEach(s => {
                 const option = document.createElement('option');
@@ -354,17 +379,15 @@
         }
     }
 
-    // Xử lý lọc dữ liệu
     function filterData() {
         const nameQueryRaw = document.getElementById('nameInput').value;
-        const nameQuery = cleanString(nameQueryRaw); // Chuẩn hóa từ khóa tên
+        const nameQuery = cleanString(nameQueryRaw);
         
         const seasonQueryRaw = document.getElementById('seasonInput').value;
-        const seasonQuery = seasonQueryRaw.trim().toLowerCase(); // Chuẩn hóa từ khóa mùa
+        const seasonQuery = seasonQueryRaw.trim().toLowerCase();
 
         const tbody = document.getElementById('playerList');
         
-        // Chỉ tìm khi có ít nhất 2 ký tự tên hoặc đã chọn mùa
         if (nameQuery.length < 2 && seasonQuery === "") {
             tbody.innerHTML = "";
             updateStats("Vui lòng nhập thêm thông tin để tìm kiếm...");
@@ -372,35 +395,27 @@
         }
 
         const filtered = playerDB.filter(p => {
-            // Lấy ID mùa giải từ SPID
             const pSeasonId = Math.floor(p.id / 1000000);
             const seasonObj = seasonMap.get(pSeasonId);
             const seasonName = seasonObj ? seasonObj.className.toLowerCase() : "";
 
-            // 1. So khớp tên (Đã chuẩn hóa không dấu)
             const playerNameClean = cleanString(p.name);
             const isNameMatch = nameQuery === "" || playerNameClean.includes(nameQuery);
             
-            // 2. So khớp mùa giải (SỬA LỖI ICON vs ICONTM)
             let isSeasonMatch = true;
             if (seasonQuery !== "") {
-                // Ưu tiên khớp tuyệt đối nếu gõ chính xác
                 const exactMatch = (seasonName === seasonQuery);
-                // Khớp một phần nếu từ khóa đủ dài (tránh gõ "i" ra hàng loạt)
                 const partialMatch = seasonName.includes(seasonQuery) && seasonQuery.length >= 2;
-                
                 isSeasonMatch = exactMatch || partialMatch;
             }
 
             return isNameMatch && isSeasonMatch;
         });
 
-        // Hiển thị kết quả (Sắp xếp SPID mới nhất lên đầu, giới hạn 200 dòng để mượt trang)
         renderResults(filtered.sort((a, b) => b.id - a.id).slice(0, 200));
         updateStats(`Tìm thấy ${filtered.length.toLocaleString()} cầu thủ.`);
     }
 
-    // Render bảng kết quả
     function renderResults(data) {
         const tbody = document.getElementById('playerList');
         if (data.length === 0) {
@@ -411,15 +426,27 @@
         tbody.innerHTML = data.map(p => {
             const pSeasonId = Math.floor(p.id / 1000000);
             const season = seasonMap.get(pSeasonId);
+            const playerImgUrl = getPlayerImageUrl(p.id);
             
             return `
                 <tr>
                     <td><span class="spid-code">${p.id}</span></td>
-                    <td><span class="player-name">${p.name}</span></td>
+                    <td>
+                        <div class="player-info">
+                            <img 
+                                src="${playerImgUrl}" 
+                                class="player-avatar" 
+                                alt="${p.name}"
+                                onerror="this.style.display='none'"
+                                loading="lazy"
+                            >
+                            <span class="player-name">${p.name}</span>
+                        </div>
+                    </td>
                     <td>
                         <div class="season-box">
                             ${season 
-                                ? `<img src="${season.seasonImg}" class="season-icon" alt="${season.className}"> <span>${season.className}</span>` 
+                                ? `<img src="${season.seasonImg}" class="season-icon" alt="${season.className}" loading="lazy"> <span>${season.className}</span>` 
                                 : `<span style="color:#666">Mùa ${pSeasonId}</span>`}
                         </div>
                     </td>
