@@ -100,7 +100,6 @@
             background: rgba(255, 255, 255, 0.03);
         }
 
-        /* ===== STYLE ẢNH CẦU THỦ ===== */
         .player-info {
             display: flex;
             align-items: center;
@@ -126,6 +125,7 @@
 
         .player-avatar.action-img {
             object-fit: contain;
+            object-position: top center;
             background: transparent;
             border: none;
             box-shadow: none;
@@ -358,44 +358,52 @@
     const seasonMap = new Map(seasons.map(s => [s.seasonId, s]));
     let playerDB = [];
 
-    // ===== BASE URL CHO ẢNH CẦU THỦ =====
-    const IMG_BASE = "https://ssl.nexon.com/s2/game/fc/online/obt/live/externalAssets/common";
-
-    // ===== HÀM LẤY PID TỪ SPID (Bỏ mã mùa) =====
+    // ===== LẤY PID TỪ SPID =====
     function getPidFromSpid(spid) {
         return spid % 1000000;
     }
 
-    // ===== DANH SÁCH URL FALLBACK (Thứ tự ưu tiên) =====
+    // ===== DANH SÁCH URL FALLBACK - ĐÃ SỬA =====
     function getPlayerImageUrls(spid) {
         const pid = getPidFromSpid(spid);
+        
+        // Thử nhiều domain và format khác nhau
         return [
-            `${IMG_BASE}/playersAction/p${spid}.png`,   // 1. Action với SPID
-            `${IMG_BASE}/playersAction/p${pid}.png`,    // 2. Action với PID
-            `${IMG_BASE}/players/p${spid}.png`,         // 3. Portrait với SPID
-            `${IMG_BASE}/players/p${pid}.png`           // 4. Portrait với PID
+            // FC Online Vietnam CDN
+            `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${spid}.png`,
+            `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${pid}.png`,
+            `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${spid}.png`,
+            `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${pid}.png`,
+            
+            // FO4 Korea CDN (Backup)
+            `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${spid}.png`,
+            `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${pid}.png`,
+            `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${spid}.png`,
+            `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${pid}.png`,
         ];
     }
 
-    // ===== HÀM XỬ LÝ FALLBACK ẢNH =====
+    // ===== XỬ LÝ FALLBACK ẢNH =====
     function handleImageError(img, spid) {
         const urls = getPlayerImageUrls(spid);
         let currentIndex = parseInt(img.dataset.urlIndex || "0");
         currentIndex++;
         
         if (currentIndex < urls.length) {
-            // Thử URL tiếp theo
             img.dataset.urlIndex = currentIndex;
             img.src = urls[currentIndex];
             
-            // Nếu chuyển từ Action sang Portrait, bỏ class action
-            if (currentIndex >= 2) {
+            // Nếu chuyển sang portrait (index >= 2 và index >= 6), bỏ class action
+            if (currentIndex === 2 || currentIndex === 3 || currentIndex === 6 || currentIndex === 7) {
                 img.classList.remove('action-img');
             }
         } else {
             // Hết URL -> Hiện fallback icon
             img.style.display = 'none';
-            img.parentElement.innerHTML = '<div class="player-avatar-fallback">⚽</div>';
+            const wrapper = img.parentElement;
+            if (wrapper) {
+                wrapper.innerHTML = '<div class="player-avatar-fallback">⚽</div>';
+            }
         }
     }
 
