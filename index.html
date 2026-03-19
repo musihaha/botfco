@@ -4,90 +4,524 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FC Online Player Database - Professional Search</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-color: #00e676;
-            --bg-color: #0f0f0f;
-            --card-bg: #1a1a1a;
-            --text-main: #ffffff;
-            --text-sub: #b0b0b0;
-            --border: #2d2d2d;
+            --primary-hover: #00c853;
+            --primary-glow: rgba(0, 230, 118, 0.15);
+            --primary-glow-strong: rgba(0, 230, 118, 0.3);
+            --bg-color: #0a0a0f;
+            --bg-secondary: #12121a;
+            --card-bg: #16161f;
+            --card-bg-hover: #1c1c28;
+            --text-main: #f0f0f5;
+            --text-sub: #8888a0;
+            --text-dim: #555570;
+            --border: #2a2a3a;
+            --border-light: #35354a;
+            --danger: #ff4757;
+            --warning: #ffa726;
+            --info: #42a5f5;
+            --success: #66bb6a;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.4);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.5);
+            --transition-fast: 0.15s ease;
+            --transition-normal: 0.25s ease;
+            --transition-slow: 0.4s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .search-wrapper {
+        /* ===== BACKGROUND EFFECTS ===== */
+        .bg-grid {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-glow {
+            position: fixed;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 600px;
+            background: radial-gradient(ellipse, rgba(0,230,118,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+        }
+
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 64px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--primary-color), #00bfa5);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 12px rgba(0,230,118,0.3);
+        }
+
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo-badge {
+            font-size: 0.6rem;
+            background: var(--primary-color);
+            color: #000;
+            padding: 2px 8px;
+            border-radius: 20px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .kbd-hint {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        .kbd-hint kbd {
             background: var(--card-bg);
-            padding: 24px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            width: 100%;
-            max-width: 900px;
-            margin-bottom: 30px;
             border: 1px solid var(--border);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-sub);
+        }
+
+        .theme-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-sub);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all var(--transition-fast);
+            font-size: 1rem;
+        }
+
+        .theme-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: var(--primary-glow);
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* ===== STATS CARDS ===== */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: all var(--transition-normal);
+        }
+
+        .stat-card:hover {
+            border-color: var(--border-light);
+            transform: translateY(-1px);
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .stat-icon.green { background: rgba(0,230,118,0.1); }
+        .stat-icon.blue { background: rgba(66,165,245,0.1); }
+        .stat-icon.orange { background: rgba(255,167,38,0.1); }
+        .stat-icon.purple { background: rgba(171,71,188,0.1); }
+
+        .stat-info { display: flex; flex-direction: column; }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-main);
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 500;
+        }
+
+        /* ===== SEARCH PANEL ===== */
+        .search-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .search-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+
+        .search-panel-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-sub);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .search-mode-tabs {
+            display: flex;
+            background: var(--bg-secondary);
+            border-radius: var(--radius-sm);
+            padding: 3px;
+            gap: 2px;
+        }
+
+        .search-mode-tab {
+            padding: 6px 16px;
+            border-radius: 4px;
+            border: none;
+            background: transparent;
+            color: var(--text-dim);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .search-mode-tab.active {
+            background: var(--primary-color);
+            color: #000;
+            box-shadow: 0 2px 8px rgba(0,230,118,0.3);
+        }
+
+        .search-mode-tab:not(.active):hover {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.05);
         }
 
         .search-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 12px;
         }
 
-        input {
-            background: #252525;
-            border: 1px solid var(--border);
-            color: white;
-            padding: 14px 18px;
-            border-radius: 8px;
-            font-size: 15px;
+        .input-group {
+            position: relative;
+        }
+
+        .input-group .input-icon {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            color: var(--text-dim);
+            pointer-events: none;
+            transition: color var(--transition-fast);
+            z-index: 2;
+        }
+
+        .input-group input {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1.5px solid var(--border);
+            color: var(--text-main);
+            padding: 13px 16px 13px 42px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
             outline: none;
-            transition: all 0.2s ease;
+            transition: all var(--transition-normal);
         }
 
-        input:focus {
+        .input-group input::placeholder {
+            color: var(--text-dim);
+        }
+
+        .input-group input:focus {
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 2px rgba(0, 230, 118, 0.2);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+            background: rgba(0,230,118,0.03);
         }
 
-        #stats {
+        .input-group input:focus + .input-icon,
+        .input-group input:focus ~ .input-icon {
+            color: var(--primary-color);
+        }
+
+        .input-clear {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: none;
+            background: var(--border);
+            color: var(--text-sub);
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            transition: all var(--transition-fast);
+            z-index: 2;
+        }
+
+        .input-clear:hover {
+            background: var(--danger);
+            color: white;
+        }
+
+        .input-group input:not(:placeholder-shown) ~ .input-clear {
+            display: flex;
+        }
+
+        .search-tips-bar {
+            margin-top: 14px;
+            padding: 10px 14px;
+            background: rgba(0,230,118,0.04);
+            border: 1px solid rgba(0,230,118,0.1);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.75rem;
+            color: var(--text-sub);
+            line-height: 1.6;
+        }
+
+        .search-tips-bar .tip-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .search-tips-bar kbd {
+            background: rgba(255,255,255,0.08);
+            padding: 1px 6px;
+            border-radius: 3px;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary-color);
+            border: 1px solid rgba(0,230,118,0.2);
+            font-size: 0.72rem;
+        }
+
+        /* ===== RECENT SEARCHES ===== */
+        .recent-searches {
+            display: flex;
+            align-items: center;
+            gap: 8px;
             margin-top: 12px;
-            font-size: 0.85rem;
+            flex-wrap: wrap;
+        }
+
+        .recent-label {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            font-weight: 500;
+        }
+
+        .recent-tag {
+            padding: 4px 12px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.72rem;
+            color: var(--text-sub);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .recent-tag:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: var(--primary-glow);
+        }
+
+        .recent-tag .remove-tag {
+            font-size: 0.65rem;
+            opacity: 0;
+            transition: opacity var(--transition-fast);
+        }
+
+        .recent-tag:hover .remove-tag {
+            opacity: 1;
+        }
+
+        /* ===== TABLE AREA ===== */
+        .table-panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .table-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,0.01);
+        }
+
+        .table-toolbar-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .results-count {
+            font-size: 0.82rem;
             color: var(--text-sub);
             font-weight: 500;
         }
 
-        .search-tips {
-            margin-top: 10px;
-            font-size: 0.75rem;
-            color: #666;
-            line-height: 1.6;
+        .results-count strong {
+            color: var(--primary-color);
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        .search-tips kbd {
-            background: #333;
-            padding: 1px 6px;
-            border-radius: 3px;
-            font-family: monospace;
-            color: #aaa;
-            border: 1px solid #444;
+        .table-toolbar-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .table-container {
-            width: 100%;
-            max-width: 900px;
-            background: var(--card-bg);
-            border-radius: 12px;
-            overflow: hidden;
+        .sort-btn {
+            padding: 6px 14px;
+            border-radius: var(--radius-sm);
             border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-sub);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .sort-btn:hover, .sort-btn.active {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: var(--primary-glow);
+        }
+
+        .table-scroll {
+            overflow-x: auto;
         }
 
         table {
@@ -96,26 +530,118 @@
         }
 
         th {
-            background: #252525;
-            padding: 16px;
+            background: var(--bg-secondary);
+            padding: 12px 20px;
             text-align: left;
-            font-size: 0.8rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.2px;
+            color: var(--text-dim);
+            font-weight: 600;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            user-select: none;
+            cursor: pointer;
+            transition: color var(--transition-fast);
+            white-space: nowrap;
+        }
+
+        th:hover {
             color: var(--text-sub);
-            border-bottom: 2px solid var(--border);
+        }
+
+        th .sort-arrow {
+            font-size: 0.65rem;
+            margin-left: 4px;
+            opacity: 0.5;
         }
 
         td {
-            padding: 14px 16px;
-            border-bottom: 1px solid var(--border);
-            font-size: 15px;
+            padding: 12px 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            font-size: 14px;
+            vertical-align: middle;
         }
 
-        tr:hover {
-            background: rgba(255, 255, 255, 0.03);
+        tr {
+            transition: background var(--transition-fast);
         }
 
+        tbody tr:hover {
+            background: rgba(255,255,255,0.025);
+        }
+
+        tbody tr:active {
+            background: rgba(0,230,118,0.03);
+        }
+
+        /* ===== SPID CELL ===== */
+        .spid-cell {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .spid-code {
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--primary-color);
+            background: var(--primary-glow);
+            padding: 4px 10px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85em;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            position: relative;
+            user-select: all;
+            border: 1px solid transparent;
+        }
+
+        .spid-code:hover {
+            background: var(--primary-glow-strong);
+            border-color: rgba(0,230,118,0.3);
+            transform: scale(1.02);
+        }
+
+        .spid-code:active {
+            transform: scale(0.97);
+        }
+
+        .copy-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-dim);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            transition: all var(--transition-fast);
+            opacity: 0;
+            flex-shrink: 0;
+        }
+
+        tr:hover .copy-btn {
+            opacity: 1;
+        }
+
+        .copy-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: var(--primary-glow);
+        }
+
+        .copy-btn.copied {
+            border-color: var(--success);
+            color: var(--success);
+            background: rgba(102,187,106,0.1);
+        }
+
+        /* ===== PLAYER INFO ===== */
         .player-info {
             display: flex;
             align-items: center;
@@ -123,8 +649,8 @@
         }
 
         .player-avatar-wrapper {
-            width: 55px;
-            height: 55px;
+            width: 50px;
+            height: 50px;
             position: relative;
             flex-shrink: 0;
         }
@@ -132,11 +658,17 @@
         .player-avatar {
             width: 100%;
             height: 100%;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             object-fit: cover;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
             border: 2px solid var(--border);
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition-normal);
+        }
+
+        tr:hover .player-avatar {
+            border-color: var(--border-light);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
         }
 
         .player-avatar.action-img {
@@ -150,93 +682,729 @@
         .player-avatar-fallback {
             width: 100%;
             height: 100%;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             background: linear-gradient(135deg, #2d2d2d 0%, #1a1a1a 100%);
             border: 2px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 22px;
+            font-size: 20px;
             color: #444;
-        }
-
-        .spid-code {
-            font-family: 'JetBrains Mono', 'Fira Code', monospace;
-            color: var(--primary-color);
-            background: rgba(0, 230, 118, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-
-        .season-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .season-icon {
-            width: 32px;
-            height: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
 
         .player-name {
             font-weight: 600;
             color: #efefef;
+            font-size: 0.92rem;
+            line-height: 1.3;
+        }
+
+        .player-pid {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            font-family: 'JetBrains Mono', monospace;
+            margin-top: 2px;
         }
 
         .highlight {
             color: var(--primary-color);
-            background: rgba(0, 230, 118, 0.15);
+            background: var(--primary-glow);
             padding: 0 2px;
             border-radius: 2px;
         }
 
-        #loading-overlay {
-            padding: 40px;
-            text-align: center;
-            color: var(--primary-color);
-            font-weight: bold;
+        /* ===== SEASON CELL ===== */
+        .season-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        @media (max-width: 600px) {
+        .season-icon {
+            width: 30px;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+            transition: transform var(--transition-fast);
+        }
+
+        tr:hover .season-icon {
+            transform: scale(1.1);
+        }
+
+        .season-name {
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--text-sub);
+        }
+
+        /* ===== LOADING ===== */
+        .loading-container {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid var(--border);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            color: var(--text-sub);
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .loading-sub {
+            color: var(--text-dim);
+            font-size: 0.78rem;
+            margin-top: 6px;
+        }
+
+        /* ===== SKELETON LOADING ===== */
+        .skeleton-row {
+            display: flex;
+            align-items: center;
+            padding: 14px 20px;
+            gap: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+
+        .skeleton {
+            background: linear-gradient(90deg, var(--bg-secondary) 25%, rgba(255,255,255,0.05) 50%, var(--bg-secondary) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: 4px;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-sub);
+            margin-bottom: 8px;
+        }
+
+        .empty-desc {
+            font-size: 0.82rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            pointer-events: none;
+        }
+
+        .toast {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-lg);
+            animation: toastIn 0.3s ease forwards;
+            pointer-events: auto;
+            min-width: 280px;
+            backdrop-filter: blur(20px);
+        }
+
+        .toast.success { border-left: 3px solid var(--success); }
+        .toast.error { border-left: 3px solid var(--danger); }
+        .toast.info { border-left: 3px solid var(--info); }
+
+        .toast-icon { font-size: 1.1rem; flex-shrink: 0; }
+        .toast-msg { font-size: 0.82rem; color: var(--text-main); font-weight: 500; }
+        .toast-detail { font-size: 0.72rem; color: var(--text-dim); margin-top: 2px; }
+
+        .toast.removing {
+            animation: toastOut 0.3s ease forwards;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(40px) scale(0.95); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        @keyframes toastOut {
+            from { opacity: 1; transform: translateX(0) scale(1); }
+            to { opacity: 0; transform: translateX(40px) scale(0.95); }
+        }
+
+        /* ===== SCROLL TO TOP ===== */
+        .scroll-top-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: var(--card-bg);
+            color: var(--text-sub);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow-md);
+            transition: all var(--transition-normal);
+            opacity: 0;
+            transform: translateY(20px);
+            pointer-events: none;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .scroll-top-btn.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .scroll-top-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: var(--primary-glow);
+            transform: translateY(-2px);
+        }
+
+        /* ===== PAGINATION ===== */
+        .pagination {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .page-btn {
+            min-width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-sub);
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 500;
+            font-family: 'Inter', sans-serif;
+            transition: all var(--transition-fast);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 10px;
+        }
+
+        .page-btn:hover:not(:disabled) {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: var(--primary-glow);
+        }
+
+        .page-btn.active {
+            background: var(--primary-color);
+            color: #000;
+            border-color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            font-size: 0.78rem;
+            color: var(--text-dim);
+            margin: 0 12px;
+            font-weight: 500;
+        }
+
+        /* ===== PLAYER DETAIL MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all var(--transition-normal);
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: var(--shadow-lg);
+            transform: scale(0.9) translateY(20px);
+            transition: transform var(--transition-normal);
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-sub);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: all var(--transition-fast);
+        }
+
+        .modal-close:hover {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: white;
+        }
+
+        .modal-player-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .modal-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+
+        .modal-avatar.action-img {
+            object-fit: contain;
+            object-position: top center;
+            background: transparent;
+            border: none;
+        }
+
+        .modal-player-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .modal-player-season {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .modal-player-season img {
+            width: 28px;
+        }
+
+        .modal-player-season span {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+        }
+
+        .modal-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .detail-item {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 14px;
+        }
+
+        .detail-label {
+            font-size: 0.7rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .detail-value.copyable {
+            cursor: pointer;
+            color: var(--primary-color);
+            transition: all var(--transition-fast);
+        }
+
+        .detail-value.copyable:hover {
+            text-decoration: underline;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        .modal-action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-sub);
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all var(--transition-fast);
+        }
+
+        .modal-action-btn:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            background: var(--primary-glow);
+        }
+
+        .modal-action-btn.primary {
+            background: var(--primary-color);
+            color: #000;
+            border-color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .modal-action-btn.primary:hover {
+            background: var(--primary-hover);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            max-width: 1200px;
+            margin: 40px auto 20px;
+            padding: 20px 24px;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer p {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        .footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-content { padding: 16px; }
             .search-grid { grid-template-columns: 1fr; }
-            .player-avatar-wrapper { width: 45px; height: 45px; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+            .header-inner { height: 56px; }
+            .logo-text { font-size: 1rem; }
+            .logo-badge { display: none; }
+            .kbd-hint { display: none; }
+            .player-avatar-wrapper { width: 42px; height: 42px; }
+            td { padding: 10px 14px; }
+            .copy-btn { opacity: 1; }
+            .modal { padding: 24px; }
+            .modal-details { grid-template-columns: 1fr; }
+            .modal-actions { flex-direction: column; }
+            .table-toolbar { flex-direction: column; gap: 10px; align-items: stretch; }
+            .table-toolbar-right { justify-content: flex-end; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-row { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .stat-card { padding: 12px; }
+            .stat-value { font-size: 1.1rem; }
+            .search-panel { padding: 16px; }
+            th, td { padding: 10px 12px; font-size: 13px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="search-wrapper">
-        <div class="search-grid">
-            <input type="text" id="nameInput" placeholder="🔍 Tên cầu thủ (VD: hulsmann, mbappe...)" oninput="debouncedFilter()">
-            <input type="text" id="seasonInput" list="seasonList" placeholder="🏆 Mùa thẻ" oninput="debouncedFilter()">
-            <datalist id="seasonList"></datalist>
-        </div>
-        <div id="stats">Đang chuẩn bị dữ liệu...</div>
-        <div class="search-tips">
-            💡 Mẹo: Gõ không dấu, bỏ qua ký tự đặc biệt — VD: <kbd>hulsmann</kbd> → T. Hülsmann · <kbd>mbappe</kbd> → Mbappé · <kbd>o sullivan</kbd> → O'Sullivan
-        </div>
-    </div>
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
 
-    <div id="loading-overlay">⏳ Đang tải cơ sở dữ liệu cầu thủ...</div>
+    <!-- ===== HEADER ===== -->
+    <header class="header">
+        <div class="header-inner">
+            <a href="#" class="logo">
+                <div class="logo-icon">⚽</div>
+                <span class="logo-text">FC Online DB</span>
+                <span class="logo-badge">PRO</span>
+            </a>
+            <div class="header-actions">
+                <div class="kbd-hint">
+                    <kbd>/</kbd> <span>Tìm nhanh</span>
+                    <kbd>Esc</kbd> <span>Xóa</span>
+                </div>
+                <button class="theme-btn" onclick="toggleFullscreen()" title="Toàn màn hình">⛶</button>
+            </div>
+        </div>
+    </header>
 
-    <div class="table-container">
-        <table>
-            <thead>
-                <tr>
-                    <th style="width: 120px;">SPID</th>
-                    <th>Cầu thủ</th>
-                    <th style="width: 250px;">Mùa giải</th>
-                </tr>
-            </thead>
-            <tbody id="playerList"></tbody>
-        </table>
+    <main class="main-content">
+
+        <!-- ===== STATS CARDS ===== -->
+        <div class="stats-row">
+            <div class="stat-card">
+                <div class="stat-icon green">👤</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="totalPlayers">—</span>
+                    <span class="stat-label">Tổng cầu thủ</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon blue">🏆</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="totalSeasons">—</span>
+                    <span class="stat-label">Mùa giải</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon orange">🔍</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="searchCount">0</span>
+                    <span class="stat-label">Lượt tìm kiếm</span>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon purple">📋</div>
+                <div class="stat-info">
+                    <span class="stat-value" id="copyCount">0</span>
+                    <span class="stat-label">Đã sao chép</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== SEARCH PANEL ===== -->
+        <div class="search-panel">
+            <div class="search-panel-header">
+                <div class="search-panel-title">
+                    <span>🔎</span>
+                    <span>Tìm kiếm nâng cao</span>
+                </div>
+                <div class="search-mode-tabs">
+                    <button class="search-mode-tab active" onclick="setSearchMode('name')" id="modeNameBtn">Theo tên</button>
+                    <button class="search-mode-tab" onclick="setSearchMode('spid')" id="modeSpidBtn">Theo SPID</button>
+                </div>
+            </div>
+
+            <div class="search-grid" id="searchFields">
+                <div class="input-group" id="nameFieldGroup">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="nameInput" placeholder="Tên cầu thủ (VD: mbappe, hulsmann...)" oninput="debouncedFilter()" autocomplete="off">
+                    <button class="input-clear" onclick="clearInput('nameInput')">✕</button>
+                </div>
+                <div class="input-group" id="spidFieldGroup" style="display:none;">
+                    <span class="input-icon">🔢</span>
+                    <input type="text" id="spidInput" placeholder="Nhập SPID (VD: 300209658, 209658...)" oninput="debouncedFilter()" autocomplete="off">
+                    <button class="input-clear" onclick="clearInput('spidInput')">✕</button>
+                </div>
+                <div class="input-group">
+                    <span class="input-icon">🏆</span>
+                    <input type="text" id="seasonInput" list="seasonList" placeholder="Mùa thẻ (VD: 25LIVE, ICON...)" oninput="debouncedFilter()" autocomplete="off">
+                    <button class="input-clear" onclick="clearInput('seasonInput')">✕</button>
+                    <datalist id="seasonList"></datalist>
+                </div>
+                <div class="input-group" id="pidFieldGroup">
+                    <span class="input-icon">#️⃣</span>
+                    <input type="text" id="pidInput" placeholder="PID cầu thủ (VD: 209658)" oninput="debouncedFilter()" autocomplete="off">
+                    <button class="input-clear" onclick="clearInput('pidInput')">✕</button>
+                </div>
+            </div>
+
+            <div class="search-tips-bar">
+                <span class="tip-icon">💡</span>
+                <div>
+                    Gõ không dấu: <kbd>hulsmann</kbd> → Hülsmann · <kbd>mbappe</kbd> → Mbappé · 
+                    Tìm SPID: chuyển tab <b>"Theo SPID"</b> · 
+                    Bấm vào <span style="color:var(--primary-color)">mã SPID</span> để copy nhanh
+                </div>
+            </div>
+
+            <div class="recent-searches" id="recentSearches" style="display:none;">
+                <span class="recent-label">🕐 Gần đây:</span>
+            </div>
+        </div>
+
+        <!-- ===== TABLE ===== -->
+        <div class="table-panel">
+            <div class="table-toolbar" id="tableToolbar" style="display:none;">
+                <div class="table-toolbar-left">
+                    <span class="results-count" id="resultsCount"></span>
+                </div>
+                <div class="table-toolbar-right">
+                    <button class="sort-btn" onclick="exportResults()" title="Xuất kết quả">
+                        📥 Xuất CSV
+                    </button>
+                    <button class="sort-btn" onclick="copyAllSpids()" title="Copy tất cả SPID">
+                        📋 Copy tất cả SPID
+                    </button>
+                </div>
+            </div>
+            
+            <div id="loadingArea">
+                <div class="loading-container">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Đang tải cơ sở dữ liệu cầu thủ</div>
+                    <div class="loading-sub">Vui lòng đợi trong giây lát...</div>
+                </div>
+            </div>
+
+            <div class="table-scroll">
+                <table>
+                    <thead id="tableHead" style="display:none;">
+                        <tr>
+                            <th style="width: 160px;" onclick="changeSortBy('spid')">
+                                SPID <span class="sort-arrow" id="sortArrowSpid"></span>
+                            </th>
+                            <th onclick="changeSortBy('name')">
+                                Cầu thủ <span class="sort-arrow" id="sortArrowName"></span>
+                            </th>
+                            <th style="width: 220px;" onclick="changeSortBy('season')">
+                                Mùa giải <span class="sort-arrow" id="sortArrowSeason"></span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody id="playerList"></tbody>
+                </table>
+            </div>
+
+            <div class="pagination" id="pagination" style="display:none;"></div>
+        </div>
+
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>
+            FC Online Player Database — Dữ liệu được cập nhật tự động<br>
+            Bấm vào SPID để copy · Phím <kbd style="background:#252525;padding:1px 6px;border-radius:3px;border:1px solid #444;color:#888;font-family:monospace;">/</kbd> để tìm nhanh
+        </p>
+    </footer>
+
+    <!-- ===== TOAST CONTAINER ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===== SCROLL TO TOP ===== -->
+    <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()">↑</button>
+
+    <!-- ===== PLAYER DETAIL MODAL ===== -->
+    <div class="modal-overlay" id="playerModal" onclick="closeModalOutside(event)">
+        <div class="modal">
+            <div class="modal-header">
+                <div class="modal-player-header">
+                    <div class="player-avatar-wrapper" style="width:80px;height:80px;">
+                        <img id="modalAvatar" class="modal-avatar action-img" src="" alt="">
+                    </div>
+                    <div>
+                        <div class="modal-player-name" id="modalName"></div>
+                        <div class="modal-player-season" id="modalSeason"></div>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal()">✕</button>
+            </div>
+            <div class="modal-details">
+                <div class="detail-item">
+                    <div class="detail-label">SPID</div>
+                    <div class="detail-value copyable" id="modalSpid" onclick="copyText(this.textContent, 'SPID')"></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Player ID (PID)</div>
+                    <div class="detail-value copyable" id="modalPid" onclick="copyText(this.textContent, 'PID')"></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Season ID</div>
+                    <div class="detail-value" id="modalSeasonId"></div>
+                </div>
+                <div class="detail-item">
+                    <div class="detail-label">Mùa giải</div>
+                    <div class="detail-value" id="modalSeasonName"></div>
+                </div>
+            </div>
+            <div class="modal-actions">
+                <button class="modal-action-btn" onclick="copyPlayerInfo()">📋 Copy thông tin</button>
+                <button class="modal-action-btn primary" onclick="copyModalSpid()">📎 Copy SPID</button>
+            </div>
+        </div>
     </div>
 
 <script>
+    // ===== SEASONS DATA =====
     const seasons = [
         {"seasonId": 100, "className": "ICONTM", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm.png"},
         {"seasonId": 110, "className": "ICON TM(Bound)", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm_b.png"},
@@ -381,73 +1549,46 @@
         {"seasonId": 856, "className": "25UCL", "seasonImg": "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25ucl.png"}
     ];
 
+    // ===== GLOBAL STATE =====
     const seasonMap = new Map(seasons.map(s => [s.seasonId, s]));
     let playerDB = [];
-    // ===== INDEX ĐÃ CHUẨN HÓA - tính 1 lần khi load =====
     let playerIndex = [];
+    let currentFiltered = [];
+    let currentPage = 1;
+    const PAGE_SIZE = 50;
+    let searchMode = 'name'; // 'name' or 'spid'
+    let searchCounter = 0;
+    let copyCounter = 0;
+    let recentSearches = JSON.parse(localStorage.getItem('recentSearches') || '[]');
+    let currentSortBy = 'relevance'; // 'relevance', 'spid', 'name', 'season'
+    let currentSortDir = 'desc';
 
-    // ===== BẢNG CHUYỂN ĐỔI KÝ TỰ ĐẶC BIỆT =====
-    // Những ký tự mà NFD KHÔNG phân tách được
+    // ===== SPID INDEX for reverse lookup =====
+    let spidMap = new Map(); // spid -> player object
+
+    // ===== SPECIAL CHAR MAP =====
     const SPECIAL_CHAR_MAP = {
-        'ø': 'o', 'Ø': 'O',
-        'đ': 'd', 'Đ': 'D',
-        'ð': 'd', 'Ð': 'D',
-        'ß': 'ss',
-        'æ': 'ae', 'Æ': 'AE',
-        'œ': 'oe', 'Œ': 'OE',
-        'ł': 'l', 'Ł': 'L',
-        'þ': 'th', 'Þ': 'TH',
-        'ı': 'i', 'İ': 'I',
-        'ş': 's', 'Ş': 'S',
-        'ğ': 'g', 'Ğ': 'G',
-        'ŧ': 't', 'Ŧ': 'T',
-        'ħ': 'h', 'Ħ': 'H',
-        'ŋ': 'ng', 'Ŋ': 'NG',
-        'ĸ': 'k',
-        'ŀ': 'l', 'Ŀ': 'L',
-        'ĳ': 'ij', 'Ĳ': 'IJ',
-        // Ký tự Cyrillic phổ biến trong tên cầu thủ
-        'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd',
-        'е': 'e', 'ё': 'yo', 'ж': 'zh', 'з': 'z', 'и': 'i',
-        'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm', 'н': 'n',
-        'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't',
-        'у': 'u', 'ф': 'f', 'х': 'kh', 'ц': 'ts', 'ч': 'ch',
-        'ш': 'sh', 'щ': 'shch', 'ъ': '', 'ы': 'y', 'ь': '',
-        'э': 'e', 'ю': 'yu', 'я': 'ya',
+        'ø': 'o', 'Ø': 'O', 'đ': 'd', 'Đ': 'D', 'ð': 'd', 'Ð': 'D',
+        'ß': 'ss', 'æ': 'ae', 'Æ': 'AE', 'œ': 'oe', 'Œ': 'OE',
+        'ł': 'l', 'Ł': 'L', 'þ': 'th', 'Þ': 'TH', 'ı': 'i', 'İ': 'I',
+        'ş': 's', 'Ş': 'S', 'ğ': 'g', 'Ğ': 'G', 'ŧ': 't', 'Ŧ': 'T',
+        'ħ': 'h', 'Ħ': 'H', 'ŋ': 'ng', 'Ŋ': 'NG', 'ĸ': 'k',
+        'ŀ': 'l', 'Ŀ': 'L', 'ĳ': 'ij', 'Ĳ': 'IJ',
     };
 
-    // ===== HÀM CHUẨN HÓA THÔNG MINH =====
     function smartNormalize(str) {
         if (!str) return "";
-        
         let result = str;
-        
-        // Bước 1: Thay thế các ký tự đặc biệt trước khi NFD
         for (const [char, replacement] of Object.entries(SPECIAL_CHAR_MAP)) {
             result = result.split(char).join(replacement);
         }
-        
-        // Bước 2: NFD decomposition - tách dấu khỏi ký tự gốc
-        // VD: ü → u + ¨  |  é → e + ́  |  ñ → n + ~
-        result = result.normalize("NFD");
-        
-        // Bước 3: Xóa tất cả combining diacritical marks (U+0300 → U+036F)
-        result = result.replace(/[\u0300-\u036f]/g, "");
-        
-        // Bước 4: Xóa mọi ký tự không phải chữ/số/space
-        // (dấu chấm, ngoặc, gạch ngang, nháy đơn... đều bị loại)
+        result = result.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         result = result.replace(/[^a-zA-Z0-9\s]/g, "");
-        
-        // Bước 5: Gộp khoảng trắng thừa & lowercase
         result = result.replace(/\s+/g, " ").trim().toLowerCase();
-        
         return result;
     }
 
-    // ===== LẤY PID TỪ SPID =====
-    function getPidFromSpid(spid) {
-        return spid % 1000000;
-    }
+    function getPidFromSpid(spid) { return spid % 1000000; }
 
     function getPlayerImageUrls(spid) {
         const pid = getPidFromSpid(spid);
@@ -467,51 +1608,354 @@
         const urls = getPlayerImageUrls(spid);
         let currentIndex = parseInt(img.dataset.urlIndex || "0");
         currentIndex++;
-        
         if (currentIndex < urls.length) {
             img.dataset.urlIndex = currentIndex;
             img.src = urls[currentIndex];
-            if (currentIndex === 2 || currentIndex === 3 || currentIndex === 6 || currentIndex === 7) {
-                img.classList.remove('action-img');
-            }
+            if ([2,3,6,7].includes(currentIndex)) img.classList.remove('action-img');
         } else {
             img.style.display = 'none';
             const wrapper = img.parentElement;
-            if (wrapper) {
-                wrapper.innerHTML = '<div class="player-avatar-fallback">⚽</div>';
-            }
+            if (wrapper) wrapper.innerHTML = '<div class="player-avatar-fallback">⚽</div>';
         }
     }
 
-    // ===== DEBOUNCE - tránh gọi filter liên tục khi gõ nhanh =====
+    // ===== DEBOUNCE =====
     let debounceTimer;
     function debouncedFilter() {
         clearTimeout(debounceTimer);
         debounceTimer = setTimeout(filterData, 150);
     }
 
-    // ===== LOAD DATA + XÂY INDEX =====
+    // ===== SEARCH MODE =====
+    function setSearchMode(mode) {
+        searchMode = mode;
+        document.getElementById('modeNameBtn').classList.toggle('active', mode === 'name');
+        document.getElementById('modeSpidBtn').classList.toggle('active', mode === 'spid');
+        document.getElementById('nameFieldGroup').style.display = mode === 'name' ? '' : 'none';
+        document.getElementById('spidFieldGroup').style.display = mode === 'spid' ? '' : 'none';
+        document.getElementById('pidFieldGroup').style.display = mode === 'name' ? '' : 'none';
+        
+        // Update grid columns
+        const grid = document.getElementById('searchFields');
+        if (mode === 'spid') {
+            grid.style.gridTemplateColumns = '1fr 1fr';
+        } else {
+            grid.style.gridTemplateColumns = '1fr 1fr 1fr';
+        }
+        
+        // Clear & refocus
+        if (mode === 'spid') {
+            document.getElementById('spidInput').focus();
+        } else {
+            document.getElementById('nameInput').focus();
+        }
+        debouncedFilter();
+    }
+
+    // ===== CLEAR INPUT =====
+    function clearInput(id) {
+        document.getElementById(id).value = '';
+        document.getElementById(id).focus();
+        debouncedFilter();
+    }
+
+    // ===== COPY FUNCTIONS =====
+    async function copyText(text, label = 'Nội dung') {
+        try {
+            await navigator.clipboard.writeText(text);
+            copyCounter++;
+            document.getElementById('copyCount').textContent = copyCounter;
+            showToast('success', `✅ Đã sao chép ${label}`, text);
+        } catch (e) {
+            // Fallback
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed';
+            textarea.style.opacity = '0';
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            copyCounter++;
+            document.getElementById('copyCount').textContent = copyCounter;
+            showToast('success', `✅ Đã sao chép ${label}`, text);
+        }
+    }
+
+    function copySpid(spid, btn) {
+        copyText(String(spid), 'SPID');
+        if (btn) {
+            btn.classList.add('copied');
+            btn.innerHTML = '✓';
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                btn.innerHTML = '📋';
+            }, 1500);
+        }
+    }
+
+    function copyAllSpids() {
+        if (currentFiltered.length === 0) {
+            showToast('error', '❌ Không có dữ liệu', 'Hãy tìm kiếm trước');
+            return;
+        }
+        const spids = currentFiltered.map(e => e.ref.id).join('\n');
+        copyText(spids, `${currentFiltered.length} SPID`);
+    }
+
+    function copyModalSpid() {
+        const spid = document.getElementById('modalSpid').textContent;
+        copyText(spid, 'SPID');
+    }
+
+    function copyPlayerInfo() {
+        const name = document.getElementById('modalName').textContent;
+        const spid = document.getElementById('modalSpid').textContent;
+        const season = document.getElementById('modalSeasonName').textContent;
+        const info = `${name} | SPID: ${spid} | Season: ${season}`;
+        copyText(info, 'Thông tin cầu thủ');
+    }
+
+    // ===== EXPORT CSV =====
+    function exportResults() {
+        if (currentFiltered.length === 0) {
+            showToast('error', '❌ Không có dữ liệu', 'Hãy tìm kiếm trước');
+            return;
+        }
+        let csv = 'SPID,Name,PID,SeasonID,Season\n';
+        currentFiltered.forEach(entry => {
+            const p = entry.ref;
+            const sid = Math.floor(p.id / 1000000);
+            const season = seasonMap.get(sid);
+            csv += `${p.id},"${p.name}",${getPidFromSpid(p.id)},${sid},${season ? season.className : 'Unknown'}\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'fc_online_players.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('success', '📥 Đã xuất CSV', `${currentFiltered.length} cầu thủ`);
+    }
+
+    // ===== TOAST NOTIFICATION =====
+    function showToast(type, message, detail = '') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+            <div>
+                <div class="toast-msg">${message}</div>
+                ${detail ? `<div class="toast-detail">${escapeHtml(String(detail))}</div>` : ''}
+            </div>
+        `;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.classList.add('removing');
+            setTimeout(() => toast.remove(), 300);
+        }, 2500);
+    }
+
+    // ===== PLAYER MODAL =====
+    function openPlayerModal(spid) {
+        const player = spidMap.get(spid);
+        if (!player) return;
+        
+        const pSeasonId = Math.floor(spid / 1000000);
+        const season = seasonMap.get(pSeasonId);
+        const pid = getPidFromSpid(spid);
+        const imgUrls = getPlayerImageUrls(spid);
+        
+        document.getElementById('modalName').textContent = player.name;
+        document.getElementById('modalSpid').textContent = spid;
+        document.getElementById('modalPid').textContent = pid;
+        document.getElementById('modalSeasonId').textContent = pSeasonId;
+        document.getElementById('modalSeasonName').textContent = season ? season.className : `Mùa ${pSeasonId}`;
+        
+        const avatar = document.getElementById('modalAvatar');
+        avatar.src = imgUrls[0];
+        avatar.dataset.spid = spid;
+        avatar.dataset.urlIndex = '0';
+        avatar.onerror = function() { handleImageError(this, spid); };
+        
+        const seasonDiv = document.getElementById('modalSeason');
+        if (season) {
+            seasonDiv.innerHTML = `<img src="${season.seasonImg}" alt="${season.className}"><span>${season.className}</span>`;
+        } else {
+            seasonDiv.innerHTML = `<span>Mùa ${pSeasonId}</span>`;
+        }
+        
+        document.getElementById('playerModal').classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+        document.getElementById('playerModal').classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function closeModalOutside(e) {
+        if (e.target === document.getElementById('playerModal')) closeModal();
+    }
+
+    // ===== RECENT SEARCHES =====
+    function addRecentSearch(query) {
+        if (!query || query.length < 2) return;
+        recentSearches = recentSearches.filter(s => s !== query);
+        recentSearches.unshift(query);
+        if (recentSearches.length > 8) recentSearches.pop();
+        localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+        renderRecentSearches();
+    }
+
+    function renderRecentSearches() {
+        const container = document.getElementById('recentSearches');
+        if (recentSearches.length === 0) {
+            container.style.display = 'none';
+            return;
+        }
+        container.style.display = 'flex';
+        container.innerHTML = '<span class="recent-label">🕐 Gần đây:</span>' +
+            recentSearches.map(s => `
+                <span class="recent-tag" onclick="useRecentSearch('${escapeHtml(s)}')">
+                    ${escapeHtml(s)}
+                    <span class="remove-tag" onclick="event.stopPropagation(); removeRecent('${escapeHtml(s)}')">✕</span>
+                </span>
+            `).join('');
+    }
+
+    function useRecentSearch(query) {
+        if (searchMode === 'spid') {
+            document.getElementById('spidInput').value = query;
+        } else {
+            document.getElementById('nameInput').value = query;
+        }
+        debouncedFilter();
+    }
+
+    function removeRecent(query) {
+        recentSearches = recentSearches.filter(s => s !== query);
+        localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+        renderRecentSearches();
+    }
+
+    // ===== SORT =====
+    function changeSortBy(field) {
+        if (currentSortBy === field) {
+            currentSortDir = currentSortDir === 'asc' ? 'desc' : 'asc';
+        } else {
+            currentSortBy = field;
+            currentSortDir = field === 'name' ? 'asc' : 'desc';
+        }
+        updateSortArrows();
+        if (currentFiltered.length > 0) {
+            sortAndRender();
+        }
+    }
+
+    function updateSortArrows() {
+        ['spid', 'name', 'season'].forEach(f => {
+            const el = document.getElementById('sortArrow' + f.charAt(0).toUpperCase() + f.slice(1));
+            if (el) {
+                if (currentSortBy === f) {
+                    el.textContent = currentSortDir === 'asc' ? '▲' : '▼';
+                    el.style.opacity = '1';
+                } else {
+                    el.textContent = '↕';
+                    el.style.opacity = '0.3';
+                }
+            }
+        });
+    }
+
+    function sortAndRender() {
+        if (currentSortBy === 'spid') {
+            currentFiltered.sort((a, b) => currentSortDir === 'asc' ? a.ref.id - b.ref.id : b.ref.id - a.ref.id);
+        } else if (currentSortBy === 'name') {
+            currentFiltered.sort((a, b) => {
+                const cmp = a.nameNorm.localeCompare(b.nameNorm);
+                return currentSortDir === 'asc' ? cmp : -cmp;
+            });
+        } else if (currentSortBy === 'season') {
+            currentFiltered.sort((a, b) => {
+                const cmp = a.seasonNorm.localeCompare(b.seasonNorm);
+                return currentSortDir === 'asc' ? cmp : -cmp;
+            });
+        }
+        currentPage = 1;
+        renderCurrentPage();
+    }
+
+    // ===== PAGINATION =====
+    function renderPagination(totalItems) {
+        const totalPages = Math.ceil(totalItems / PAGE_SIZE);
+        const pagination = document.getElementById('pagination');
+        
+        if (totalPages <= 1) {
+            pagination.style.display = 'none';
+            return;
+        }
+        
+        pagination.style.display = 'flex';
+        let html = '';
+        
+        html += `<button class="page-btn" onclick="goToPage(1)" ${currentPage === 1 ? 'disabled' : ''}>«</button>`;
+        html += `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+        
+        let startPage = Math.max(1, currentPage - 2);
+        let endPage = Math.min(totalPages, currentPage + 2);
+        
+        if (startPage > 1) {
+            html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+            if (startPage > 2) html += `<span class="page-info">...</span>`;
+        }
+        
+        for (let i = startPage; i <= endPage; i++) {
+            html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+        }
+        
+        if (endPage < totalPages) {
+            if (endPage < totalPages - 1) html += `<span class="page-info">...</span>`;
+            html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+        }
+        
+        html += `<button class="page-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>›</button>`;
+        html += `<button class="page-btn" onclick="goToPage(${totalPages})" ${currentPage === totalPages ? 'disabled' : ''}>»</button>`;
+        html += `<span class="page-info">Trang ${currentPage}/${totalPages}</span>`;
+        
+        pagination.innerHTML = html;
+    }
+
+    function goToPage(page) {
+        const totalPages = Math.ceil(currentFiltered.length / PAGE_SIZE);
+        if (page < 1 || page > totalPages) return;
+        currentPage = page;
+        renderCurrentPage();
+        document.querySelector('.table-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ===== LOAD DATA =====
     async function loadData() {
         try {
             const response = await fetch('./spid_translated.json');
             if (!response.ok) throw new Error("File spid_translated.json không tồn tại!");
             playerDB = await response.json();
 
-            // Xây index chuẩn hóa 1 lần — search sẽ rất nhanh
-            updateStats(`Đang xây dựng chỉ mục tìm kiếm...`);
-            
             playerIndex = playerDB.map(p => {
                 const pSeasonId = Math.floor(p.id / 1000000);
                 const season = seasonMap.get(pSeasonId);
+                spidMap.set(p.id, p);
                 return {
                     ref: p,
                     nameNorm: smartNormalize(p.name),
                     seasonNorm: season ? season.className.toLowerCase() : "",
-                    seasonId: pSeasonId
+                    seasonId: pSeasonId,
+                    spidStr: String(p.id),
+                    pidStr: String(p.id % 1000000)
                 };
             });
 
-            // Populate season datalist
             const datalist = document.getElementById('seasonList');
             seasons.forEach(s => {
                 const option = document.createElement('option');
@@ -519,120 +1963,205 @@
                 datalist.appendChild(option);
             });
 
-            document.getElementById('loading-overlay').style.display = 'none';
-            updateStats(`✅ Sẵn sàng: ${playerDB.length.toLocaleString()} cầu thủ đã được lập chỉ mục.`);
+            document.getElementById('loadingArea').style.display = 'none';
+            document.getElementById('tableHead').style.display = '';
+            
+            // Update stats
+            document.getElementById('totalPlayers').textContent = playerDB.length.toLocaleString();
+            document.getElementById('totalSeasons').textContent = seasons.length;
+            
+            renderRecentSearches();
+            updateSortArrows();
+            
+            // Show initial empty state
+            showEmptyState('initial');
+            
         } catch (error) {
-            document.getElementById('loading-overlay').innerHTML = `❌ Lỗi: ${error.message}`;
+            document.getElementById('loadingArea').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-icon">❌</div>
+                    <div class="empty-title">Lỗi tải dữ liệu</div>
+                    <div class="empty-desc">${error.message}</div>
+                </div>
+            `;
             console.error(error);
         }
     }
 
-    // ===== BỘ LỌC THÔNG MINH =====
-    function filterData() {
-        const nameQueryRaw = document.getElementById('nameInput').value;
-        const nameNorm = smartNormalize(nameQueryRaw);
+    function showEmptyState(type) {
+        const tbody = document.getElementById('playerList');
+        document.getElementById('tableToolbar').style.display = 'none';
+        document.getElementById('pagination').style.display = 'none';
         
+        if (type === 'initial') {
+            tbody.innerHTML = `
+                <tr><td colspan="3">
+                    <div class="empty-state">
+                        <div class="empty-icon">🔍</div>
+                        <div class="empty-title">Bắt đầu tìm kiếm</div>
+                        <div class="empty-desc">Nhập tên cầu thủ, SPID hoặc mùa giải để tìm kiếm<br>Nhập ít nhất 2 ký tự để bắt đầu</div>
+                    </div>
+                </td></tr>
+            `;
+        } else if (type === 'noResults') {
+            tbody.innerHTML = `
+                <tr><td colspan="3">
+                    <div class="empty-state">
+                        <div class="empty-icon">😕</div>
+                        <div class="empty-title">Không tìm thấy kết quả</div>
+                        <div class="empty-desc">Thử thay đổi từ khóa hoặc bộ lọc<br>Gợi ý: Gõ không dấu, bỏ ký tự đặc biệt</div>
+                    </div>
+                </td></tr>
+            `;
+        }
+    }
+
+    // ===== FILTER =====
+    function filterData() {
         const seasonQueryRaw = document.getElementById('seasonInput').value;
         const seasonQuery = seasonQueryRaw.trim().toLowerCase();
-
-        const tbody = document.getElementById('playerList');
         
-        if (nameNorm.length < 2 && seasonQuery === "") {
-            tbody.innerHTML = "";
-            updateStats("Nhập ít nhất 2 ký tự để tìm kiếm...");
+        let nameNorm = '';
+        let nameTokens = [];
+        let spidQuery = '';
+        let pidQuery = '';
+        
+        if (searchMode === 'name') {
+            const nameQueryRaw = document.getElementById('nameInput').value;
+            nameNorm = smartNormalize(nameQueryRaw);
+            nameTokens = nameNorm.split(/\s+/).filter(t => t.length > 0);
+            
+            const pidQueryRaw = document.getElementById('pidInput').value.trim();
+            pidQuery = pidQueryRaw.replace(/\D/g, '');
+        } else {
+            spidQuery = document.getElementById('spidInput').value.trim().replace(/\D/g, '');
+        }
+        
+        const hasQuery = nameNorm.length >= 2 || seasonQuery !== '' || spidQuery.length >= 3 || pidQuery.length >= 3;
+        
+        if (!hasQuery) {
+            currentFiltered = [];
+            showEmptyState('initial');
             return;
         }
 
-        // Tách thành nhiều token → TẤT CẢ phải khớp
-        // VD: "son heung" → ["son", "heung"] → cả hai phải có trong tên
-        const nameTokens = nameNorm.split(/\s+/).filter(t => t.length > 0);
+        // Save to recent
+        const searchTerm = searchMode === 'spid' ? spidQuery : document.getElementById('nameInput').value.trim();
+        if (searchTerm.length >= 2) {
+            addRecentSearch(searchTerm);
+        }
+        
+        searchCounter++;
+        document.getElementById('searchCount').textContent = searchCounter;
 
         const filtered = playerIndex.filter(entry => {
-            // ===== Kiểm tra tên =====
+            // SPID mode
+            if (searchMode === 'spid' && spidQuery) {
+                const spidMatch = entry.spidStr.includes(spidQuery) || entry.pidStr.includes(spidQuery);
+                let isSeasonMatch = true;
+                if (seasonQuery !== '') {
+                    isSeasonMatch = entry.seasonNorm === seasonQuery || (entry.seasonNorm.includes(seasonQuery) && seasonQuery.length >= 2);
+                }
+                return spidMatch && isSeasonMatch;
+            }
+            
+            // Name mode
             let isNameMatch = true;
             if (nameTokens.length > 0) {
-                // Mỗi token phải xuất hiện trong tên đã chuẩn hóa
                 isNameMatch = nameTokens.every(token => entry.nameNorm.includes(token));
             }
-
-            // ===== Kiểm tra mùa =====
-            let isSeasonMatch = true;
-            if (seasonQuery !== "") {
-                const exactMatch = (entry.seasonNorm === seasonQuery);
-                const partialMatch = entry.seasonNorm.includes(seasonQuery) && seasonQuery.length >= 2;
-                isSeasonMatch = exactMatch || partialMatch;
+            
+            let isPidMatch = true;
+            if (pidQuery) {
+                isPidMatch = entry.pidStr.includes(pidQuery) || entry.spidStr.includes(pidQuery);
             }
 
-            return isNameMatch && isSeasonMatch;
+            let isSeasonMatch = true;
+            if (seasonQuery !== '') {
+                isSeasonMatch = entry.seasonNorm === seasonQuery || (entry.seasonNorm.includes(seasonQuery) && seasonQuery.length >= 2);
+            }
+
+            if (nameTokens.length > 0 && pidQuery) {
+                return (isNameMatch || isPidMatch) && isSeasonMatch;
+            }
+            
+            return isNameMatch && isPidMatch && isSeasonMatch;
         });
 
-        // Sắp xếp: ưu tiên khớp chính xác hơn lên trước
+        // Score & sort
         const scored = filtered.map(entry => {
             let score = 0;
             
-            // Tên bắt đầu bằng token đầu tiên → ưu tiên cao
-            if (nameTokens.length > 0 && entry.nameNorm.startsWith(nameTokens[0])) {
-                score += 100;
-            }
-            
-            // Có từ nào trong tên bắt đầu bằng token → ưu tiên
-            const nameWords = entry.nameNorm.split(" ");
-            for (const token of nameTokens) {
-                if (nameWords.some(w => w.startsWith(token))) {
-                    score += 50;
+            if (searchMode === 'spid' && spidQuery) {
+                // Exact SPID match gets highest score
+                if (entry.spidStr === spidQuery) score += 1000;
+                else if (entry.spidStr.startsWith(spidQuery)) score += 500;
+                else if (entry.pidStr === spidQuery) score += 800;
+                else if (entry.pidStr.startsWith(spidQuery)) score += 400;
+            } else {
+                if (nameTokens.length > 0 && entry.nameNorm.startsWith(nameTokens[0])) score += 100;
+                const nameWords = entry.nameNorm.split(" ");
+                for (const token of nameTokens) {
+                    if (nameWords.some(w => w.startsWith(token))) score += 50;
+                    if (nameWords.some(w => w === token)) score += 30;
                 }
-                // Khớp chính xác một từ
-                if (nameWords.some(w => w === token)) {
-                    score += 30;
-                }
+                score -= entry.nameNorm.length;
+                
+                if (pidQuery && entry.pidStr === pidQuery) score += 500;
             }
-            
-            // Tên ngắn hơn (khớp chặt hơn) → ưu tiên
-            score -= entry.nameNorm.length;
             
             return { entry, score };
         });
 
         scored.sort((a, b) => b.score - a.score || b.entry.ref.id - a.entry.ref.id);
-
-        const top200 = scored.slice(0, 200).map(s => s.entry.ref);
-        renderResults(top200, nameTokens);
-        updateStats(`🔍 Tìm thấy ${filtered.length.toLocaleString()} kết quả${filtered.length > 200 ? " (hiển thị 200 đầu)" : ""}`);
+        
+        currentFiltered = scored.map(s => s.entry);
+        currentPage = 1;
+        currentSortBy = 'relevance';
+        
+        if (currentFiltered.length === 0) {
+            showEmptyState('noResults');
+            return;
+        }
+        
+        renderCurrentPage();
     }
 
-    // ===== HIGHLIGHT KẾT QUẢ =====
+    function renderCurrentPage() {
+        const start = (currentPage - 1) * PAGE_SIZE;
+        const end = Math.min(start + PAGE_SIZE, currentFiltered.length);
+        const pageData = currentFiltered.slice(start, end).map(e => e.ref);
+        
+        // Get name tokens for highlighting
+        let nameTokens = [];
+        if (searchMode === 'name') {
+            nameTokens = smartNormalize(document.getElementById('nameInput').value).split(/\s+/).filter(t => t.length > 0);
+        }
+        
+        document.getElementById('tableToolbar').style.display = 'flex';
+        document.getElementById('resultsCount').innerHTML = `Tìm thấy <strong>${currentFiltered.length.toLocaleString()}</strong> kết quả · Hiển thị ${start + 1}–${end}`;
+        
+        renderResults(pageData, nameTokens, start);
+        renderPagination(currentFiltered.length);
+    }
+
+    // ===== HIGHLIGHT =====
     function highlightName(originalName, tokens) {
         if (!tokens || tokens.length === 0) return escapeHtml(originalName);
-        
         const nameNorm = smartNormalize(originalName);
-        const chars = [...originalName];
-        const normChars = [...smartNormalize(originalName)];
-        
-        // Tạo mapping giữa vị trí ký tự gốc và ký tự đã chuẩn hóa
-        // Do smartNormalize có thể thay đổi độ dài (ß→ss), ta dùng cách đơn giản hơn
         let highlighted = escapeHtml(originalName);
-        
         for (const token of tokens) {
-            // Tìm vị trí token trong chuỗi đã normalize
             const idx = nameNorm.indexOf(token);
             if (idx === -1) continue;
-            
-            // Dùng regex case-insensitive trên chuỗi gốc
-            // Tạo pattern linh hoạt: mỗi ký tự trong token match ký tự gốc + dấu tùy ý
             let pattern = "";
             for (const ch of token) {
-                // Mỗi ký tự match: chính nó hoặc phiên bản có dấu
                 pattern += ch + "[\\u0300-\\u036f]*[.'\\-]?\\s?";
             }
-            
             try {
                 const regex = new RegExp(`(${pattern.slice(0, -4)})`, 'gi');
                 highlighted = highlighted.replace(regex, '<span class="highlight">$1</span>');
-            } catch(e) {
-                // Fallback nếu regex lỗi
-            }
+            } catch(e) {}
         }
-        
         return highlighted;
     }
 
@@ -642,22 +2171,29 @@
         return div.innerHTML;
     }
 
-    function renderResults(data, nameTokens) {
+    function renderResults(data, nameTokens, startIndex) {
         const tbody = document.getElementById('playerList');
         if (data.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center; padding: 30px; color: #888;">Không tìm thấy kết quả phù hợp</td></tr>';
+            showEmptyState('noResults');
             return;
         }
 
-        tbody.innerHTML = data.map(p => {
+        tbody.innerHTML = data.map((p, i) => {
             const pSeasonId = Math.floor(p.id / 1000000);
             const season = seasonMap.get(pSeasonId);
             const imgUrls = getPlayerImageUrls(p.id);
             const displayName = highlightName(p.name, nameTokens);
-            
+            const pid = getPidFromSpid(p.id);
+            const rowNum = startIndex + i + 1;
+
             return `
-                <tr>
-                    <td><span class="spid-code">${p.id}</span></td>
+                <tr onclick="openPlayerModal(${p.id})" style="cursor:pointer;" title="Bấm để xem chi tiết">
+                    <td>
+                        <div class="spid-cell">
+                            <span class="spid-code" onclick="event.stopPropagation(); copyText('${p.id}', 'SPID')" title="Bấm để copy SPID">${p.id}</span>
+                            <button class="copy-btn" onclick="event.stopPropagation(); copySpid(${p.id}, this)" title="Copy SPID">📋</button>
+                        </div>
+                    </td>
                     <td>
                         <div class="player-info">
                             <div class="player-avatar-wrapper">
@@ -671,14 +2207,17 @@
                                     loading="lazy"
                                 >
                             </div>
-                            <span class="player-name">${displayName}</span>
+                            <div>
+                                <span class="player-name">${displayName}</span>
+                                <div class="player-pid">PID: ${pid}</div>
+                            </div>
                         </div>
                     </td>
                     <td>
                         <div class="season-box">
                             ${season 
-                                ? `<img src="${season.seasonImg}" class="season-icon" alt="${season.className}" loading="lazy"> <span>${season.className}</span>` 
-                                : `<span style="color:#666">Mùa ${pSeasonId}</span>`}
+                                ? `<img src="${season.seasonImg}" class="season-icon" alt="${season.className}" loading="lazy"> <span class="season-name">${season.className}</span>` 
+                                : `<span class="season-name" style="color:var(--text-dim)">Mùa ${pSeasonId}</span>`}
                         </div>
                     </td>
                 </tr>
@@ -686,11 +2225,95 @@
         }).join('');
     }
 
-    function updateStats(text) {
-        document.getElementById('stats').textContent = text;
+    // ===== SCROLL TO TOP =====
+    function scrollToTop() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    window.onload = loadData;
+    window.addEventListener('scroll', () => {
+        const btn = document.getElementById('scrollTopBtn');
+        btn.classList.toggle('visible', window.scrollY > 400);
+    });
+
+    // ===== KEYBOARD SHORTCUTS =====
+    document.addEventListener('keydown', (e) => {
+        // "/" to focus search
+        if (e.key === '/' && !isInputFocused()) {
+            e.preventDefault();
+            if (searchMode === 'spid') {
+                document.getElementById('spidInput').focus();
+            } else {
+                document.getElementById('nameInput').focus();
+            }
+        }
+        
+        // Escape to clear/close
+        if (e.key === 'Escape') {
+            if (document.getElementById('playerModal').classList.contains('active')) {
+                closeModal();
+            } else {
+                document.getElementById('nameInput').value = '';
+                document.getElementById('seasonInput').value = '';
+                document.getElementById('spidInput').value = '';
+                document.getElementById('pidInput').value = '';
+                document.getElementById('nameInput').blur();
+                debouncedFilter();
+            }
+        }
+        
+        // Ctrl+K for search (like VS Code)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            if (searchMode === 'spid') {
+                document.getElementById('spidInput').focus();
+                document.getElementById('spidInput').select();
+            } else {
+                document.getElementById('nameInput').focus();
+                document.getElementById('nameInput').select();
+            }
+        }
+    });
+
+    function isInputFocused() {
+        const el = document.activeElement;
+        return el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA');
+    }
+
+    // ===== FULLSCREEN =====
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    // ===== URL PARAMS =====
+    function checkUrlParams() {
+        const params = new URLSearchParams(window.location.search);
+        const name = params.get('name');
+        const spid = params.get('spid');
+        const season = params.get('season');
+        
+        if (spid) {
+            setSearchMode('spid');
+            document.getElementById('spidInput').value = spid;
+        } else if (name) {
+            document.getElementById('nameInput').value = name;
+        }
+        if (season) {
+            document.getElementById('seasonInput').value = season;
+        }
+        if (name || spid || season) {
+            setTimeout(() => debouncedFilter(), 500);
+        }
+    }
+
+    // ===== INIT =====
+    window.onload = async () => {
+        await loadData();
+        checkUrlParams();
+    };
 </script>
 
 </body>
