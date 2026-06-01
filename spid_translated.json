@@ -415908,5 +415908,2826 @@
         "id": 856279700,
         "name": "M. Coulibaly",
         "ovr": 111
-    }
+    },
+	
+  {
+    "id": 863020801,
+    "name": "Cristiano Ronaldo",
+    "ovr": null
+  },
+  {
+    "id": 863071259,
+    "name": "L. Querfeld",
+    "ovr": null
+  },
+  {
+    "id": 863073070,
+    "name": "P. David",
+    "ovr": null
+  },
+  {
+    "id": 863073078,
+    "name": "Kaishu Sano",
+    "ovr": null
+  },
+  {
+    "id": 863073113,
+    "name": "A. Maliqi",
+    "ovr": null
+  },
+  {
+    "id": 863073456,
+    "name": "S. Haloupek",
+    "ovr": null
+  },
+  {
+    "id": 863073853,
+    "name": "Dailon Livramento",
+    "ovr": null
+  },
+  {
+    "id": 863074236,
+    "name": "A. Al-Ghanehi",
+    "ovr": null
+  },
+  {
+    "id": 863074705,
+    "name": "Ali Jasim",
+    "ovr": null
+  },
+  {
+    "id": 863074866,
+    "name": "André",
+    "ovr": null
+  },
+  {
+    "id": 863074896,
+    "name": "F. Ivanović",
+    "ovr": null
+  },
+  {
+    "id": 863075401,
+    "name": "A. Al-Alawi",
+    "ovr": null
+  },
+  {
+    "id": 863075533,
+    "name": "K. Alajbegović",
+    "ovr": null
+  },
+  {
+    "id": 863076602,
+    "name": "A. Memić",
+    "ovr": null
+  },
+  {
+    "id": 863076603,
+    "name": "M. Doski",
+    "ovr": null
+  },
+  {
+    "id": 863076687,
+    "name": "Estêvão",
+    "ovr": null
+  },
+  {
+    "id": 863078012,
+    "name": "Yann Diomandé",
+    "ovr": null
+  },
+  {
+    "id": 863079399,
+    "name": "Gilberto Mora",
+    "ovr": null
+  },
+  {
+    "id": 863079632,
+    "name": "Mohau Nkota",
+    "ovr": null
+  },
+  {
+    "id": 863080304,
+    "name": "A. Fayzullaev",
+    "ovr": null
+  },
+  {
+    "id": 863082240,
+    "name": "Y. Belamri",
+    "ovr": null
+  },
+  {
+    "id": 863158023,
+    "name": "Lionel Messi",
+    "ovr": null
+  },
+  {
+    "id": 863177003,
+    "name": "Luka Modrić",
+    "ovr": null
+  },
+  {
+    "id": 863178363,
+    "name": "Johny Placide",
+    "ovr": null
+  },
+  {
+    "id": 863180930,
+    "name": "Edin Džeko",
+    "ovr": null
+  },
+  {
+    "id": 863181458,
+    "name": "Ivan Perišić",
+    "ovr": null
+  },
+  {
+    "id": 863182091,
+    "name": "K. Barbarouses",
+    "ovr": null
+  },
+  {
+    "id": 863185427,
+    "name": "Ørjan Nyland",
+    "ovr": null
+  },
+  {
+    "id": 863188335,
+    "name": "Ante Budimir",
+    "ovr": null
+  },
+  {
+    "id": 863192119,
+    "name": "Thibaut Courtois",
+    "ovr": null
+  },
+  {
+    "id": 863192123,
+    "name": "Chris Wood",
+    "ovr": null
+  },
+  {
+    "id": 863192366,
+    "name": "Nicolás Otamendi",
+    "ovr": null
+  },
+  {
+    "id": 863192505,
+    "name": "Romelu Lukaku",
+    "ovr": null
+  },
+  {
+    "id": 863192985,
+    "name": "Kevin De Bruyne",
+    "ovr": null
+  },
+  {
+    "id": 863193352,
+    "name": "R. Rodríguez",
+    "ovr": null
+  },
+  {
+    "id": 863193474,
+    "name": "Idrissa Gueye",
+    "ovr": null
+  },
+  {
+    "id": 863193698,
+    "name": "Oliver Baumann",
+    "ovr": null
+  },
+  {
+    "id": 863194847,
+    "name": "Ryan Mendes",
+    "ovr": null
+  },
+  {
+    "id": 863197445,
+    "name": "David Alaba",
+    "ovr": null
+  },
+  {
+    "id": 863197756,
+    "name": "Jordan Ayew",
+    "ovr": null
+  },
+  {
+    "id": 863198032,
+    "name": "Dan Burn",
+    "ovr": null
+  },
+  {
+    "id": 863198261,
+    "name": "Tim Ream",
+    "ovr": null
+  },
+  {
+    "id": 863198710,
+    "name": "James Rodríguez",
+    "ovr": null
+  },
+  {
+    "id": 863198904,
+    "name": "Grant Hanley",
+    "ovr": null
+  },
+  {
+    "id": 863198951,
+    "name": "Cédric Bakambu",
+    "ovr": null
+  },
+  {
+    "id": 863199005,
+    "name": "Mathew Ryan",
+    "ovr": null
+  },
+  {
+    "id": 863199323,
+    "name": "J. Zelený",
+    "ovr": null
+  },
+  {
+    "id": 863199439,
+    "name": "Michael Gregoritsch",
+    "ovr": null
+  },
+  {
+    "id": 863199503,
+    "name": "Granit Xhaka",
+    "ovr": null
+  },
+  {
+    "id": 863200104,
+    "name": "Son Heung-min",
+    "ovr": null
+  },
+  {
+    "id": 863200145,
+    "name": "Casemiro",
+    "ovr": null
+  },
+  {
+    "id": 863200155,
+    "name": "Hans Vanaken",
+    "ovr": null
+  },
+  {
+    "id": 863200458,
+    "name": "Lucas Digne",
+    "ovr": null
+  },
+  {
+    "id": 863201024,
+    "name": "Kalidou Koulibaly",
+    "ovr": null
+  },
+  {
+    "id": 863201143,
+    "name": "Aïssa Mandi",
+    "ovr": null
+  },
+  {
+    "id": 863201368,
+    "name": "Kenny McLean",
+    "ovr": null
+  },
+  {
+    "id": 863202024,
+    "name": "Remo Freuler",
+    "ovr": null
+  },
+  {
+    "id": 863202126,
+    "name": "Harry Kane",
+    "ovr": null
+  },
+  {
+    "id": 863202170,
+    "name": "Michael Boxall",
+    "ovr": null
+  },
+  {
+    "id": 863202371,
+    "name": "Thomas Meunier",
+    "ovr": null
+  },
+  {
+    "id": 863202556,
+    "name": "Memphis Depay",
+    "ovr": null
+  },
+  {
+    "id": 863202811,
+    "name": "Emi Martínez",
+    "ovr": null
+  },
+  {
+    "id": 863203244,
+    "name": "Lucas Mendes",
+    "ovr": null
+  },
+  {
+    "id": 863203376,
+    "name": "Virgil van Dijk",
+    "ovr": null
+  },
+  {
+    "id": 863204485,
+    "name": "Riyad Mahrez",
+    "ovr": null
+  },
+  {
+    "id": 863204838,
+    "name": "Raúl Jiménez",
+    "ovr": null
+  },
+  {
+    "id": 863204923,
+    "name": "Marcel Sabitzer",
+    "ovr": null
+  },
+  {
+    "id": 863204935,
+    "name": "Jordan Pickford",
+    "ovr": null
+  },
+  {
+    "id": 863205452,
+    "name": "Antonio Rüdiger",
+    "ovr": null
+  },
+  {
+    "id": 863205693,
+    "name": "Sébastien Haller",
+    "ovr": null
+  },
+  {
+    "id": 863206113,
+    "name": "Serge Gnabry",
+    "ovr": null
+  },
+  {
+    "id": 863207421,
+    "name": "Leandro Trossard",
+    "ovr": null
+  },
+  {
+    "id": 863207439,
+    "name": "Leandro Paredes",
+    "ovr": null
+  },
+  {
+    "id": 863207865,
+    "name": "Marquinhos",
+    "ovr": null
+  },
+  {
+    "id": 863207993,
+    "name": "Sead Kolašinac",
+    "ovr": null
+  },
+  {
+    "id": 863208128,
+    "name": "Hakan Çalhanoğlu",
+    "ovr": null
+  },
+  {
+    "id": 863208722,
+    "name": "Sadio Mané",
+    "ovr": null
+  },
+  {
+    "id": 863208920,
+    "name": "Nathan Aké",
+    "ovr": null
+  },
+  {
+    "id": 863209331,
+    "name": "Mohamed Salah",
+    "ovr": null
+  },
+  {
+    "id": 863209658,
+    "name": "Leon Goretzka",
+    "ovr": null
+  },
+  {
+    "id": 863209818,
+    "name": "Joshua Brenet",
+    "ovr": null
+  },
+  {
+    "id": 863209888,
+    "name": "Craig Goodwin",
+    "ovr": null
+  },
+  {
+    "id": 863209981,
+    "name": "Yassine Bounou",
+    "ovr": null
+  },
+  {
+    "id": 863210257,
+    "name": "Ederson",
+    "ovr": null
+  },
+  {
+    "id": 863210514,
+    "name": "João Cancelo",
+    "ovr": null
+  },
+  {
+    "id": 863210602,
+    "name": "Salem Al-Dawsari",
+    "ovr": null
+  },
+  {
+    "id": 863210843,
+    "name": "Hassan Kadesh",
+    "ovr": null
+  },
+  {
+    "id": 863210881,
+    "name": "John McGinn",
+    "ovr": null
+  },
+  {
+    "id": 863210897,
+    "name": "Chancel Mbemba",
+    "ovr": null
+  },
+  {
+    "id": 863211173,
+    "name": "S. Al-Shehri",
+    "ovr": null
+  },
+  {
+    "id": 863211256,
+    "name": "N. Tagliafico",
+    "ovr": null
+  },
+  {
+    "id": 863211378,
+    "name": "Jackson Irvine",
+    "ovr": null
+  },
+  {
+    "id": 863212002,
+    "name": "H. Tabaković",
+    "ovr": null
+  },
+  {
+    "id": 863212198,
+    "name": "Bruno Fernandes",
+    "ovr": null
+  },
+  {
+    "id": 863212218,
+    "name": "Aymeric Laporte",
+    "ovr": null
+  },
+  {
+    "id": 863212219,
+    "name": "Alexander Djiku",
+    "ovr": null
+  },
+  {
+    "id": 863212401,
+    "name": "S. Moreira",
+    "ovr": null
+  },
+  {
+    "id": 863212432,
+    "name": "Jo Hyeon-woo",
+    "ovr": null
+  },
+  {
+    "id": 863212491,
+    "name": "F. Masuaku",
+    "ovr": null
+  },
+  {
+    "id": 863212516,
+    "name": "John Souttar",
+    "ovr": null
+  },
+  {
+    "id": 863212616,
+    "name": "Rodrigo De Paul",
+    "ovr": null
+  },
+  {
+    "id": 863212622,
+    "name": "Joshua Kimmich",
+    "ovr": null
+  },
+  {
+    "id": 863212831,
+    "name": "Alisson",
+    "ovr": null
+  },
+  {
+    "id": 863213094,
+    "name": "Storm Roux",
+    "ovr": null
+  },
+  {
+    "id": 863213296,
+    "name": "Nabil Bentaleb",
+    "ovr": null
+  },
+  {
+    "id": 863213331,
+    "name": "Jonathan Tah",
+    "ovr": null
+  },
+  {
+    "id": 863213884,
+    "name": "R. Christie",
+    "ovr": null
+  },
+  {
+    "id": 863213991,
+    "name": "Jefferson Lerma",
+    "ovr": null
+  },
+  {
+    "id": 863214026,
+    "name": "Johan Mojica",
+    "ovr": null
+  },
+  {
+    "id": 863214658,
+    "name": "J. Karlström",
+    "ovr": null
+  },
+  {
+    "id": 863215522,
+    "name": "A. Schlager",
+    "ovr": null
+  },
+  {
+    "id": 863215698,
+    "name": "Mike Maignan",
+    "ovr": null
+  },
+  {
+    "id": 863216158,
+    "name": "Silvan Widmer",
+    "ovr": null
+  },
+  {
+    "id": 863216201,
+    "name": "Iñaki Williams",
+    "ovr": null
+  },
+  {
+    "id": 863216267,
+    "name": "Andrew Robertson",
+    "ovr": null
+  },
+  {
+    "id": 863216275,
+    "name": "Phillipp Mwene",
+    "ovr": null
+  },
+  {
+    "id": 863216320,
+    "name": "Seko Fofana",
+    "ovr": null
+  },
+  {
+    "id": 863216325,
+    "name": "Angus Gunn",
+    "ovr": null
+  },
+  {
+    "id": 863216354,
+    "name": "A. Kramarić",
+    "ovr": null
+  },
+  {
+    "id": 863216393,
+    "name": "Youri Tielemans",
+    "ovr": null
+  },
+  {
+    "id": 863216460,
+    "name": "J. Giménez",
+    "ovr": null
+  },
+  {
+    "id": 863216549,
+    "name": "A. Sørloth",
+    "ovr": null
+  },
+  {
+    "id": 863216860,
+    "name": "V. Černý",
+    "ovr": null
+  },
+  {
+    "id": 863217047,
+    "name": "Aníbal Godoy",
+    "ovr": null
+  },
+  {
+    "id": 863218667,
+    "name": "Bernardo Silva",
+    "ovr": null
+  },
+  {
+    "id": 863219392,
+    "name": "Alex Rufer",
+    "ovr": null
+  },
+  {
+    "id": 863219932,
+    "name": "A. Sanabria",
+    "ovr": null
+  },
+  {
+    "id": 863220075,
+    "name": "M. Kanno",
+    "ovr": null
+  },
+  {
+    "id": 863220380,
+    "name": "Rami Rabia",
+    "ovr": null
+  },
+  {
+    "id": 863220523,
+    "name": "Yerry Mina",
+    "ovr": null
+  },
+  {
+    "id": 863220621,
+    "name": "S. Benrahma",
+    "ovr": null
+  },
+  {
+    "id": 863220793,
+    "name": "Davinson Sánchez",
+    "ovr": null
+  },
+  {
+    "id": 863220821,
+    "name": "C. Starfelt",
+    "ovr": null
+  },
+  {
+    "id": 863221491,
+    "name": "Nico Elvedi",
+    "ovr": null
+  },
+  {
+    "id": 863221660,
+    "name": "Victor Lindelöf",
+    "ovr": null
+  },
+  {
+    "id": 863221671,
+    "name": "Lee Jae-sung",
+    "ovr": null
+  },
+  {
+    "id": 863221992,
+    "name": "Hirving Lozano",
+    "ovr": null
+  },
+  {
+    "id": 863222052,
+    "name": "Lee Myung-jae",
+    "ovr": null
+  },
+  {
+    "id": 863222227,
+    "name": "P. Berg",
+    "ovr": null
+  },
+  {
+    "id": 863222357,
+    "name": "Breel Embolo",
+    "ovr": null
+  },
+  {
+    "id": 863222429,
+    "name": "Andrés Cubas",
+    "ovr": null
+  },
+  {
+    "id": 863222475,
+    "name": "M. Thorsby",
+    "ovr": null
+  },
+  {
+    "id": 863222492,
+    "name": "Leroy Sané",
+    "ovr": null
+  },
+  {
+    "id": 863222501,
+    "name": "Timothy Castagne",
+    "ovr": null
+  },
+  {
+    "id": 863222665,
+    "name": "Martin Ødegaard",
+    "ovr": null
+  },
+  {
+    "id": 863222875,
+    "name": "Joris Kayembe",
+    "ovr": null
+  },
+  {
+    "id": 863223150,
+    "name": "L. Mpasi",
+    "ovr": null
+  },
+  {
+    "id": 863223273,
+    "name": "Mario Pašalić",
+    "ovr": null
+  },
+  {
+    "id": 863223671,
+    "name": "Stefan Posch",
+    "ovr": null
+  },
+  {
+    "id": 863223689,
+    "name": "Wout Weghorst",
+    "ovr": null
+  },
+  {
+    "id": 863224158,
+    "name": "Sofyan Amrabat",
+    "ovr": null
+  },
+  {
+    "id": 863224196,
+    "name": "Ramy Bensebaini",
+    "ovr": null
+  },
+  {
+    "id": 863224258,
+    "name": "K. Ajer",
+    "ovr": null
+  },
+  {
+    "id": 863224293,
+    "name": "Rúben Neves",
+    "ovr": null
+  },
+  {
+    "id": 863224490,
+    "name": "Zeki Çelik",
+    "ovr": null
+  },
+  {
+    "id": 863225126,
+    "name": "Ellyes Skhiri",
+    "ovr": null
+  },
+  {
+    "id": 863225193,
+    "name": "Mikel Merino",
+    "ovr": null
+  },
+  {
+    "id": 863225263,
+    "name": "Duje Ćaleta-Car",
+    "ovr": null
+  },
+  {
+    "id": 863225293,
+    "name": "Habib Diallo",
+    "ovr": null
+  },
+  {
+    "id": 863225375,
+    "name": "Konrad Laimer",
+    "ovr": null
+  },
+  {
+    "id": 863225859,
+    "name": "Moussa Niakhaté",
+    "ovr": null
+  },
+  {
+    "id": 863225974,
+    "name": "Scott McKenna",
+    "ovr": null
+  },
+  {
+    "id": 863226045,
+    "name": "Jesús Gallardo",
+    "ovr": null
+  },
+  {
+    "id": 863226093,
+    "name": "Che Adams",
+    "ovr": null
+  },
+  {
+    "id": 863226161,
+    "name": "Marcos Llorente",
+    "ovr": null
+  },
+  {
+    "id": 863226271,
+    "name": "Fabián Ruiz",
+    "ovr": null
+  },
+  {
+    "id": 863226286,
+    "name": "G. Ávalos",
+    "ovr": null
+  },
+  {
+    "id": 863226300,
+    "name": "Uğurcan Çakır",
+    "ovr": null
+  },
+  {
+    "id": 863226380,
+    "name": "Hwang Hee-chan",
+    "ovr": null
+  },
+  {
+    "id": 863226491,
+    "name": "Kieran Tierney",
+    "ovr": null
+  },
+  {
+    "id": 863226627,
+    "name": "Takumi Minamino",
+    "ovr": null
+  },
+  {
+    "id": 863226652,
+    "name": "Park Yong-woo",
+    "ovr": null
+  },
+  {
+    "id": 863226677,
+    "name": "Juninho Bacuna",
+    "ovr": null
+  },
+  {
+    "id": 863227535,
+    "name": "Rodrigo Bentancur",
+    "ovr": null
+  },
+  {
+    "id": 863227678,
+    "name": "Ezri Konsa",
+    "ovr": null
+  },
+  {
+    "id": 863227796,
+    "name": "Christian Pulisic",
+    "ovr": null
+  },
+  {
+    "id": 863227928,
+    "name": "Nélson Semedo",
+    "ovr": null
+  },
+  {
+    "id": 863228010,
+    "name": "Hwang In-beom",
+    "ovr": null
+  },
+  {
+    "id": 863228082,
+    "name": "D. Burnić",
+    "ovr": null
+  },
+  {
+    "id": 863228092,
+    "name": "Sander Berge",
+    "ovr": null
+  },
+  {
+    "id": 863228352,
+    "name": "Edmilson Junior",
+    "ovr": null
+  },
+  {
+    "id": 863228505,
+    "name": "Patrick Pentz",
+    "ovr": null
+  },
+  {
+    "id": 863228591,
+    "name": "C. Arcus",
+    "ovr": null
+  },
+  {
+    "id": 863228702,
+    "name": "Frenkie de Jong",
+    "ovr": null
+  },
+  {
+    "id": 863228783,
+    "name": "Ali Lajami",
+    "ovr": null
+  },
+  {
+    "id": 863229237,
+    "name": "Manuel Akanji",
+    "ovr": null
+  },
+  {
+    "id": 863229261,
+    "name": "Denis Zakaria",
+    "ovr": null
+  },
+  {
+    "id": 863229348,
+    "name": "Antonee Robinson",
+    "ovr": null
+  },
+  {
+    "id": 863229476,
+    "name": "Waldemar Anton",
+    "ovr": null
+  },
+  {
+    "id": 863229558,
+    "name": "Dayot Upamecano",
+    "ovr": null
+  },
+  {
+    "id": 863229705,
+    "name": "J. Duverne",
+    "ovr": null
+  },
+  {
+    "id": 863229752,
+    "name": "Djibril Sow",
+    "ovr": null
+  },
+  {
+    "id": 863229851,
+    "name": "A. Al-Bulayhi",
+    "ovr": null
+  },
+  {
+    "id": 863229880,
+    "name": "Aaron Wan-Bissaka",
+    "ovr": null
+  },
+  {
+    "id": 863229891,
+    "name": "J. Ryerson",
+    "ovr": null
+  },
+  {
+    "id": 863229901,
+    "name": "Harry Souttar",
+    "ovr": null
+  },
+  {
+    "id": 863229905,
+    "name": "A. Bardakcı",
+    "ovr": null
+  },
+  {
+    "id": 863229980,
+    "name": "César Montes",
+    "ovr": null
+  },
+  {
+    "id": 863230142,
+    "name": "Mikel Oyarzabal",
+    "ovr": null
+  },
+  {
+    "id": 863230869,
+    "name": "Unai Simón",
+    "ovr": null
+  },
+  {
+    "id": 863230888,
+    "name": "Aiden O'Neill",
+    "ovr": null
+  },
+  {
+    "id": 863230938,
+    "name": "F. Kessié",
+    "ovr": null
+  },
+  {
+    "id": 863230965,
+    "name": "Nahitan Nández",
+    "ovr": null
+  },
+  {
+    "id": 863230977,
+    "name": "Miguel Almirón",
+    "ovr": null
+  },
+  {
+    "id": 863230991,
+    "name": "Papa Picot",
+    "ovr": null
+  },
+  {
+    "id": 863231150,
+    "name": "Jamiro Monteiro",
+    "ovr": null
+  },
+  {
+    "id": 863231207,
+    "name": "Jhon Lucumí",
+    "ovr": null
+  },
+  {
+    "id": 863231366,
+    "name": "P. Lienhart",
+    "ovr": null
+  },
+  {
+    "id": 863231410,
+    "name": "Brahim Díaz",
+    "ovr": null
+  },
+  {
+    "id": 863231436,
+    "name": "G. Diangana",
+    "ovr": null
+  },
+  {
+    "id": 863231447,
+    "name": "Donyell Malen",
+    "ovr": null
+  },
+  {
+    "id": 863231478,
+    "name": "Lautaro Martínez",
+    "ovr": null
+  },
+  {
+    "id": 863231485,
+    "name": "Axel Tuanzebe",
+    "ovr": null
+  },
+  {
+    "id": 863231677,
+    "name": "Marcus Rashford",
+    "ovr": null
+  },
+  {
+    "id": 863231747,
+    "name": "Kylian Mbappé",
+    "ovr": null
+  },
+  {
+    "id": 863232487,
+    "name": "Wataru Endo",
+    "ovr": null
+  },
+  {
+    "id": 863232488,
+    "name": "Cristian Romero",
+    "ovr": null
+  },
+  {
+    "id": 863232580,
+    "name": "Gabriel Magalhães",
+    "ovr": null
+  },
+  {
+    "id": 863232639,
+    "name": "Ritsu Doan",
+    "ovr": null
+  },
+  {
+    "id": 863232656,
+    "name": "Theo Hernández",
+    "ovr": null
+  },
+  {
+    "id": 863232730,
+    "name": "Daichi Kamada",
+    "ovr": null
+  },
+  {
+    "id": 863232839,
+    "name": "Miro Muheim",
+    "ovr": null
+  },
+  {
+    "id": 863232873,
+    "name": "K. Machida",
+    "ovr": null
+  },
+  {
+    "id": 863232905,
+    "name": "Junya Ito",
+    "ovr": null
+  },
+  {
+    "id": 863232999,
+    "name": "Tyler Adams",
+    "ovr": null
+  },
+  {
+    "id": 863233084,
+    "name": "Nahuel Molina",
+    "ovr": null
+  },
+  {
+    "id": 863233096,
+    "name": "Denzel Dumfries",
+    "ovr": null
+  },
+  {
+    "id": 863233098,
+    "name": "S. Floranus",
+    "ovr": null
+  },
+  {
+    "id": 863233152,
+    "name": "Ko Itakura",
+    "ovr": null
+  },
+  {
+    "id": 863233195,
+    "name": "Xaver Schlager",
+    "ovr": null
+  },
+  {
+    "id": 863233225,
+    "name": "S. Taniguchi",
+    "ovr": null
+  },
+  {
+    "id": 863233260,
+    "name": "Alexis Vega",
+    "ovr": null
+  },
+  {
+    "id": 863233419,
+    "name": "Raphinha",
+    "ovr": null
+  },
+  {
+    "id": 863233486,
+    "name": "Robin Le Normand",
+    "ovr": null
+  },
+  {
+    "id": 863233493,
+    "name": "Jorge Sánchez",
+    "ovr": null
+  },
+  {
+    "id": 863233510,
+    "name": "Tahith Chong",
+    "ovr": null
+  },
+  {
+    "id": 863233731,
+    "name": "Alexander Isak",
+    "ovr": null
+  },
+  {
+    "id": 863233884,
+    "name": "Charles Pickel",
+    "ovr": null
+  },
+  {
+    "id": 863234051,
+    "name": "Akram Afif",
+    "ovr": null
+  },
+  {
+    "id": 863234205,
+    "name": "H. Ito",
+    "ovr": null
+  },
+  {
+    "id": 863234236,
+    "name": "Patrik Schick",
+    "ovr": null
+  },
+  {
+    "id": 863234378,
+    "name": "Declan Rice",
+    "ovr": null
+  },
+  {
+    "id": 863234396,
+    "name": "Alphonso Davies",
+    "ovr": null
+  },
+  {
+    "id": 863234577,
+    "name": "Diogo Costa",
+    "ovr": null
+  },
+  {
+    "id": 863234579,
+    "name": "J. Quiñones",
+    "ovr": null
+  },
+  {
+    "id": 863234642,
+    "name": "Édouard Mendy",
+    "ovr": null
+  },
+  {
+    "id": 863234824,
+    "name": "Yoane Wissa",
+    "ovr": null
+  },
+  {
+    "id": 863235073,
+    "name": "Gregor Kobel",
+    "ovr": null
+  },
+  {
+    "id": 863235152,
+    "name": "Ferdi Kadıoğlu",
+    "ovr": null
+  },
+  {
+    "id": 863235173,
+    "name": "Ibrahim Sangaré",
+    "ovr": null
+  },
+  {
+    "id": 863235353,
+    "name": "Ismaïla Sarr",
+    "ovr": null
+  },
+  {
+    "id": 863235407,
+    "name": "Salih Özcan",
+    "ovr": null
+  },
+  {
+    "id": 863235410,
+    "name": "Youssef En-Nesyri",
+    "ovr": null
+  },
+  {
+    "id": 863235456,
+    "name": "J. Bellegarde",
+    "ovr": null
+  },
+  {
+    "id": 863235565,
+    "name": "Dylan Bronn",
+    "ovr": null
+  },
+  {
+    "id": 863235634,
+    "name": "Ghislain Konan",
+    "ovr": null
+  },
+  {
+    "id": 863235794,
+    "name": "Eberechi Eze",
+    "ovr": null
+  },
+  {
+    "id": 863235844,
+    "name": "Edson Álvarez",
+    "ovr": null
+  },
+  {
+    "id": 863236316,
+    "name": "Yan Valery",
+    "ovr": null
+  },
+  {
+    "id": 863236401,
+    "name": "Noussair Mazraoui",
+    "ovr": null
+  },
+  {
+    "id": 863236403,
+    "name": "Evan Ndicka",
+    "ovr": null
+  },
+  {
+    "id": 863236461,
+    "name": "Jean-Philippe Mateta",
+    "ovr": null
+  },
+  {
+    "id": 863236703,
+    "name": "David Raum",
+    "ovr": null
+  },
+  {
+    "id": 863236764,
+    "name": "A. Tanaka",
+    "ovr": null
+  },
+  {
+    "id": 863236792,
+    "name": "Tomáš Souček",
+    "ovr": null
+  },
+  {
+    "id": 863236822,
+    "name": "G. Gudmundsson",
+    "ovr": null
+  },
+  {
+    "id": 863236898,
+    "name": "Michel Aebischer",
+    "ovr": null
+  },
+  {
+    "id": 863236920,
+    "name": "J. Kluivert",
+    "ovr": null
+  },
+  {
+    "id": 863237086,
+    "name": "Kim Min-jae",
+    "ovr": null
+  },
+  {
+    "id": 863237238,
+    "name": "Scott McTominay",
+    "ovr": null
+  },
+  {
+    "id": 863237268,
+    "name": "F. de Vries",
+    "ovr": null
+  },
+  {
+    "id": 863237424,
+    "name": "Paik Seung-ho",
+    "ovr": null
+  },
+  {
+    "id": 863237440,
+    "name": "H. Delcroix",
+    "ovr": null
+  },
+  {
+    "id": 863237646,
+    "name": "Daniel Muñoz",
+    "ovr": null
+  },
+  {
+    "id": 863237678,
+    "name": "Ibrahima Konaté",
+    "ovr": null
+  },
+  {
+    "id": 863237681,
+    "name": "Takefusa Kubo",
+    "ovr": null
+  },
+  {
+    "id": 863237692,
+    "name": "Phil Foden",
+    "ovr": null
+  },
+  {
+    "id": 863237841,
+    "name": "A. Murillo",
+    "ovr": null
+  },
+  {
+    "id": 863237942,
+    "name": "P. Estupiñán",
+    "ovr": null
+  },
+  {
+    "id": 863237985,
+    "name": "Kevin Danso",
+    "ovr": null
+  },
+  {
+    "id": 863238074,
+    "name": "Reece James",
+    "ovr": null
+  },
+  {
+    "id": 863238160,
+    "name": "Merih Demiral",
+    "ovr": null
+  },
+  {
+    "id": 863238227,
+    "name": "Krépin Diatta",
+    "ovr": null
+  },
+  {
+    "id": 863238370,
+    "name": "M. Pongračić",
+    "ovr": null
+  },
+  {
+    "id": 863238516,
+    "name": "L. Østigård",
+    "ovr": null
+  },
+  {
+    "id": 863238545,
+    "name": "F. Al-Buraikan",
+    "ovr": null
+  },
+  {
+    "id": 863238581,
+    "name": "Ruben Vargas",
+    "ovr": null
+  },
+  {
+    "id": 863238616,
+    "name": "Pedro Neto",
+    "ovr": null
+  },
+  {
+    "id": 863238743,
+    "name": "Haji Wright",
+    "ovr": null
+  },
+  {
+    "id": 863238744,
+    "name": "Weston McKennie",
+    "ovr": null
+  },
+  {
+    "id": 863238794,
+    "name": "Vinícius Júnior",
+    "ovr": null
+  },
+  {
+    "id": 863238878,
+    "name": "T. Salman",
+    "ovr": null
+  },
+  {
+    "id": 863238900,
+    "name": "E. Demirović",
+    "ovr": null
+  },
+  {
+    "id": 863239053,
+    "name": "Federico Valverde",
+    "ovr": null
+  },
+  {
+    "id": 863239085,
+    "name": "Erling Haaland",
+    "ovr": null
+  },
+  {
+    "id": 863239231,
+    "name": "Marc Cucurella",
+    "ovr": null
+  },
+  {
+    "id": 863239701,
+    "name": "Romano Schmid",
+    "ovr": null
+  },
+  {
+    "id": 863239810,
+    "name": "N. Raskin",
+    "ovr": null
+  },
+  {
+    "id": 863239818,
+    "name": "Rúben Dias",
+    "ovr": null
+  },
+  {
+    "id": 863239837,
+    "name": "A. Mac Allister",
+    "ovr": null
+  },
+  {
+    "id": 863239892,
+    "name": "Yunus Akgün",
+    "ovr": null
+  },
+  {
+    "id": 863239964,
+    "name": "E. Shomurodov",
+    "ovr": null
+  },
+  {
+    "id": 863240243,
+    "name": "Matheus Cunha",
+    "ovr": null
+  },
+  {
+    "id": 863240311,
+    "name": "Luca Zidane",
+    "ovr": null
+  },
+  {
+    "id": 863240359,
+    "name": "Omar Alderete",
+    "ovr": null
+  },
+  {
+    "id": 863240638,
+    "name": "T. Reijnders",
+    "ovr": null
+  },
+  {
+    "id": 863240690,
+    "name": "Nico González",
+    "ovr": null
+  },
+  {
+    "id": 863240709,
+    "name": "Ridle Baku",
+    "ovr": null
+  },
+  {
+    "id": 863240716,
+    "name": "M. Olivera",
+    "ovr": null
+  },
+  {
+    "id": 863240753,
+    "name": "Amine Gouiri",
+    "ovr": null
+  },
+  {
+    "id": 863241084,
+    "name": "Luis Díaz",
+    "ovr": null
+  },
+  {
+    "id": 863241095,
+    "name": "Nikola Vlašić",
+    "ovr": null
+  },
+  {
+    "id": 863241159,
+    "name": "Marc Guéhi",
+    "ovr": null
+  },
+  {
+    "id": 863241171,
+    "name": "A. Obispo",
+    "ovr": null
+  },
+  {
+    "id": 863241173,
+    "name": "Lyle Foster",
+    "ovr": null
+  },
+  {
+    "id": 863241236,
+    "name": "Antoine Semenyo",
+    "ovr": null
+  },
+  {
+    "id": 863241461,
+    "name": "Ferran Torres",
+    "ovr": null
+  },
+  {
+    "id": 863241486,
+    "name": "Jules Koundé",
+    "ovr": null
+  },
+  {
+    "id": 863241496,
+    "name": "Timothy Weah",
+    "ovr": null
+  },
+  {
+    "id": 863241602,
+    "name": "Jhon Arias",
+    "ovr": null
+  },
+  {
+    "id": 863241637,
+    "name": "A. Tchouaméni",
+    "ovr": null
+  },
+  {
+    "id": 863241643,
+    "name": "Viktor Johansson",
+    "ovr": null
+  },
+  {
+    "id": 863241651,
+    "name": "Viktor Gyökeres",
+    "ovr": null
+  },
+  {
+    "id": 863241671,
+    "name": "D. Livaković",
+    "ovr": null
+  },
+  {
+    "id": 863241707,
+    "name": "Pape Gueye",
+    "ovr": null
+  },
+  {
+    "id": 863241721,
+    "name": "Rafael Leão",
+    "ovr": null
+  },
+  {
+    "id": 863241775,
+    "name": "J. El Yamiq",
+    "ovr": null
+  },
+  {
+    "id": 863241788,
+    "name": "Mehdi Taremi",
+    "ovr": null
+  },
+  {
+    "id": 863241938,
+    "name": "N. Al-Dawsari",
+    "ovr": null
+  },
+  {
+    "id": 863242179,
+    "name": "Yahia Fofana",
+    "ovr": null
+  },
+  {
+    "id": 863242187,
+    "name": "C. Baumgartner",
+    "ovr": null
+  },
+  {
+    "id": 863242217,
+    "name": "Edo Kayembe",
+    "ovr": null
+  },
+  {
+    "id": 863242280,
+    "name": "Lewis Ferguson",
+    "ovr": null
+  },
+  {
+    "id": 863242380,
+    "name": "Stephen Eustáquio",
+    "ovr": null
+  },
+  {
+    "id": 863242429,
+    "name": "L. Cacace",
+    "ovr": null
+  },
+  {
+    "id": 863242444,
+    "name": "João Félix",
+    "ovr": null
+  },
+  {
+    "id": 863242516,
+    "name": "Cody Gakpo",
+    "ovr": null
+  },
+  {
+    "id": 863242641,
+    "name": "R. Aït-Nouri",
+    "ovr": null
+  },
+  {
+    "id": 863242664,
+    "name": "A. Saelemaekers",
+    "ovr": null
+  },
+  {
+    "id": 863242835,
+    "name": "L. Balerdi",
+    "ovr": null
+  },
+  {
+    "id": 863242948,
+    "name": "M. Kovář",
+    "ovr": null
+  },
+  {
+    "id": 863242964,
+    "name": "Anthony Gordon",
+    "ovr": null
+  },
+  {
+    "id": 863243245,
+    "name": "Orkun Kökçü",
+    "ovr": null
+  },
+  {
+    "id": 863243526,
+    "name": "Mert Müldür",
+    "ovr": null
+  },
+  {
+    "id": 863243551,
+    "name": "Ali Gholizadeh",
+    "ovr": null
+  },
+  {
+    "id": 863243576,
+    "name": "Pedro Porro",
+    "ovr": null
+  },
+  {
+    "id": 863243586,
+    "name": "Ayoub El Kaabi",
+    "ovr": null
+  },
+  {
+    "id": 863243630,
+    "name": "Jonathan David",
+    "ovr": null
+  },
+  {
+    "id": 863243646,
+    "name": "Benjamin Nygren",
+    "ovr": null
+  },
+  {
+    "id": 863243715,
+    "name": "William Saliba",
+    "ovr": null
+  },
+  {
+    "id": 863243780,
+    "name": "Lee Kang-in",
+    "ovr": null
+  },
+  {
+    "id": 863243812,
+    "name": "Rodrygo",
+    "ovr": null
+  },
+  {
+    "id": 863243923,
+    "name": "L. Costa",
+    "ovr": null
+  },
+  {
+    "id": 863244193,
+    "name": "Jovane Cabral",
+    "ovr": null
+  },
+  {
+    "id": 863244204,
+    "name": "Nikola Katić",
+    "ovr": null
+  },
+  {
+    "id": 863244261,
+    "name": "Lovro Majer",
+    "ovr": null
+  },
+  {
+    "id": 863244349,
+    "name": "Johan Vásquez",
+    "ovr": null
+  },
+  {
+    "id": 863244470,
+    "name": "Vladimír Coufal",
+    "ovr": null
+  },
+  {
+    "id": 863244749,
+    "name": "N. Aguerd",
+    "ovr": null
+  },
+  {
+    "id": 863244793,
+    "name": "Tomáš Chorý",
+    "ovr": null
+  },
+  {
+    "id": 863244915,
+    "name": "Mohammed Salisu",
+    "ovr": null
+  },
+  {
+    "id": 863244949,
+    "name": "Frantzdy Pierrot",
+    "ovr": null
+  },
+  {
+    "id": 863245152,
+    "name": "S. Giménez",
+    "ovr": null
+  },
+  {
+    "id": 863245155,
+    "name": "Mohammed Kudus",
+    "ovr": null
+  },
+  {
+    "id": 863245209,
+    "name": "Michal Sadílek",
+    "ovr": null
+  },
+  {
+    "id": 863245367,
+    "name": "Xavi Simons",
+    "ovr": null
+  },
+  {
+    "id": 863245371,
+    "name": "Thiago Almada",
+    "ovr": null
+  },
+  {
+    "id": 863245410,
+    "name": "Montassar Talbi",
+    "ovr": null
+  },
+  {
+    "id": 863245751,
+    "name": "Hassan Tambakti",
+    "ovr": null
+  },
+  {
+    "id": 863245992,
+    "name": "Billy Gilmour",
+    "ovr": null
+  },
+  {
+    "id": 863246055,
+    "name": "A. Preciado",
+    "ovr": null
+  },
+  {
+    "id": 863246104,
+    "name": "R. Gravenberch",
+    "ovr": null
+  },
+  {
+    "id": 863246191,
+    "name": "Julián Álvarez",
+    "ovr": null
+  },
+  {
+    "id": 863246420,
+    "name": "Jérémy Doku",
+    "ovr": null
+  },
+  {
+    "id": 863246669,
+    "name": "Bukayo Saka",
+    "ovr": null
+  },
+  {
+    "id": 863246688,
+    "name": "S. Abdulhamid",
+    "ovr": null
+  },
+  {
+    "id": 863246800,
+    "name": "Tajon Buchanan",
+    "ovr": null
+  },
+  {
+    "id": 863246863,
+    "name": "Felix Nmecha",
+    "ovr": null
+  },
+  {
+    "id": 863246875,
+    "name": "Odilon Kossounou",
+    "ovr": null
+  },
+  {
+    "id": 863247050,
+    "name": "P. Schulte",
+    "ovr": null
+  },
+  {
+    "id": 863247090,
+    "name": "Enzo Fernández",
+    "ovr": null
+  },
+  {
+    "id": 863247124,
+    "name": "Gideon Mensah",
+    "ovr": null
+  },
+  {
+    "id": 863247172,
+    "name": "J. Durán",
+    "ovr": null
+  },
+  {
+    "id": 863247228,
+    "name": "Dayne St. Clair",
+    "ovr": null
+  },
+  {
+    "id": 863247246,
+    "name": "K. Thuram",
+    "ovr": null
+  },
+  {
+    "id": 863247279,
+    "name": "Lyndon Dykes",
+    "ovr": null
+  },
+  {
+    "id": 863247361,
+    "name": "Brendan Aaronson",
+    "ovr": null
+  },
+  {
+    "id": 863247506,
+    "name": "Matt Freese",
+    "ovr": null
+  },
+  {
+    "id": 863247686,
+    "name": "Cho Gue-sung",
+    "ovr": null
+  },
+  {
+    "id": 863247819,
+    "name": "N. Schlotterbeck",
+    "ovr": null
+  },
+  {
+    "id": 863247827,
+    "name": "Michael Olise",
+    "ovr": null
+  },
+  {
+    "id": 863247851,
+    "name": "Bruno Guimarães",
+    "ovr": null
+  },
+  {
+    "id": 863248148,
+    "name": "Martín Zubimendi",
+    "ovr": null
+  },
+  {
+    "id": 863248342,
+    "name": "T. Heggem",
+    "ovr": null
+  },
+  {
+    "id": 863248712,
+    "name": "Oh Hyeon-gyu",
+    "ovr": null
+  },
+  {
+    "id": 863248808,
+    "name": "Aaron Hickey",
+    "ovr": null
+  },
+  {
+    "id": 863250723,
+    "name": "K. Koné",
+    "ovr": null
+  },
+  {
+    "id": 863250954,
+    "name": "Chris Richards",
+    "ovr": null
+  },
+  {
+    "id": 863250955,
+    "name": "J. Stanišić",
+    "ovr": null
+  },
+  {
+    "id": 863251116,
+    "name": "Tomáš Holeš",
+    "ovr": null
+  },
+  {
+    "id": 863251470,
+    "name": "Charles De Ketelaere",
+    "ovr": null
+  },
+  {
+    "id": 863251479,
+    "name": "M. De Cuyper",
+    "ovr": null
+  },
+  {
+    "id": 863251517,
+    "name": "Joško Gvardiol",
+    "ovr": null
+  },
+  {
+    "id": 863251532,
+    "name": "M. Elia",
+    "ovr": null
+  },
+  {
+    "id": 863251804,
+    "name": "Sergiño Dest",
+    "ovr": null
+  },
+  {
+    "id": 863251805,
+    "name": "Jurriën Timber",
+    "ovr": null
+  },
+  {
+    "id": 863251852,
+    "name": "Karim Adeyemi",
+    "ovr": null
+  },
+  {
+    "id": 863251854,
+    "name": "Pedri",
+    "ovr": null
+  },
+  {
+    "id": 863252059,
+    "name": "S. Abdul Samed",
+    "ovr": null
+  },
+  {
+    "id": 863252064,
+    "name": "L. Krejčí",
+    "ovr": null
+  },
+  {
+    "id": 863252145,
+    "name": "Nuno Mendes",
+    "ovr": null
+  },
+  {
+    "id": 863252162,
+    "name": "A. Ueda",
+    "ovr": null
+  },
+  {
+    "id": 863252293,
+    "name": "I. Jakobs",
+    "ovr": null
+  },
+  {
+    "id": 863252371,
+    "name": "Jude Bellingham",
+    "ovr": null
+  },
+  {
+    "id": 863252416,
+    "name": "D. Lucius",
+    "ovr": null
+  },
+  {
+    "id": 863252711,
+    "name": "Ali Abdi",
+    "ovr": null
+  },
+  {
+    "id": 863252736,
+    "name": "Hussein Ali",
+    "ovr": null
+  },
+  {
+    "id": 863252802,
+    "name": "Wilfried Singo",
+    "ovr": null
+  },
+  {
+    "id": 863252873,
+    "name": "A. Andrade",
+    "ovr": null
+  },
+  {
+    "id": 863253036,
+    "name": "N. Mbuku",
+    "ovr": null
+  },
+  {
+    "id": 863253072,
+    "name": "Darwin Núñez",
+    "ovr": null
+  },
+  {
+    "id": 863253149,
+    "name": "Jeremie Frimpong",
+    "ovr": null
+  },
+  {
+    "id": 863253157,
+    "name": "H. Boudaoui",
+    "ovr": null
+  },
+  {
+    "id": 863253163,
+    "name": "R. Araújo",
+    "ovr": null
+  },
+  {
+    "id": 863253283,
+    "name": "F. Pellistri",
+    "ovr": null
+  },
+  {
+    "id": 863253306,
+    "name": "M. Ugarte",
+    "ovr": null
+  },
+  {
+    "id": 863253354,
+    "name": "H. Galíndez",
+    "ovr": null
+  },
+  {
+    "id": 863253396,
+    "name": "G. Simeone",
+    "ovr": null
+  },
+  {
+    "id": 863253727,
+    "name": "L. Provod",
+    "ovr": null
+  },
+  {
+    "id": 863254022,
+    "name": "Nick Woltemade",
+    "ovr": null
+  },
+  {
+    "id": 863254088,
+    "name": "Amad",
+    "ovr": null
+  },
+  {
+    "id": 863254136,
+    "name": "E. Just",
+    "ovr": null
+  },
+  {
+    "id": 863254243,
+    "name": "Elliot Anderson",
+    "ovr": null
+  },
+  {
+    "id": 863254247,
+    "name": "M. Mohamed",
+    "ovr": null
+  },
+  {
+    "id": 863254262,
+    "name": "Z. Debast",
+    "ovr": null
+  },
+  {
+    "id": 863254566,
+    "name": "P. Wimmer",
+    "ovr": null
+  },
+  {
+    "id": 863254685,
+    "name": "N. Bouchal",
+    "ovr": null
+  },
+  {
+    "id": 863254817,
+    "name": "M. Araújo",
+    "ovr": null
+  },
+  {
+    "id": 863255125,
+    "name": "A. Ounahi",
+    "ovr": null
+  },
+  {
+    "id": 863255253,
+    "name": "Vitinha",
+    "ovr": null
+  },
+  {
+    "id": 863255368,
+    "name": "N. Al-Aqidi",
+    "ovr": null
+  },
+  {
+    "id": 863255434,
+    "name": "J. Enciso",
+    "ovr": null
+  },
+  {
+    "id": 863255459,
+    "name": "A. Bernhardsson",
+    "ovr": null
+  },
+  {
+    "id": 863255565,
+    "name": "Kaoru Mitoma",
+    "ovr": null
+  },
+  {
+    "id": 863255981,
+    "name": "Z. Suzuki",
+    "ovr": null
+  },
+  {
+    "id": 863256079,
+    "name": "M. Caicedo",
+    "ovr": null
+  },
+  {
+    "id": 863256107,
+    "name": "A. Johnston",
+    "ovr": null
+  },
+  {
+    "id": 863256196,
+    "name": "Willian Pacho",
+    "ovr": null
+  },
+  {
+    "id": 863256197,
+    "name": "P. Hincapié",
+    "ovr": null
+  },
+  {
+    "id": 863256325,
+    "name": "Josip Šutalo",
+    "ovr": null
+  },
+  {
+    "id": 863256516,
+    "name": "Nico Williams",
+    "ovr": null
+  },
+  {
+    "id": 863256630,
+    "name": "Florian Wirtz",
+    "ovr": null
+  },
+  {
+    "id": 863256675,
+    "name": "Omar Marmoush",
+    "ovr": null
+  },
+  {
+    "id": 863256853,
+    "name": "M. Tillman",
+    "ovr": null
+  },
+  {
+    "id": 863256903,
+    "name": "Gonçalo Ramos",
+    "ovr": null
+  },
+  {
+    "id": 863256970,
+    "name": "A. Karabec",
+    "ovr": null
+  },
+  {
+    "id": 863257057,
+    "name": "Amadou Onana",
+    "ovr": null
+  },
+  {
+    "id": 863257194,
+    "name": "Telmo Arcanjo",
+    "ovr": null
+  },
+  {
+    "id": 863257278,
+    "name": "Arthur Theate",
+    "ovr": null
+  },
+  {
+    "id": 863257279,
+    "name": "Álex Baena",
+    "ovr": null
+  },
+  {
+    "id": 863257289,
+    "name": "Hugo Ekitike",
+    "ovr": null
+  },
+  {
+    "id": 863257293,
+    "name": "S. Sithole",
+    "ovr": null
+  },
+  {
+    "id": 863257400,
+    "name": "Y. Ayari",
+    "ovr": null
+  },
+  {
+    "id": 863257470,
+    "name": "Anthony Elanga",
+    "ovr": null
+  },
+  {
+    "id": 863257504,
+    "name": "B. El Khannouss",
+    "ovr": null
+  },
+  {
+    "id": 863257784,
+    "name": "E. Lira",
+    "ovr": null
+  },
+  {
+    "id": 863257876,
+    "name": "N. Seiwald",
+    "ovr": null
+  },
+  {
+    "id": 863257889,
+    "name": "K. Jakić",
+    "ovr": null
+  },
+  {
+    "id": 863257946,
+    "name": "A. Seidu",
+    "ovr": null
+  },
+  {
+    "id": 863257980,
+    "name": "Dan Ndoye",
+    "ovr": null
+  },
+  {
+    "id": 863258171,
+    "name": "Hannibal",
+    "ovr": null
+  },
+  {
+    "id": 863258444,
+    "name": "Evann Guessand",
+    "ovr": null
+  },
+  {
+    "id": 863258498,
+    "name": "B. Verbruggen",
+    "ovr": null
+  },
+  {
+    "id": 863258575,
+    "name": "E. Agbadou",
+    "ovr": null
+  },
+  {
+    "id": 863258580,
+    "name": "K. Aktürkoğlu",
+    "ovr": null
+  },
+  {
+    "id": 863259185,
+    "name": "T. Østgaard",
+    "ovr": null
+  },
+  {
+    "id": 863259191,
+    "name": "M. Al-Tamari",
+    "ovr": null
+  },
+  {
+    "id": 863259197,
+    "name": "Nicolas Jackson",
+    "ovr": null
+  },
+  {
+    "id": 863259306,
+    "name": "F. Rieder",
+    "ovr": null
+  },
+  {
+    "id": 863259307,
+    "name": "Malo Gusto",
+    "ovr": null
+  },
+  {
+    "id": 863259480,
+    "name": "I. Saibari",
+    "ovr": null
+  },
+  {
+    "id": 863259568,
+    "name": "C. Harvey",
+    "ovr": null
+  },
+  {
+    "id": 863259680,
+    "name": "Marko Stamenić",
+    "ovr": null
+  },
+  {
+    "id": 863259716,
+    "name": "D. Svensson",
+    "ovr": null
+  },
+  {
+    "id": 863259868,
+    "name": "P. Sarr",
+    "ovr": null
+  },
+  {
+    "id": 863260099,
+    "name": "S. Sambo",
+    "ovr": null
+  },
+  {
+    "id": 863260247,
+    "name": "Morgan Rogers",
+    "ovr": null
+  },
+  {
+    "id": 863260466,
+    "name": "I. Yüksek",
+    "ovr": null
+  },
+  {
+    "id": 863260521,
+    "name": "J. Bos",
+    "ovr": null
+  },
+  {
+    "id": 863260697,
+    "name": "Isak Hien",
+    "ovr": null
+  },
+  {
+    "id": 863260779,
+    "name": "Simon Adingra",
+    "ovr": null
+  },
+  {
+    "id": 863260977,
+    "name": "F. Al-Ghamdi",
+    "ovr": null
+  },
+  {
+    "id": 863261063,
+    "name": "Lee Tae-seok",
+    "ovr": null
+  },
+  {
+    "id": 863261188,
+    "name": "I. Ndiaye",
+    "ovr": null
+  },
+  {
+    "id": 863261298,
+    "name": "A. Al-Amri",
+    "ovr": null
+  },
+  {
+    "id": 863261357,
+    "name": "A. Radif",
+    "ovr": null
+  },
+  {
+    "id": 863262027,
+    "name": "T. Muharemović",
+    "ovr": null
+  },
+  {
+    "id": 863262039,
+    "name": "N. Velupillay",
+    "ovr": null
+  },
+  {
+    "id": 863262135,
+    "name": "D. Wolff",
+    "ovr": null
+  },
+  {
+    "id": 863262745,
+    "name": "N. El Aynaoui",
+    "ovr": null
+  },
+  {
+    "id": 863262863,
+    "name": "Antonio Nusa",
+    "ovr": null
+  },
+  {
+    "id": 863262881,
+    "name": "R. Ríos",
+    "ovr": null
+  },
+  {
+    "id": 863262956,
+    "name": "N. Vasilj",
+    "ovr": null
+  },
+  {
+    "id": 863263021,
+    "name": "S. Akaydin",
+    "ovr": null
+  },
+  {
+    "id": 863263205,
+    "name": "Barış Yılmaz",
+    "ovr": null
+  },
+  {
+    "id": 863263672,
+    "name": "E. Achouri",
+    "ovr": null
+  },
+  {
+    "id": 863263824,
+    "name": "M. Al-Juwayr",
+    "ovr": null
+  },
+  {
+    "id": 863263976,
+    "name": "O. Mosquera",
+    "ovr": null
+  },
+  {
+    "id": 863264191,
+    "name": "G. Lagerbielke",
+    "ovr": null
+  },
+  {
+    "id": 863264207,
+    "name": "I. Koné",
+    "ovr": null
+  },
+  {
+    "id": 863264309,
+    "name": "Arda Güler",
+    "ovr": null
+  },
+  {
+    "id": 863264432,
+    "name": "A. Ezzalzouli",
+    "ovr": null
+  },
+  {
+    "id": 863264453,
+    "name": "Micky van de Ven",
+    "ovr": null
+  },
+  {
+    "id": 863264652,
+    "name": "B. Barcola",
+    "ovr": null
+  },
+  {
+    "id": 863264697,
+    "name": "Mohamed Amoura",
+    "ovr": null
+  },
+  {
+    "id": 863265788,
+    "name": "Z. Iqbal",
+    "ovr": null
+  },
+  {
+    "id": 863266815,
+    "name": "Ben Nelson-Doak",
+    "ovr": null
+  },
+  {
+    "id": 863267680,
+    "name": "A. Fatawu",
+    "ovr": null
+  },
+  {
+    "id": 863267920,
+    "name": "A. Freeman",
+    "ovr": null
+  },
+  {
+    "id": 863268611,
+    "name": "J. Ordóñez",
+    "ovr": null
+  },
+  {
+    "id": 863268763,
+    "name": "E. Nuamah",
+    "ovr": null
+  },
+  {
+    "id": 863268771,
+    "name": "B. Khoukhi",
+    "ovr": null
+  },
+  {
+    "id": 863268772,
+    "name": "A. Ali",
+    "ovr": null
+  },
+  {
+    "id": 863268775,
+    "name": "M. Waad",
+    "ovr": null
+  },
+  {
+    "id": 863268776,
+    "name": "H. Ahmed",
+    "ovr": null
+  },
+  {
+    "id": 863268781,
+    "name": "Pedro Miguel",
+    "ovr": null
+  },
+  {
+    "id": 863268783,
+    "name": "M. Barsham",
+    "ovr": null
+  },
+  {
+    "id": 863268805,
+    "name": "D. Jean Jacques",
+    "ovr": null
+  },
+  {
+    "id": 863268879,
+    "name": "Ahmed Fatehi",
+    "ovr": null
+  },
+  {
+    "id": 863268982,
+    "name": "J. Jassem Gaber",
+    "ovr": null
+  },
+  {
+    "id": 863269164,
+    "name": "M. Abdelmonem",
+    "ovr": null
+  },
+  {
+    "id": 863269230,
+    "name": "N. Sadiki",
+    "ovr": null
+  },
+  {
+    "id": 863269278,
+    "name": "D. Gomes",
+    "ovr": null
+  },
+  {
+    "id": 863269823,
+    "name": "E. Bajraktarević",
+    "ovr": null
+  },
+  {
+    "id": 863270670,
+    "name": "F. Chaïbi",
+    "ovr": null
+  },
+  {
+    "id": 863271108,
+    "name": "T. Oluwaseyi",
+    "ovr": null
+  },
+  {
+    "id": 863272569,
+    "name": "K. Rodríguez",
+    "ovr": null
+  },
+  {
+    "id": 863272781,
+    "name": "E. Ben Seghir",
+    "ovr": null
+  },
+  {
+    "id": 863272834,
+    "name": "João Neves",
+    "ovr": null
+  },
+  {
+    "id": 863272926,
+    "name": "Lucas Bergvall",
+    "ovr": null
+  },
+  {
+    "id": 863272951,
+    "name": "K. Castaño",
+    "ovr": null
+  },
+  {
+    "id": 863273906,
+    "name": "Renato Veiga",
+    "ovr": null
+  },
+  {
+    "id": 863274000,
+    "name": "E. Saad",
+    "ovr": null
+  },
+  {
+    "id": 863274536,
+    "name": "M. Bombito",
+    "ovr": null
+  },
+  {
+    "id": 863274559,
+    "name": "Kendry Páez",
+    "ovr": null
+  },
+  {
+    "id": 863274915,
+    "name": "Elhadj Diouf",
+    "ovr": null
+  },
+  {
+    "id": 863275138,
+    "name": "Lamine Camara",
+    "ovr": null
+  },
+  {
+    "id": 863275208,
+    "name": "G. Doué",
+    "ovr": null
+  },
+  {
+    "id": 863275238,
+    "name": "N. Sigur",
+    "ovr": null
+  },
+  {
+    "id": 863275298,
+    "name": "A. Pavlović",
+    "ovr": null
+  },
+  {
+    "id": 863276278,
+    "name": "P. Sučić",
+    "ovr": null
+  },
+  {
+    "id": 863276646,
+    "name": "R. Hranáč",
+    "ovr": null
+  },
+  {
+    "id": 863276694,
+    "name": "J. Manzambi",
+    "ovr": null
+  },
+  {
+    "id": 863277031,
+    "name": "A. Khusanov",
+    "ovr": null
+  },
+  {
+    "id": 863277178,
+    "name": "O. Diakité",
+    "ovr": null
+  },
+  {
+    "id": 863277295,
+    "name": "O. Bobb",
+    "ovr": null
+  },
+  {
+    "id": 863277552,
+    "name": "T. Bindon",
+    "ovr": null
+  },
+  {
+    "id": 863277568,
+    "name": "K. Aliqulov",
+    "ovr": null
+  },
+  {
+    "id": 863277643,
+    "name": "Lamine Yamal",
+    "ovr": null
+  },
+  {
+    "id": 863277954,
+    "name": "K. Yıldız",
+    "ovr": null
+  },
+  {
+    "id": 863278020,
+    "name": "M. Galarza",
+    "ovr": null
+  },
+  {
+    "id": 863278046,
+    "name": "Pau Cubarsí",
+    "ovr": null
+  },
+  {
+    "id": 863278773,
+    "name": "M. Lewis-Skelly",
+    "ovr": null
+  },
+  {
+    "id": 863279194,
+    "name": "M. Marshall",
+    "ovr": null
+  }
 ]
