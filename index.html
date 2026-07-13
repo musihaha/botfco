@@ -6,7 +6,7 @@
     <title>FC Online Player Database — Pro Edition</title>
     <meta name="description" content="Tra cứu SPID cầu thủ FC Online nhanh nhất. Tìm theo tên, SPID, mùa giải.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* ===== CSS RESET & VARIABLES ===== */
         :root {
@@ -16,1237 +16,206 @@
             --primary-glow-md: rgba(0, 230, 118, 0.20);
             --primary-glow-lg: rgba(0, 230, 118, 0.30);
             --accent: #7c4dff;
-            --accent-glow: rgba(124, 77, 255, 0.15);
-            --bg-0: #06060a;
-            --bg-1: #0c0c14;
-            --bg-2: #13131f;
-            --bg-3: #1a1a2a;
-            --bg-4: #222236;
-            --glass: rgba(18, 18, 30, 0.75);
-            --glass-border: rgba(255, 255, 255, 0.06);
+            --bg-0: #050508;
+            --bg-1: #0a0a10;
+            --bg-2: #12121a;
+            --bg-3: #181824;
+            --bg-4: #222232;
+            --glass: rgba(18, 18, 26, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.08);
             --text-0: #ffffff;
-            --text-1: #e8e8f0;
+            --text-1: #e2e2ec;
             --text-2: #a0a0b8;
             --text-3: #666680;
             --text-4: #44445a;
-            --border: #2a2a3e;
-            --border-light: #38385a;
+            --border: #262636;
+            --border-light: #36364a;
             --success: #66bb6a;
             --warning: #ffb74d;
             --danger: #ef5350;
             --info: #42a5f5;
-            --r-xs: 6px;
-            --r-sm: 8px;
-            --r-md: 12px;
-            --r-lg: 16px;
-            --r-xl: 20px;
-            --r-2xl: 24px;
-            --s-sm: 0 2px 8px rgba(0,0,0,0.25);
-            --s-md: 0 4px 24px rgba(0,0,0,0.35);
-            --s-lg: 0 8px 48px rgba(0,0,0,0.5);
-            --s-glow: 0 0 30px rgba(0, 230, 118, 0.15);
-            --t-fast: 0.12s ease;
+            --r-xs: 6px; --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 20px;
+            --s-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --s-md: 0 6px 24px rgba(0,0,0,0.4);
+            --s-lg: 0 12px 48px rgba(0,0,0,0.6);
+            --t-fast: 0.15s ease;
             --t-norm: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            --t-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            --t-spring: 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        *, *::before, *::after {
-            margin: 0; padding: 0; box-sizing: border-box;
-        }
-
-        html {
-            scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: var(--bg-0);
-            color: var(--text-1);
-            min-height: 100vh;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        ::selection {
-            background: var(--primary-glow-lg);
-            color: var(--primary);
-        }
-
-        ::-webkit-scrollbar { width: 8px; }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-0); color: var(--text-1); min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
+        ::selection { background: var(--primary-glow-lg); color: var(--primary); }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg-1); }
-        ::-webkit-scrollbar-thumb { background: var(--bg-4); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--border-light); }
+        ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--text-4); }
 
-        /* ===== AMBIENT BACKGROUND ===== */
-        .bg-ambient {
-            position: fixed; inset: 0; pointer-events: none; z-index: 0;
-            overflow: hidden;
-        }
-        .bg-ambient::before {
-            content: '';
-            position: absolute;
-            top: -30%; left: 50%; transform: translateX(-50%);
-            width: 140%; height: 60%;
-            background: radial-gradient(ellipse, rgba(0,230,118,0.04) 0%, transparent 60%);
-        }
-        .bg-ambient::after {
-            content: '';
-            position: absolute;
-            bottom: -20%; right: -10%;
-            width: 60%; height: 50%;
-            background: radial-gradient(ellipse, rgba(124,77,255,0.03) 0%, transparent 60%);
-        }
-
-        .bg-grid {
-            position: fixed; inset: 0; pointer-events: none; z-index: 0;
-            background-image:
-                linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-            background-size: 80px 80px;
-            mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 30%, transparent 100%);
-            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 30%, transparent 100%);
-        }
-
-        .bg-noise {
-            position: fixed; inset: 0; pointer-events: none; z-index: 0;
-            opacity: 0.015;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-        }
+        /* ===== BACKGROUND ===== */
+        .bg-ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+        .bg-ambient::before { content: ''; position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 140%; height: 60%; background: radial-gradient(ellipse, rgba(0,230,118,0.05) 0%, transparent 60%); }
+        .bg-ambient::after { content: ''; position: absolute; bottom: -20%; right: -10%; width: 60%; height: 50%; background: radial-gradient(ellipse, rgba(124,77,255,0.04) 0%, transparent 60%); }
+        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 30%, transparent 100%); -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 30%, transparent 100%); }
 
         /* ===== HEADER ===== */
-        .header {
-            position: sticky; top: 0; z-index: 200;
-            background: rgba(6, 6, 10, 0.82);
-            backdrop-filter: blur(24px) saturate(1.8);
-            -webkit-backdrop-filter: blur(24px) saturate(1.8);
-            border-bottom: 1px solid var(--glass-border);
-        }
+        .header { position: sticky; top: 0; z-index: 200; background: var(--glass); backdrop-filter: blur(24px); border-bottom: 1px solid var(--glass-border); }
+        .header-inner { max-width: 1320px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+        .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; }
+        .logo-glyph { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), #00bfa5); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 16px rgba(0,230,118,0.25); transition: transform var(--t-norm); }
+        .logo:hover .logo-glyph { transform: rotate(-10deg) scale(1.05); }
+        .logo-title { font-size: 1.15rem; font-weight: 800; background: linear-gradient(135deg, #fff 30%, var(--text-2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-sub { font-size: 0.65rem; color: var(--text-3); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; display: block; }
+        
+        .visitor-badge { display: flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 30px; font-size: 0.75rem; color: var(--text-2); }
+        .visitor-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 8px var(--primary); animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .visitor-count { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--text-0); }
 
-        .header-inner {
-            max-width: 1320px;
-            margin: 0 auto;
-            padding: 0 28px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 68px;
-        }
+        /* ===== MAIN & HERO ===== */
+        .main { position: relative; z-index: 1; max-width: 1320px; margin: 0 auto; padding: 24px; }
+        .hero { text-align: center; padding: 40px 0 20px; }
+        .hero h1 { font-size: 2.6rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 12px; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: var(--text-3); max-width: 500px; margin: 0 auto; font-size: 1.05rem; }
 
-        .logo {
-            display: flex; align-items: center; gap: 14px;
-            text-decoration: none;
-            cursor: pointer;
-        }
-
-        .logo-glyph {
-            width: 40px; height: 40px;
-            background: linear-gradient(135deg, var(--primary), #00bfa5);
-            border-radius: var(--r-md);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 4px 16px rgba(0,230,118,0.25);
-            transition: transform var(--t-spring), box-shadow var(--t-norm);
-        }
-
-        .logo:hover .logo-glyph {
-            transform: rotate(-8deg) scale(1.1);
-            box-shadow: 0 6px 24px rgba(0,230,118,0.35);
-        }
-
-        .logo-label {
-            display: flex; flex-direction: column; gap: 0;
-        }
-
-        .logo-title {
-            font-size: 1.15rem; font-weight: 800;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #fff 30%, var(--text-2) 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-            background-clip: text;
-            line-height: 1.2;
-        }
-
-        .logo-sub {
-            font-size: 0.62rem; color: var(--text-3);
-            letter-spacing: 2px; text-transform: uppercase;
-            font-weight: 500;
-        }
-
-        .header-right {
-            display: flex; align-items: center; gap: 14px;
-        }
-
-        .visitor-badge {
-            display: flex; align-items: center; gap: 8px;
-            padding: 7px 14px;
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            border-radius: var(--r-2xl);
-            font-size: 0.76rem; color: var(--text-2);
-            transition: all var(--t-norm);
-        }
-
-        .visitor-badge:hover {
-            border-color: var(--border-light);
-            background: var(--bg-3);
-        }
-
-        .visitor-dot {
-            width: 7px; height: 7px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 8px var(--primary);
-            animation: pulse-dot 2s infinite;
-        }
-
-        @keyframes pulse-dot {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(0.7); }
-        }
-
-        .visitor-count {
-            font-family: 'JetBrains Mono', monospace;
-            font-weight: 600; color: var(--text-0);
-            font-size: 0.82rem;
-        }
-
-        .kbd-badge {
-            display: flex; align-items: center; gap: 5px;
-            font-size: 0.72rem; color: var(--text-4);
-        }
-
-        .kbd-badge kbd {
-            background: var(--bg-3);
-            border: 1px solid var(--border);
-            padding: 2px 7px;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            color: var(--text-3);
-            line-height: 1.4;
-        }
-
-        .icon-btn {
-            width: 38px; height: 38px;
-            border-radius: var(--r-sm);
-            border: 1px solid var(--border);
-            background: var(--bg-2);
-            color: var(--text-3);
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1rem;
-            transition: all var(--t-fast);
-        }
-
-        .icon-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-glow);
-            box-shadow: var(--s-glow);
-        }
-
-        /* ===== MAIN ===== */
-        .main {
-            position: relative; z-index: 1;
-            max-width: 1320px;
-            margin: 0 auto;
-            padding: 28px;
-        }
-
-        /* ===== HERO SECTION ===== */
-        .hero {
-            text-align: center;
-            padding: 32px 0 8px;
-            margin-bottom: 28px;
-        }
-
-        .hero h1 {
-            font-size: 2.4rem;
-            font-weight: 900;
-            letter-spacing: -1.5px;
-            line-height: 1.15;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, #fff 0%, var(--text-2) 50%, var(--primary) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1rem;
-            color: var(--text-3);
-            max-width: 520px;
-            margin: 0 auto;
-        }
-
-        .hero-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            margin-top: 14px;
-            padding: 5px 14px;
-            background: var(--primary-glow);
-            border: 1px solid rgba(0,230,118,0.15);
-            border-radius: 20px;
-            font-size: 0.73rem;
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* ===== STATS RIBBON ===== */
-        .stats-ribbon {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 14px;
-            margin-bottom: 24px;
-        }
-
-        .stat-tile {
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            border-radius: var(--r-lg);
-            padding: 20px 22px;
-            display: flex; align-items: center; gap: 16px;
-            transition: all var(--t-norm);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .stat-tile::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, transparent 60%, var(--primary-glow) 100%);
-            opacity: 0;
-            transition: opacity var(--t-norm);
-        }
-
-        .stat-tile:hover::before { opacity: 1; }
-        .stat-tile:hover {
-            border-color: var(--border-light);
-            transform: translateY(-2px);
-            box-shadow: var(--s-md);
-        }
-
-        .stat-glyph {
-            position: relative; z-index: 1;
-            width: 48px; height: 48px;
-            border-radius: var(--r-md);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.3rem; flex-shrink: 0;
-        }
-
-        .stat-glyph.g { background: rgba(0,230,118,0.08); }
-        .stat-glyph.b { background: rgba(66,165,245,0.08); }
-        .stat-glyph.o { background: rgba(255,183,77,0.08); }
-        .stat-glyph.p { background: rgba(124,77,255,0.08); }
-        .stat-glyph.r { background: rgba(239,83,80,0.08); }
-
-        .stat-data { position: relative; z-index: 1; }
-        .stat-num {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.45rem; font-weight: 700;
-            color: var(--text-0); line-height: 1.2;
-        }
-        .stat-lbl {
-            font-size: 0.7rem; color: var(--text-3);
-            text-transform: uppercase; letter-spacing: 0.8px;
-            font-weight: 500;
-        }
+        /* ===== STATS ===== */
+        .stats-ribbon { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+        .stat-tile { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 20px; display: flex; align-items: center; gap: 16px; transition: var(--t-norm); }
+        .stat-tile:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--s-md); }
+        .stat-glyph { width: 44px; height: 44px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; background: var(--bg-3); color: var(--primary); }
+        .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; color: var(--text-0); line-height: 1.1; }
+        .stat-lbl { font-size: 0.7rem; color: var(--text-3); text-transform: uppercase; font-weight: 600; margin-top: 4px; }
 
         /* ===== SEARCH PANEL ===== */
-        .search-panel {
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            border-radius: var(--r-xl);
-            padding: 28px;
-            margin-bottom: 24px;
-            box-shadow: var(--s-md);
-            position: relative;
-            overflow: hidden;
-        }
+        .search-panel { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 24px; margin-bottom: 24px; box-shadow: var(--s-md); position: relative; }
+        .sp-header { display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center; }
+        .mode-switch { display: flex; background: var(--bg-1); padding: 4px; border-radius: var(--r-sm); border: 1px solid var(--border); }
+        .mode-btn { padding: 8px 20px; border: none; background: transparent; color: var(--text-3); font-weight: 600; border-radius: 6px; cursor: pointer; transition: var(--t-fast); }
+        .mode-btn.active { background: var(--primary); color: #000; box-shadow: 0 2px 10px rgba(0,230,118,0.3); }
+        
+        .search-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .field { position: relative; }
+        .field-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-4); z-index: 2; transition: var(--t-norm); }
+        .field input { width: 100%; background: var(--bg-1); border: 1px solid var(--border); color: var(--text-0); padding: 14px 40px 14px 44px; border-radius: var(--r-md); font-size: 15px; outline: none; transition: var(--t-norm); font-family: 'Inter', sans-serif; }
+        .field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); background: var(--bg-0); }
+        .field input:focus ~ .field-icon { color: var(--primary); }
+        .field-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; border: none; background: var(--bg-3); color: var(--text-2); cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 2; }
+        .field input:not(:placeholder-shown) ~ .field-clear { display: flex; }
+        .field-clear:hover { background: var(--danger); color: #fff; }
 
-        .search-panel::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--primary), transparent);
-            opacity: 0;
-            transition: opacity var(--t-norm);
-        }
+        /* CUSTOM SEASON DROPDOWN */
+        .season-dropdown { position: relative; }
+        .season-list { position: absolute; top: 100%; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--primary); border-radius: var(--r-md); margin-top: 8px; max-height: 280px; overflow-y: auto; z-index: 999; box-shadow: var(--s-lg); display: none; opacity: 0; transform: translateY(-10px); transition: all 0.2s ease; }
+        .season-list.show { display: block; opacity: 1; transform: translateY(0); }
+        .season-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background var(--t-fast); }
+        .season-item:last-child { border-bottom: none; }
+        .season-item:hover { background: var(--primary-glow); color: var(--text-0); }
+        .season-item img { width: 32px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
+        .season-item span { font-weight: 600; font-size: 14px; }
 
-        .search-panel:focus-within::before { opacity: 1; }
-
-        .sp-header {
-            display: flex; align-items: center;
-            justify-content: space-between;
-            margin-bottom: 18px;
-        }
-
-        .sp-title {
-            font-size: 0.88rem; font-weight: 600;
-            color: var(--text-2);
-            display: flex; align-items: center; gap: 10px;
-        }
-
-        .sp-title-dot {
-            width: 8px; height: 8px;
-            background: var(--primary);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--primary-glow-lg);
-        }
-
-        .mode-switch {
-            display: flex;
-            background: var(--bg-1);
-            border-radius: var(--r-sm);
-            padding: 3px; gap: 2px;
-            border: 1px solid var(--border);
-        }
-
-        .mode-btn {
-            padding: 7px 18px;
-            border-radius: 5px;
-            border: none;
-            background: transparent;
-            color: var(--text-3);
-            font-size: 0.78rem; font-weight: 600;
-            cursor: pointer;
-            transition: all var(--t-fast);
-            font-family: 'Inter', sans-serif;
-            white-space: nowrap;
-        }
-
-        .mode-btn.active {
-            background: var(--primary);
-            color: #000;
-            box-shadow: 0 2px 10px rgba(0,230,118,0.3);
-        }
-
-        .mode-btn:not(.active):hover {
-            color: var(--text-1);
-            background: rgba(255,255,255,0.04);
-        }
-
-        .search-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 14px;
-        }
-
-        .field {
-            position: relative;
-        }
-
-        .field-icon {
-            position: absolute; left: 15px; top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.95rem; color: var(--text-4);
-            pointer-events: none; z-index: 2;
-            transition: all var(--t-norm);
-        }
-
-        .field input {
-            width: 100%;
-            background: var(--bg-1);
-            border: 1.5px solid var(--border);
-            color: var(--text-0);
-            padding: 14px 38px 14px 44px;
-            border-radius: var(--r-md);
-            font-size: 14px;
-            font-family: 'Inter', sans-serif;
-            outline: none;
-            transition: all var(--t-norm);
-        }
-
-        .field input::placeholder { color: var(--text-4); }
-
-        .field input:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px var(--primary-glow);
-            background: rgba(0,230,118,0.02);
-        }
-
-        .field input:focus ~ .field-icon {
-            color: var(--primary);
-            transform: translateY(-50%) scale(1.1);
-        }
-
-        .field-clear {
-            position: absolute; right: 10px; top: 50%;
-            transform: translateY(-50%);
-            width: 26px; height: 26px;
-            border-radius: 50%; border: none;
-            background: var(--bg-4);
-            color: var(--text-2);
-            cursor: pointer;
-            display: none;
-            align-items: center; justify-content: center;
-            font-size: 0.65rem; z-index: 2;
-            transition: all var(--t-fast);
-        }
-
-        .field-clear:hover {
-            background: var(--danger);
-            color: #fff;
-        }
-
-        .field input:not(:placeholder-shown) ~ .field-clear {
-            display: flex;
-        }
-
-        .search-hint {
-            margin-top: 16px;
-            padding: 12px 16px;
-            background: rgba(0,230,118,0.03);
-            border: 1px solid rgba(0,230,118,0.08);
-            border-radius: var(--r-sm);
-            font-size: 0.75rem;
-            color: var(--text-3);
-            line-height: 1.7;
-            display: flex; align-items: flex-start; gap: 10px;
-        }
-
-        .search-hint kbd {
-            background: rgba(255,255,255,0.06);
-            padding: 1px 6px;
-            border-radius: 3px;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--primary);
-            border: 1px solid rgba(0,230,118,0.15);
-            font-size: 0.72rem;
-        }
-
-        .recent-bar {
-            display: flex; align-items: center;
-            gap: 8px; margin-top: 14px;
-            flex-wrap: wrap;
-        }
-
-        .recent-lbl {
-            font-size: 0.7rem; color: var(--text-4);
-            font-weight: 500;
-        }
-
-        .recent-chip {
-            padding: 4px 12px;
-            background: var(--bg-1);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 0.72rem;
-            color: var(--text-3);
-            cursor: pointer;
-            transition: all var(--t-fast);
-        }
-
-        .recent-chip:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-glow);
-        }
-
-        /* ===== TABLE PANEL ===== */
-        .table-panel {
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            border-radius: var(--r-xl);
-            overflow: hidden;
-            box-shadow: var(--s-md);
-        }
-
-        .tb-toolbar {
-            display: flex; align-items: center;
-            justify-content: space-between;
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(255,255,255,0.008);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .tb-info {
-            font-size: 0.82rem; color: var(--text-2);
-            font-weight: 500;
-        }
-
-        .tb-info strong {
-            color: var(--primary);
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .tb-actions {
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .tb-btn {
-            padding: 7px 16px;
-            border-radius: var(--r-sm);
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-3);
-            font-size: 0.76rem; font-weight: 500;
-            cursor: pointer;
-            font-family: 'Inter', sans-serif;
-            display: flex; align-items: center; gap: 6px;
-            transition: all var(--t-fast);
-            white-space: nowrap;
-        }
-
-        .tb-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-glow);
-        }
-
+        /* ===== TABLE ===== */
+        .table-panel { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--s-md); }
         .tb-scroll { overflow-x: auto; }
-
         table { width: 100%; border-collapse: collapse; }
+        th { background: var(--bg-1); padding: 16px 24px; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); font-weight: 700; border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap; user-select: none; }
+        th:hover { color: var(--primary); }
+        td { padding: 14px 24px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+        tr:hover { background: var(--bg-3); }
+        
+        /* OVR BADGE */
+        .ovr-badge { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 8px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #fff; box-shadow: var(--s-sm); text-shadow: 0 1px 2px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); }
+        .ovr-120 { background: linear-gradient(135deg, #ffb300, #f57c00); box-shadow: 0 0 10px rgba(255,152,0,0.3); } /* Gold */
+        .ovr-110 { background: linear-gradient(135deg, #e040fb, #aa00ff); box-shadow: 0 0 10px rgba(170,0,255,0.3); } /* Purple */
+        .ovr-100 { background: linear-gradient(135deg, #f06292, #d81b60); } /* Pink/Red */
+        .ovr-90  { background: linear-gradient(135deg, #4dd0e1, #0097a7); } /* Blue */
+        .ovr-low { background: linear-gradient(135deg, #78909c, #455a64); } /* Gray */
 
-        th {
-            background: var(--bg-1);
-            padding: 13px 22px;
-            text-align: left;
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 1.3px;
-            color: var(--text-4);
-            font-weight: 600;
-            border-bottom: 1px solid var(--border);
-            position: sticky; top: 0;
-            user-select: none;
-            cursor: pointer;
-            transition: color var(--t-fast);
-            white-space: nowrap;
-        }
+        .spid-code { font-family: 'JetBrains Mono', monospace; color: var(--primary); background: var(--primary-glow); padding: 6px 12px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: var(--t-fast); border: 1px solid transparent; }
+        .spid-code:hover { background: var(--primary-glow-md); border-color: var(--primary); transform: translateY(-1px); }
+        .spid-code:active { transform: scale(0.95); }
+        
+        .player-row { display: flex; align-items: center; gap: 16px; }
+        .avatar-wrap { width: 52px; height: 52px; position: relative; flex-shrink: 0; }
+        .avatar-img { width: 100%; height: 100%; border-radius: 8px; object-fit: contain; object-position: top; background: transparent; transition: transform var(--t-norm); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
+        tr:hover .avatar-img { transform: scale(1.15); }
+        .player-name { font-weight: 700; color: var(--text-0); font-size: 15px; }
+        .player-pid { font-size: 11px; color: var(--text-4); font-family: 'JetBrains Mono', monospace; margin-top: 2px;}
+        
+        .season-cell { display: flex; align-items: center; gap: 12px; }
+        .season-img { width: 34px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+        .season-label { font-weight: 600; font-size: 14px; color: var(--text-1); }
 
-        th:hover { color: var(--text-2); }
-
-        th .sort-ico {
-            font-size: 0.6rem;
-            margin-left: 4px;
-            opacity: 0.4;
-            transition: opacity var(--t-fast);
-        }
-
-        td {
-            padding: 14px 22px;
-            border-bottom: 1px solid rgba(255,255,255,0.025);
-            font-size: 14px;
-            vertical-align: middle;
-        }
-
-        tr {
-            transition: background var(--t-fast);
-            cursor: pointer;
-        }
-
-        tbody tr:hover {
-            background: rgba(255,255,255,0.02);
-        }
-
-        tbody tr:active {
-            background: rgba(0,230,118,0.025);
-        }
-
-        /* ===== SPID CELL ===== */
-        .spid-cell {
-            display: flex; align-items: center; gap: 8px;
-        }
-
-        .spid-code {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--primary);
-            background: var(--primary-glow);
-            padding: 5px 12px;
-            border-radius: var(--r-sm);
-            font-size: 0.84em;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all var(--t-fast);
-            border: 1px solid transparent;
-            user-select: all;
-            position: relative;
-        }
-
-        .spid-code:hover {
-            background: var(--primary-glow-md);
-            border-color: rgba(0,230,118,0.25);
-            box-shadow: 0 2px 12px rgba(0,230,118,0.15);
-            transform: translateY(-1px);
-        }
-
-        .spid-code:active {
-            transform: scale(0.97);
-        }
-
-        .copy-icon {
-            width: 30px; height: 30px;
-            border-radius: var(--r-xs);
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-4);
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.78rem;
-            transition: all var(--t-fast);
-            opacity: 0;
-            flex-shrink: 0;
-        }
-
-        tr:hover .copy-icon { opacity: 1; }
-
-        .copy-icon:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-glow);
-        }
-
-        .copy-icon.done {
-            border-color: var(--success);
-            color: var(--success);
-            background: rgba(102,187,106,0.1);
-        }
-
-        /* ===== PLAYER CELL ===== */
-        .player-row {
-            display: flex; align-items: center; gap: 14px;
-        }
-
-        .avatar-wrap {
-            width: 48px; height: 48px;
-            position: relative; flex-shrink: 0;
-        }
-
-        .avatar-img {
-            width: 100%; height: 100%;
-            border-radius: var(--r-sm);
-            object-fit: cover;
-            background: linear-gradient(135deg, var(--bg-3), var(--bg-1));
-            border: 2px solid var(--border);
-            box-shadow: var(--s-sm);
-            transition: all var(--t-norm);
-        }
-
-        tr:hover .avatar-img {
-            border-color: var(--border-light);
-            box-shadow: 0 4px 14px rgba(0,0,0,0.4);
-        }
-
-        .avatar-img.action-img {
-            object-fit: contain;
-            object-position: top center;
-            background: transparent;
-            border: none; box-shadow: none;
-        }
-
-        .avatar-fallback {
-            width: 100%; height: 100%;
-            border-radius: var(--r-sm);
-            background: linear-gradient(135deg, var(--bg-3), var(--bg-1));
-            border: 2px solid var(--border);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 18px; color: var(--text-4);
-        }
-
-        .player-meta { display: flex; flex-direction: column; }
-
-        .player-name {
-            font-weight: 600;
-            color: var(--text-1);
-            font-size: 0.9rem;
-            line-height: 1.3;
-        }
-
-        .player-pid {
-            font-size: 0.68rem;
-            color: var(--text-4);
-            font-family: 'JetBrains Mono', monospace;
-            margin-top: 1px;
-        }
-
-        .hl {
-            color: var(--primary);
-            background: var(--primary-glow);
-            padding: 0 2px;
-            border-radius: 2px;
-        }
-
-        /* ===== SEASON CELL ===== */
-        .season-cell {
-            display: flex; align-items: center; gap: 10px;
-        }
-
-        .season-img {
-            width: 30px; height: auto;
-            object-fit: contain;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.3));
-            transition: transform var(--t-fast);
-        }
-
-        tr:hover .season-img { transform: scale(1.12); }
-
-        .season-label {
-            font-size: 0.8rem; font-weight: 500;
-            color: var(--text-2);
-        }
-
-        /* ===== LOADING ===== */
-        .load-area {
-            padding: 64px 20px;
-            text-align: center;
-        }
-
-        .spinner {
-            width: 48px; height: 48px;
-            border: 3px solid var(--border);
-            border-top-color: var(--primary);
-            border-radius: 50%;
-            animation: spin 0.7s linear infinite;
-            margin: 0 auto 20px;
-        }
-
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        .load-text { color: var(--text-2); font-size: 0.9rem; font-weight: 500; }
-        .load-sub { color: var(--text-4); font-size: 0.76rem; margin-top: 6px; }
-
-        /* ===== EMPTY STATE ===== */
-        .empty {
-            padding: 64px 20px;
-            text-align: center;
-        }
-
-        .empty-ico {
-            font-size: 3.2rem; margin-bottom: 18px;
-            filter: grayscale(0.3);
-        }
-
-        .empty-title {
-            font-size: 1.15rem; font-weight: 700;
-            color: var(--text-2); margin-bottom: 8px;
-        }
-
-        .empty-desc {
-            font-size: 0.82rem; color: var(--text-3);
-            line-height: 1.7;
-        }
-
-        /* ===== PAGINATION ===== */
-        .pager {
-            display: flex; align-items: center; justify-content: center;
-            gap: 6px; padding: 20px;
-            border-top: 1px solid var(--border);
-        }
-
-        .pg-btn {
-            min-width: 38px; height: 38px;
-            border-radius: var(--r-sm);
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-2);
-            cursor: pointer;
-            font-size: 0.82rem; font-weight: 500;
-            font-family: 'Inter', sans-serif;
-            transition: all var(--t-fast);
-            display: flex; align-items: center; justify-content: center;
-            padding: 0 10px;
-        }
-
-        .pg-btn:hover:not(:disabled) {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-glow);
-        }
-
-        .pg-btn.cur {
-            background: var(--primary);
-            color: #000;
-            border-color: var(--primary);
-            font-weight: 700;
-            box-shadow: 0 2px 10px rgba(0,230,118,0.3);
-        }
-
+        /* ===== PAGINATION & EXTRAS ===== */
+        .pager { display: flex; justify-content: center; padding: 20px; gap: 8px; flex-wrap: wrap; }
+        .pg-btn { min-width: 40px; height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-1); color: var(--text-2); font-weight: 600; cursor: pointer; transition: var(--t-fast); }
+        .pg-btn:hover:not(:disabled) { background: var(--primary); color: #000; border-color: var(--primary); }
+        .pg-btn.cur { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 2px 8px rgba(0,230,118,0.3); }
         .pg-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
-        .pg-info {
-            font-size: 0.76rem; color: var(--text-4);
-            margin: 0 10px; font-weight: 500;
-        }
+        .hl { color: var(--primary); background: var(--primary-glow); padding: 0 4px; border-radius: 4px; font-weight: bold; }
+        .empty { padding: 80px 20px; text-align: center; }
+        .empty-ico { font-size: 48px; margin-bottom: 16px; opacity: 0.5; filter: grayscale(1); }
+        .empty-title { font-size: 18px; font-weight: 700; color: var(--text-1); }
+        .empty-desc { color: var(--text-3); font-size: 14px; margin-top: 8px; }
 
-        /* ===== MODAL ===== */
-        .modal-bg {
-            position: fixed; inset: 0;
-            background: rgba(0,0,0,0.65);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 1000;
-            display: flex; align-items: center; justify-content: center;
-            opacity: 0; visibility: hidden;
-            transition: all var(--t-norm);
-            padding: 20px;
-        }
+        /* Toast Notification */
+        .toast-area { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column-reverse; gap: 10px; pointer-events: none; }
+        .toast { padding: 12px 20px; background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--primary); border-left: 4px solid var(--primary); border-radius: var(--r-sm); color: #fff; font-weight: 500; font-size: 14px; box-shadow: var(--s-md); animation: slideIn 0.3s ease forwards; pointer-events: auto; }
+        .toast.fade-out { animation: fadeOut 0.3s ease forwards; }
+        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
 
-        .modal-bg.on { opacity: 1; visibility: visible; }
-
-        .modal-box {
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            border-radius: var(--r-2xl);
-            padding: 36px;
-            max-width: 520px; width: 100%;
-            box-shadow: var(--s-lg);
-            transform: scale(0.92) translateY(20px);
-            transition: transform var(--t-slow);
-        }
-
-        .modal-bg.on .modal-box {
-            transform: scale(1) translateY(0);
-        }
-
-        .modal-top {
-            display: flex; align-items: flex-start;
-            justify-content: space-between;
-            margin-bottom: 28px;
-        }
-
-        .modal-player {
-            display: flex; align-items: center; gap: 18px;
-        }
-
-        .modal-avatar {
-            width: 80px; height: 80px;
-            border-radius: var(--r-md);
-            object-fit: cover;
-            border: 2px solid var(--border);
-        }
-
-        .modal-avatar.action-img {
-            object-fit: contain; object-position: top center;
-            background: transparent; border: none;
-        }
-
-        .modal-pname {
-            font-size: 1.5rem; font-weight: 800;
-            letter-spacing: -0.5px;
-            line-height: 1.2;
-        }
-
-        .modal-season {
-            display: flex; align-items: center;
-            gap: 8px; margin-top: 8px;
-        }
-
-        .modal-season img { width: 28px; }
-        .modal-season span { font-size: 0.85rem; color: var(--text-2); }
-
-        .modal-x {
-            width: 34px; height: 34px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-3);
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1rem;
-            transition: all var(--t-fast);
-            flex-shrink: 0;
-        }
-
-        .modal-x:hover {
-            background: var(--danger);
-            border-color: var(--danger);
-            color: #fff;
-        }
-
-        .modal-grid {
-            display: grid; grid-template-columns: 1fr 1fr;
-            gap: 12px; margin-bottom: 24px;
-        }
-
-        .modal-cell {
-            background: var(--bg-1);
-            border: 1px solid var(--border);
-            border-radius: var(--r-sm);
-            padding: 16px;
-            transition: all var(--t-fast);
-        }
-
-        .modal-cell:hover {
-            border-color: var(--border-light);
-        }
-
-        .modal-cell-lbl {
-            font-size: 0.68rem; color: var(--text-4);
-            text-transform: uppercase; letter-spacing: 0.8px;
-            margin-bottom: 5px; font-weight: 500;
-        }
-
-        .modal-cell-val {
-            font-size: 1rem; font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        .modal-cell-val.copyable {
-            cursor: pointer;
-            color: var(--primary);
-            transition: all var(--t-fast);
-        }
-
-        .modal-cell-val.copyable:hover {
-            text-decoration: underline;
-        }
-
-        .modal-btns {
-            display: flex; gap: 10px;
-        }
-
-        .modal-btn {
-            flex: 1;
-            padding: 14px;
-            border-radius: var(--r-md);
-            border: 1px solid var(--border);
-            background: transparent;
-            color: var(--text-2);
-            cursor: pointer;
-            font-size: 0.84rem; font-weight: 600;
-            font-family: 'Inter', sans-serif;
-            display: flex; align-items: center; justify-content: center;
-            gap: 8px;
-            transition: all var(--t-fast);
-        }
-
-        .modal-btn:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-glow);
-        }
-
-        .modal-btn.filled {
-            background: var(--primary);
-            color: #000;
-            border-color: var(--primary);
-            font-weight: 700;
-        }
-
-        .modal-btn.filled:hover {
-            background: var(--primary-dark);
-            box-shadow: 0 4px 16px rgba(0,230,118,0.3);
-        }
-
-        /* ===== TOAST ===== */
-        .toast-area {
-            position: fixed; bottom: 24px; right: 24px;
-            z-index: 10000;
-            display: flex; flex-direction: column-reverse;
-            gap: 8px; pointer-events: none;
-        }
-
-        .toast {
-            display: flex; align-items: center; gap: 12px;
-            padding: 14px 22px;
-            background: var(--glass);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: var(--r-md);
-            box-shadow: var(--s-lg);
-            animation: toastSlide 0.35s var(--t-spring) forwards;
-            pointer-events: auto;
-            min-width: 300px;
-        }
-
-        .toast.ok { border-left: 3px solid var(--success); }
-        .toast.err { border-left: 3px solid var(--danger); }
-        .toast.nfo { border-left: 3px solid var(--info); }
-
-        .toast-msg { font-size: 0.84rem; color: var(--text-0); font-weight: 500; }
-        .toast-detail { font-size: 0.72rem; color: var(--text-3); margin-top: 2px; }
-
-        .toast.bye { animation: toastBye 0.3s ease forwards; }
-
-        @keyframes toastSlide {
-            from { opacity: 0; transform: translateX(50px) scale(0.95); }
-            to { opacity: 1; transform: translateX(0) scale(1); }
-        }
-        @keyframes toastBye {
-            from { opacity: 1; transform: translateX(0) scale(1); }
-            to { opacity: 0; transform: translateX(50px) scale(0.95); }
-        }
-
-        /* ===== SCROLL TOP ===== */
-        .to-top {
-            position: fixed; bottom: 24px; left: 24px;
-            width: 46px; height: 46px;
-            border-radius: 50%;
-            border: 1px solid var(--border);
-            background: var(--glass);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            color: var(--text-2);
-            cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
-            box-shadow: var(--s-md);
-            transition: all var(--t-norm);
-            opacity: 0; transform: translateY(20px);
-            pointer-events: none; z-index: 100;
-        }
-
-        .to-top.show {
-            opacity: 1; transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .to-top:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: var(--primary-glow);
-            transform: translateY(-3px);
-            box-shadow: var(--s-glow);
-        }
-
-        /* ===== FOOTER ===== */
-        .footer {
-            max-width: 1320px; margin: 48px auto 20px;
-            padding: 24px 28px;
-            border-top: 1px solid var(--border);
-            text-align: center;
-        }
-
-        .footer p {
-            font-size: 0.73rem; color: var(--text-4);
-            line-height: 2;
-        }
-
-        .footer a {
-            color: var(--primary);
-            text-decoration: none;
-        }
-
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 900px) {
+        /* Responsive */
+        @media (max-width: 768px) {
+            .search-row { grid-template-columns: 1fr; gap: 12px; }
             .hero h1 { font-size: 1.8rem; }
-            .search-row { grid-template-columns: 1fr 1fr; }
             .stats-ribbon { grid-template-columns: repeat(2, 1fr); }
-        }
-
-        @media (max-width: 640px) {
-            .main { padding: 16px; }
-            .header-inner { padding: 0 16px; height: 56px; }
-            .logo-sub, .kbd-badge { display: none; }
-            .hero h1 { font-size: 1.5rem; }
-            .hero p { font-size: 0.88rem; }
-            .search-panel { padding: 18px; }
-            .search-row { grid-template-columns: 1fr; }
-            .stats-ribbon { grid-template-columns: 1fr 1fr; gap: 8px; }
-            .stat-tile { padding: 14px; }
-            .stat-num { font-size: 1.2rem; }
-            .avatar-wrap { width: 40px; height: 40px; }
-            td, th { padding: 10px 14px; }
-            .copy-icon { opacity: 1; }
-            .modal-box { padding: 24px; }
-            .modal-grid { grid-template-columns: 1fr; }
-            .modal-btns { flex-direction: column; }
-            .tb-toolbar { flex-direction: column; align-items: flex-start; }
+            th, td { padding: 12px 16px; }
         }
     </style>
 </head>
 <body>
 
-<div class="bg-ambient"></div>
-<div class="bg-grid"></div>
-<div class="bg-noise"></div>
+<div class="bg-ambient"></div><div class="bg-grid"></div>
 
-<!-- ===== HEADER ===== -->
 <header class="header">
     <div class="header-inner">
         <a class="logo" onclick="location.reload()">
             <div class="logo-glyph">⚽</div>
-            <div class="logo-label">
+            <div>
                 <span class="logo-title">FC Online Database</span>
-                <span class="logo-sub">Player Search Engine</span>
+                <span class="logo-sub">Pro Search Engine</span>
             </div>
         </a>
         <div class="header-right">
-            <div class="visitor-badge" title="Số người truy cập hôm nay (unique IP)">
+            <div class="visitor-badge" title="Đã reset lúc 0h sáng (Giờ VN)">
                 <div class="visitor-dot"></div>
-                <span style="font-size:0.72rem">Hôm nay:</span>
-                <span class="visitor-count" id="visitorCount">—</span>
-                <span style="font-size:0.72rem">người</span>
+                <span>Hôm nay:</span>
+                <span class="visitor-count" id="visitorCount">...</span>
+                <span>khách</span>
             </div>
-            <div class="kbd-badge">
-                <kbd>/</kbd> Tìm nhanh
-                <kbd>Esc</kbd> Xóa
-            </div>
-            <button class="icon-btn" onclick="toggleFS()" title="Toàn màn hình">⛶</button>
         </div>
     </div>
 </header>
 
 <main class="main">
-
-    <!-- ===== HERO ===== -->
     <section class="hero">
         <h1>Tra cứu cầu thủ FC Online</h1>
-        <p>Tìm SPID, tên cầu thủ, mùa giải — nhanh chóng, chính xác, không cần đăng nhập.</p>
-        <div class="hero-tag">
-            <span>🔥</span>
-            <span>Cập nhật đến Season mới nhất</span>
-        </div>
+        <p>Tìm kiếm thông minh ưu tiên chỉ số (OVR). Dữ liệu cập nhật liên tục.</p>
     </section>
 
-    <!-- ===== STATS ===== -->
     <div class="stats-ribbon">
-        <div class="stat-tile">
-            <div class="stat-glyph g">👤</div>
-            <div class="stat-data">
-                <div class="stat-num" id="sTotalPlayers">—</div>
-                <div class="stat-lbl">Tổng cầu thủ</div>
-            </div>
-        </div>
-        <div class="stat-tile">
-            <div class="stat-glyph b">🏆</div>
-            <div class="stat-data">
-                <div class="stat-num" id="sTotalSeasons">—</div>
-                <div class="stat-lbl">Mùa giải</div>
-            </div>
-        </div>
-        <div class="stat-tile">
-            <div class="stat-glyph o">🔍</div>
-            <div class="stat-data">
-                <div class="stat-num" id="sSearches">0</div>
-                <div class="stat-lbl">Lượt tìm kiếm</div>
-            </div>
-        </div>
-        <div class="stat-tile">
-            <div class="stat-glyph p">📋</div>
-            <div class="stat-data">
-                <div class="stat-num" id="sCopies">0</div>
-                <div class="stat-lbl">Đã copy</div>
-            </div>
-        </div>
-        <div class="stat-tile">
-            <div class="stat-glyph r">👁️</div>
-            <div class="stat-data">
-                <div class="stat-num" id="sVisitors">—</div>
-                <div class="stat-lbl">Khách hôm nay</div>
-            </div>
-        </div>
+        <div class="stat-tile"><div class="stat-glyph">👤</div><div><div class="stat-num" id="sTotalPlayers">—</div><div class="stat-lbl">Cầu thủ</div></div></div>
+        <div class="stat-tile"><div class="stat-glyph" style="color:var(--warning)">🏆</div><div><div class="stat-num" id="sTotalSeasons">—</div><div class="stat-lbl">Mùa giải</div></div></div>
+        <div class="stat-tile"><div class="stat-glyph" style="color:var(--info)">🔍</div><div><div class="stat-num" id="sSearches">0</div><div class="stat-lbl">Lượt tìm</div></div></div>
     </div>
 
-    <!-- ===== SEARCH ===== -->
     <div class="search-panel">
         <div class="sp-header">
-            <div class="sp-title">
-                <div class="sp-title-dot"></div>
-                Tìm kiếm nâng cao
-            </div>
+            <h3 style="font-size:16px; display:flex; align-items:center; gap:8px;">
+                <span style="width:8px;height:8px;background:var(--primary);border-radius:50%;box-shadow:0 0 10px var(--primary);"></span> Tìm kiếm Nâng cao
+            </h3>
             <div class="mode-switch">
-                <button class="mode-btn active" id="mNameBtn" onclick="setMode('name')">Theo tên</button>
+                <button class="mode-btn active" id="mNameBtn" onclick="setMode('name')">Theo Tên</button>
                 <button class="mode-btn" id="mSpidBtn" onclick="setMode('spid')">Theo SPID</button>
             </div>
         </div>
@@ -1254,630 +223,523 @@
         <div class="search-row" id="searchRow">
             <div class="field" id="fName">
                 <span class="field-icon">👤</span>
-                <input type="text" id="inName" placeholder="Tên cầu thủ (VD: mbappe, son heung...)" oninput="debouncedFilter()" autocomplete="off">
+                <input type="text" id="inName" placeholder="Tên cầu thủ (VD: ronaldo, gullit...)" oninput="debouncedFilter()" autocomplete="off">
                 <button class="field-clear" onclick="clrIn('inName')">✕</button>
             </div>
             <div class="field" id="fSpid" style="display:none;">
                 <span class="field-icon">🔢</span>
-                <input type="text" id="inSpid" placeholder="SPID (VD: 300209658)" oninput="debouncedFilter()" autocomplete="off">
+                <input type="text" id="inSpid" placeholder="Nhập SPID (VD: 300209658)" oninput="debouncedFilter()" autocomplete="off">
                 <button class="field-clear" onclick="clrIn('inSpid')">✕</button>
             </div>
-            <div class="field" id="fSeason">
+            
+            <!-- CUSTOM SEASON DROPDOWN -->
+            <div class="field season-dropdown" id="fSeason">
                 <span class="field-icon">🏆</span>
-                <input type="text" id="inSeason" list="dlSeason" placeholder="Mùa thẻ (VD: 25LIVE, ICON...)" oninput="debouncedFilter()" autocomplete="off">
+                <input type="text" id="inSeason" placeholder="Chọn hoặc gõ mùa thẻ..." autocomplete="off" onfocus="showSeasonList()" oninput="filterSeasonList()">
                 <button class="field-clear" onclick="clrIn('inSeason')">✕</button>
-                <datalist id="dlSeason"></datalist>
+                <div class="season-list" id="seasonList"></div>
             </div>
+            
             <div class="field" id="fPid">
                 <span class="field-icon">#️⃣</span>
-                <input type="text" id="inPid" placeholder="PID cầu thủ (VD: 209658)" oninput="debouncedFilter()" autocomplete="off">
+                <input type="text" id="inPid" placeholder="PID gốc (VD: 209658)" oninput="debouncedFilter()" autocomplete="off">
                 <button class="field-clear" onclick="clrIn('inPid')">✕</button>
             </div>
         </div>
-
-        <div class="search-hint">
-            <span style="font-size:1rem;flex-shrink:0;">💡</span>
-            <div>
-                Gõ không dấu: <kbd>hulsmann</kbd> → Hülsmann · <kbd>mbappe</kbd> → Mbappé ·
-                Tìm SPID: tab <b>Theo SPID</b> ·
-                Bấm vào <span style="color:var(--primary)">mã xanh</span> để copy nhanh
-            </div>
-        </div>
-
-        <div class="recent-bar" id="recentBar" style="display:none;">
-            <span class="recent-lbl">🕐 Gần đây:</span>
-        </div>
     </div>
 
-    <!-- ===== TABLE ===== -->
     <div class="table-panel">
-        <div class="tb-toolbar" id="toolbar" style="display:none;">
-            <span class="tb-info" id="tbInfo"></span>
-            <div class="tb-actions">
-                <button class="tb-btn" onclick="exportCSV()">📥 Xuất CSV</button>
-                <button class="tb-btn" onclick="copyAllSpids()">📋 Copy tất cả</button>
-            </div>
-        </div>
-
-        <div id="loadArea">
-            <div class="load-area">
-                <div class="spinner"></div>
-                <div class="load-text">Đang tải cơ sở dữ liệu cầu thủ</div>
-                <div class="load-sub">Vui lòng chờ trong giây lát...</div>
-            </div>
-        </div>
-
         <div class="tb-scroll">
             <table>
                 <thead id="tHead" style="display:none;">
                     <tr>
-                        <th style="width:170px;" onclick="changeSort('spid')">SPID <span class="sort-ico" id="siSpid"></span></th>
-                        <th onclick="changeSort('name')">Cầu thủ <span class="sort-ico" id="siName"></span></th>
-                        <th style="width:220px;" onclick="changeSort('season')">Mùa giải <span class="sort-ico" id="siSeason"></span></th>
+                        <th style="width:90px; text-align:center;" onclick="changeSort('ovr')" title="Sắp xếp theo Chỉ số">OVR <span id="siOvr" style="color:var(--primary)">▲</span></th>
+                        <th style="width:180px;" onclick="changeSort('spid')" title="Sắp xếp theo SPID">SPID <span id="siSpid"></span></th>
+                        <th onclick="changeSort('name')" title="Sắp xếp theo Tên">Cầu thủ <span id="siName"></span></th>
+                        <th style="width:250px;" onclick="changeSort('season')" title="Sắp xếp theo Mùa">Mùa giải <span id="siSeason"></span></th>
                     </tr>
                 </thead>
                 <tbody id="tBody"></tbody>
             </table>
         </div>
-
         <div class="pager" id="pager" style="display:none;"></div>
     </div>
-
 </main>
 
-<footer class="footer">
-    <p>
-        FC Online Player Database — Enterprise Edition<br>
-        Bấm SPID để copy · Phím <kbd style="background:var(--bg-3);padding:1px 6px;border-radius:3px;border:1px solid var(--border);color:var(--text-3);font-family:monospace;font-size:0.7rem;">/</kbd> tìm nhanh ·
-        Dữ liệu cập nhật tự động
-    </p>
-</footer>
-
-<!-- Toast -->
 <div class="toast-area" id="toastArea"></div>
-<!-- Scroll Top -->
-<button class="to-top" id="toTopBtn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
-
-<!-- Modal -->
-<div class="modal-bg" id="modal" onclick="if(event.target===this)closeModal()">
-    <div class="modal-box">
-        <div class="modal-top">
-            <div class="modal-player">
-                <div class="avatar-wrap" style="width:80px;height:80px;">
-                    <img id="mdAvatar" class="modal-avatar action-img" src="" alt="">
-                </div>
-                <div>
-                    <div class="modal-pname" id="mdName"></div>
-                    <div class="modal-season" id="mdSeason"></div>
-                </div>
-            </div>
-            <button class="modal-x" onclick="closeModal()">✕</button>
-        </div>
-        <div class="modal-grid">
-            <div class="modal-cell">
-                <div class="modal-cell-lbl">SPID</div>
-                <div class="modal-cell-val copyable" id="mdSpid" onclick="doCopy(this.textContent,'SPID')"></div>
-            </div>
-            <div class="modal-cell">
-                <div class="modal-cell-lbl">Player ID</div>
-                <div class="modal-cell-val copyable" id="mdPid" onclick="doCopy(this.textContent,'PID')"></div>
-            </div>
-            <div class="modal-cell">
-                <div class="modal-cell-lbl">Season ID</div>
-                <div class="modal-cell-val" id="mdSid"></div>
-            </div>
-            <div class="modal-cell">
-                <div class="modal-cell-lbl">Mùa giải</div>
-                <div class="modal-cell-val" id="mdSname"></div>
-            </div>
-        </div>
-        <div class="modal-btns">
-            <button class="modal-btn" onclick="copyInfo()">📋 Copy thông tin</button>
-            <button class="modal-btn filled" onclick="doCopy(document.getElementById('mdSpid').textContent,'SPID')">📎 Copy SPID</button>
-        </div>
-    </div>
-</div>
 
 <script>
 // =====================================================
-// SEASONS DATA
+// DATA & STATE (FULL SEASONS)
 // =====================================================
-const seasons=[{"seasonId":100,"className":"ICONTM","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm.png"},{"seasonId":866,"className":"26 TOTS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26tots.png"},{"seasonId":861,"className":"WG","seasonImg" : "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/wg.png"},{"seasonId":863,"className":"PTG","seasonImg" :"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ptg.png"},{"seasonId":110,"className":"ICON TM(Bound)","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm_b.png"},{"seasonId":101,"className":"ICON","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icon.png"},{"seasonId":113,"className":"25IM - S&P","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25im_sp.png"},{"seasonId":114,"className":"25IM - FB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25im_fb.png"},{"seasonId":111,"className":"ICONS MATCH","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/filter/icon_m.png"},{"seasonId":852,"className":"FAC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/fac.png"},{"seasonId":851,"className":"25DP","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25dp.png"},{"seasonId":848,"className":"WS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ws.png"},{"seasonId":850,"className":"25FSL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25fsl.png"},{"seasonId":846,"className":"DCB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/dcb.png"},{"seasonId":845,"className":"CH","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ch.png"},{"seasonId":849,"className":"HRT","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/hrt.png"},{"seasonId":840,"className":"LE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/le.png"},{"seasonId":839,"className":"NO7","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/no7.png"},{"seasonId":836,"className":"WB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/wb.png"},{"seasonId":829,"className":"GRU","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/gru.png"},{"seasonId":828,"className":"BLD","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/bld.png"},{"seasonId":827,"className":"BDO","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/bdo.png"},{"seasonId":826,"className":"24EP","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24ep.png"},{"seasonId":825,"className":"CU","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/cu.png"},{"seasonId":821,"className":"MDL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mdl.png"},{"seasonId":815,"className":"EU24","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/eu24.png"},{"seasonId":818,"className":"LD","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ld.png"},{"seasonId":814,"className":"UT","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ut.png"},{"seasonId":813,"className":"JNM","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/jnm.png"},{"seasonId":802,"className":"DC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/dc.png"},{"seasonId":801,"className":"JA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/jva.png"},{"seasonId":290,"className":"FC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/fca.png"},{"seasonId":291,"className":"23HW","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23hw.png"},{"seasonId":289,"className":"CC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/cc.png"},{"seasonId":283,"className":"HG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/hg.png"},{"seasonId":284,"className":"RTN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/rtn.png"},{"seasonId":272,"className":"BWC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/bwc.png"},{"seasonId":273,"className":"WC22","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/wc22.png"},{"seasonId":274,"className":"RMFC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/rmcf.png"},{"seasonId":270,"className":"SPL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/spl.png"},{"seasonId":268,"className":"LN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ln.png"},{"seasonId":265,"className":"LOL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/lol.png"},{"seasonId":264,"className":"FA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/fa.png"},{"seasonId":835,"className":"25HR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25hr.png"},{"seasonId":811,"className":"24HR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24hr.png"},{"seasonId":281,"className":"23HR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23hr.png"},{"seasonId":261,"className":"22HR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22hr.png"},{"seasonId":256,"className":"BTB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/btb.png"},{"seasonId":252,"className":"CAP","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/cap.png"},{"seasonId":251,"className":"EBS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ebs.png"},{"seasonId":253,"className":"BOE21","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/boe21.png"},{"seasonId":249,"className":"NTG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ntg.png"},{"seasonId":246,"className":"UP","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/up.png"},{"seasonId":237,"className":"MC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mc.png"},{"seasonId":231,"className":"VTR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/vtr.png"},{"seasonId":233,"className":"MOG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mog.png"},{"seasonId":254,"className":"CFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/cfa.png"},{"seasonId":236,"className":"LA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/la.png"},{"seasonId":804,"className":"23NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23ng.png"},{"seasonId":276,"className":"22NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22ng.png"},{"seasonId":262,"className":"21NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21ng.png"},{"seasonId":238,"className":"20NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20ng.png"},{"seasonId":219,"className":"19NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19ng.png"},{"seasonId":218,"className":"OTW","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/otw.png"},{"seasonId":217,"className":"COC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/coc.png"},{"seasonId":216,"className":"HOT","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/hot.png"},{"seasonId":214,"className":"TC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tc.png"},{"seasonId":213,"className":"MCI","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mcicon.png"},{"seasonId":210,"className":"GR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/gr.png"},{"seasonId":207,"className":"TT","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tt.png"},{"seasonId":206,"className":"TB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tb.png"},{"seasonId":202,"className":"TKI","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tki.png"},{"seasonId":201,"className":"NHD","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/nhd.png"},{"seasonId":831,"className":"25TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25toty.png"},{"seasonId":832,"className":"25TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25totn.png"},{"seasonId":807,"className":"24TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24toty.png"},{"seasonId":808,"className":"24TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24totn.png"},{"seasonId":278,"className":"23TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23toty.png"},{"seasonId":279,"className":"23TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23totn.png"},{"seasonId":258,"className":"22TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22toty.png"},{"seasonId":259,"className":"22TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22totn.png"},{"seasonId":240,"className":"21TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21toty.png"},{"seasonId":241,"className":"21TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21totn.png"},{"seasonId":220,"className":"20TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20toty.png"},{"seasonId":222,"className":"20TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20totn.png"},{"seasonId":211,"className":"19TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19toty.png"},{"seasonId":212,"className":"18TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/18toty.png"},{"seasonId":844,"className":"25TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25tots.png"},{"seasonId":820,"className":"24TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24tots.png"},{"seasonId":287,"className":"23TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23tots.png"},{"seasonId":267,"className":"22TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22tots.png"},{"seasonId":250,"className":"21TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21tots.png"},{"seasonId":230,"className":"20TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20tots.png"},{"seasonId":215,"className":"19TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19tots.png"},{"seasonId":834,"className":"24UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24ucl.png"},{"seasonId":810,"className":"23UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23ucl.png"},{"seasonId":280,"className":"22UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22ucl.png"},{"seasonId":260,"className":"21UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21ucl.png"},{"seasonId":242,"className":"20UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20ucl.png"},{"seasonId":221,"className":"19UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19ucl.png"},{"seasonId":234,"className":"LH","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/lh.png"},{"seasonId":225,"className":"TKL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tkl.png"},{"seasonId":806,"className":"23 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23kfa.png"},{"seasonId":293,"className":"22 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22kfa.png"},{"seasonId":294,"className":"21 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21kfa.png"},{"seasonId":295,"className":"19 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/2019kfa.png"},{"seasonId":298,"className":"18 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/kfa.png"},{"seasonId":297,"className":"MCFC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mcfc.png"},{"seasonId":247,"className":"2012 KH","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/2012kh.png"},{"seasonId":516,"className":"25KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25kl.png"},{"seasonId":514,"className":"24KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24kl.png"},{"seasonId":512,"className":"23KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23kl.png"},{"seasonId":510,"className":"22KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22kl.png"},{"seasonId":507,"className":"21KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21kl.png"},{"seasonId":504,"className":"20KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20kl.png"},{"seasonId":853,"className":"25KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25kb.png"},{"seasonId":830,"className":"24KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24klb.png"},{"seasonId":805,"className":"23KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23klb.png"},{"seasonId":277,"className":"22KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22klb.png"},{"seasonId":257,"className":"21KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21klb.png"},{"seasonId":239,"className":"20KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20klb.png"},{"seasonId":517,"className":"25PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25pla.png"},{"seasonId":515,"className":"24PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24pla.png"},{"seasonId":513,"className":"23PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23pla.png"},{"seasonId":511,"className":"22PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22pla.png"},{"seasonId":508,"className":"21PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21pla.png"},{"seasonId":506,"className":"20PLA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20pla.png"},{"seasonId":503,"className":"19PLS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19pls.png"},{"seasonId":502,"className":"19PLA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19pla.png"},{"seasonId":501,"className":"18PLS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/18pls.png"},{"seasonId":500,"className":"18PLA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/plc.png"},{"seasonId":300,"className":"25LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/live.png"},{"seasonId":324,"className":"24LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24.png"},{"seasonId":323,"className":"23LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23.png"},{"seasonId":322,"className":"22LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22.png"},{"seasonId":321,"className":"21LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21.png"},{"seasonId":320,"className":"20LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20.png"},{"seasonId":319,"className":"19LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19.png"},{"seasonId":318,"className":"18LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/18.png"},{"seasonId":317,"className":"17LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/17.png"},{"seasonId":812,"className":"LKI","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/lki.png"},{"seasonId":855,"className":"26TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26totn.png"},{"seasonId":854,"className":"26TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26toty.png"},{"seasonId":856,"className":"25UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25ucl.png"}];
+const seasons = [
+    {"seasonId":100,"className":"ICONTM","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm.png"},
+    {"seasonId":866,"className":"26 TOTS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26tots.png"},
+    {"seasonId":861,"className":"WG","seasonImg" : "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/wg.png"},
+    {"seasonId":863,"className":"PTG","seasonImg" :"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ptg.png"},
+    {"seasonId":110,"className":"ICON TM(Bound)","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm_b.png"},
+    {"seasonId":101,"className":"ICON","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icon.png"},
+    {"seasonId":113,"className":"25IM - S&P","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25im_sp.png"},
+    {"seasonId":114,"className":"25IM - FB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25im_fb.png"},
+    {"seasonId":111,"className":"ICONS MATCH","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/filter/icon_m.png"},
+    {"seasonId":852,"className":"FAC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/fac.png"},
+    {"seasonId":851,"className":"25DP","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25dp.png"},
+    {"seasonId":848,"className":"WS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ws.png"},
+    {"seasonId":850,"className":"25FSL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25fsl.png"},
+    {"seasonId":846,"className":"DCB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/dcb.png"},
+    {"seasonId":845,"className":"CH","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ch.png"},
+    {"seasonId":849,"className":"HRT","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/hrt.png"},
+    {"seasonId":840,"className":"LE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/le.png"},
+    {"seasonId":839,"className":"NO7","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/no7.png"},
+    {"seasonId":836,"className":"WB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/wb.png"},
+    {"seasonId":829,"className":"GRU","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/gru.png"},
+    {"seasonId":828,"className":"BLD","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/bld.png"},
+    {"seasonId":827,"className":"BDO","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/bdo.png"},
+    {"seasonId":826,"className":"24EP","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24ep.png"},
+    {"seasonId":825,"className":"CU","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/cu.png"},
+    {"seasonId":821,"className":"MDL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mdl.png"},
+    {"seasonId":815,"className":"EU24","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/eu24.png"},
+    {"seasonId":818,"className":"LD","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ld.png"},
+    {"seasonId":814,"className":"UT","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ut.png"},
+    {"seasonId":813,"className":"JNM","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/jnm.png"},
+    {"seasonId":802,"className":"DC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/dc.png"},
+    {"seasonId":801,"className":"JA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/jva.png"},
+    {"seasonId":290,"className":"FC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/fca.png"},
+    {"seasonId":291,"className":"23HW","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23hw.png"},
+    {"seasonId":289,"className":"CC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/cc.png"},
+    {"seasonId":283,"className":"HG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/hg.png"},
+    {"seasonId":284,"className":"RTN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/rtn.png"},
+    {"seasonId":272,"className":"BWC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/bwc.png"},
+    {"seasonId":273,"className":"WC22","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/wc22.png"},
+    {"seasonId":274,"className":"RMFC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/rmcf.png"},
+    {"seasonId":270,"className":"SPL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/spl.png"},
+    {"seasonId":268,"className":"LN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ln.png"},
+    {"seasonId":265,"className":"LOL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/lol.png"},
+    {"seasonId":264,"className":"FA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/fa.png"},
+    {"seasonId":835,"className":"25HR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25hr.png"},
+    {"seasonId":811,"className":"24HR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24hr.png"},
+    {"seasonId":281,"className":"23HR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23hr.png"},
+    {"seasonId":261,"className":"22HR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22hr.png"},
+    {"seasonId":256,"className":"BTB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/btb.png"},
+    {"seasonId":252,"className":"CAP","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/cap.png"},
+    {"seasonId":251,"className":"EBS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ebs.png"},
+    {"seasonId":253,"className":"BOE21","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/boe21.png"},
+    {"seasonId":249,"className":"NTG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ntg.png"},
+    {"seasonId":246,"className":"UP","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/up.png"},
+    {"seasonId":237,"className":"MC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mc.png"},
+    {"seasonId":231,"className":"VTR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/vtr.png"},
+    {"seasonId":233,"className":"MOG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mog.png"},
+    {"seasonId":254,"className":"CFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/cfa.png"},
+    {"seasonId":236,"className":"LA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/la.png"},
+    {"seasonId":804,"className":"23NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23ng.png"},
+    {"seasonId":276,"className":"22NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22ng.png"},
+    {"seasonId":262,"className":"21NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21ng.png"},
+    {"seasonId":238,"className":"20NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20ng.png"},
+    {"seasonId":219,"className":"19NG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19ng.png"},
+    {"seasonId":218,"className":"OTW","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/otw.png"},
+    {"seasonId":217,"className":"COC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/coc.png"},
+    {"seasonId":216,"className":"HOT","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/hot.png"},
+    {"seasonId":214,"className":"TC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tc.png"},
+    {"seasonId":213,"className":"MCI","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mcicon.png"},
+    {"seasonId":210,"className":"GR","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/gr.png"},
+    {"seasonId":207,"className":"TT","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tt.png"},
+    {"seasonId":206,"className":"TB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tb.png"},
+    {"seasonId":202,"className":"TKI","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tki.png"},
+    {"seasonId":201,"className":"NHD","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/nhd.png"},
+    {"seasonId":831,"className":"25TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25toty.png"},
+    {"seasonId":832,"className":"25TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25totn.png"},
+    {"seasonId":807,"className":"24TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24toty.png"},
+    {"seasonId":808,"className":"24TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24totn.png"},
+    {"seasonId":278,"className":"23TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23toty.png"},
+    {"seasonId":279,"className":"23TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23totn.png"},
+    {"seasonId":258,"className":"22TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22toty.png"},
+    {"seasonId":259,"className":"22TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22totn.png"},
+    {"seasonId":240,"className":"21TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21toty.png"},
+    {"seasonId":241,"className":"21TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21totn.png"},
+    {"seasonId":220,"className":"20TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20toty.png"},
+    {"seasonId":222,"className":"20TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20totn.png"},
+    {"seasonId":211,"className":"19TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19toty.png"},
+    {"seasonId":212,"className":"18TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/18toty.png"},
+    {"seasonId":844,"className":"25TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25tots.png"},
+    {"seasonId":820,"className":"24TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24tots.png"},
+    {"seasonId":287,"className":"23TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23tots.png"},
+    {"seasonId":267,"className":"22TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22tots.png"},
+    {"seasonId":250,"className":"21TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21tots.png"},
+    {"seasonId":230,"className":"20TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20tots.png"},
+    {"seasonId":215,"className":"19TS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19tots.png"},
+    {"seasonId":834,"className":"24UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24ucl.png"},
+    {"seasonId":810,"className":"23UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23ucl.png"},
+    {"seasonId":280,"className":"22UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22ucl.png"},
+    {"seasonId":260,"className":"21UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21ucl.png"},
+    {"seasonId":242,"className":"20UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20ucl.png"},
+    {"seasonId":221,"className":"19UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19ucl.png"},
+    {"seasonId":234,"className":"LH","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/lh.png"},
+    {"seasonId":225,"className":"TKL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/tkl.png"},
+    {"seasonId":806,"className":"23 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23kfa.png"},
+    {"seasonId":293,"className":"22 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22kfa.png"},
+    {"seasonId":294,"className":"21 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21kfa.png"},
+    {"seasonId":295,"className":"19 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/2019kfa.png"},
+    {"seasonId":298,"className":"18 KFA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/kfa.png"},
+    {"seasonId":297,"className":"MCFC","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/mcfc.png"},
+    {"seasonId":247,"className":"2012 KH","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/2012kh.png"},
+    {"seasonId":516,"className":"25KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25kl.png"},
+    {"seasonId":514,"className":"24KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24kl.png"},
+    {"seasonId":512,"className":"23KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23kl.png"},
+    {"seasonId":510,"className":"22KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22kl.png"},
+    {"seasonId":507,"className":"21KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21kl.png"},
+    {"seasonId":504,"className":"20KLeague","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20kl.png"},
+    {"seasonId":853,"className":"25KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25kb.png"},
+    {"seasonId":830,"className":"24KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24klb.png"},
+    {"seasonId":805,"className":"23KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23klb.png"},
+    {"seasonId":277,"className":"22KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22klb.png"},
+    {"seasonId":257,"className":"21KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21klb.png"},
+    {"seasonId":239,"className":"20KB","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20klb.png"},
+    {"seasonId":517,"className":"25PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25pla.png"},
+    {"seasonId":515,"className":"24PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24pla.png"},
+    {"seasonId":513,"className":"23PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23pla.png"},
+    {"seasonId":511,"className":"22PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22pla.png"},
+    {"seasonId":508,"className":"21PL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21pla.png"},
+    {"seasonId":506,"className":"20PLA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20pla.png"},
+    {"seasonId":503,"className":"19PLS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19pls.png"},
+    {"seasonId":502,"className":"19PLA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19pla.png"},
+    {"seasonId":501,"className":"18PLS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/18pls.png"},
+    {"seasonId":500,"className":"18PLA","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/plc.png"},
+    {"seasonId":300,"className":"25LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/live.png"},
+    {"seasonId":324,"className":"24LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/24.png"},
+    {"seasonId":323,"className":"23LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/23.png"},
+    {"seasonId":322,"className":"22LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/22.png"},
+    {"seasonId":321,"className":"21LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/21.png"},
+    {"seasonId":320,"className":"20LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/20.png"},
+    {"seasonId":319,"className":"19LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/19.png"},
+    {"seasonId":318,"className":"18LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/18.png"},
+    {"seasonId":317,"className":"17LIVE","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/17.png"},
+    {"seasonId":812,"className":"LKI","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/lki.png"},
+    {"seasonId":855,"className":"26TYN","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26totn.png"},
+    {"seasonId":854,"className":"26TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26toty.png"},
+    {"seasonId":856,"className":"25UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25ucl.png"}
+];
 
-// =====================================================
-// GLOBAL STATE
-// =====================================================
-const seasonMap = new Map(seasons.map(s=>[s.seasonId,s]));
-let playerDB=[], playerIndex=[], currentFiltered=[];
-let currentPage=1; const PAGE_SIZE=50;
-let searchMode='name', searchCnt=0, copyCnt=0;
-let recentSearches=JSON.parse(localStorage.getItem('rs')||'[]');
-let currentSortBy='relevance', currentSortDir='desc';
-const spidMap=new Map();
+const seasonMap = new Map(seasons.map(s => [s.seasonId, s]));
+let playerDB = [], playerIndex = [], currentFiltered = [];
+let currentPage = 1; const PAGE_SIZE = 50;
+let searchMode = 'name', searchCnt = 0;
+let currentSortBy = 'ovr', currentSortDir = 'desc'; 
+const CHAR_MAP = {'đ':'d','Đ':'D'}; 
 
-const CHAR_MAP={'ø':'o','Ø':'O','đ':'d','Đ':'D','ð':'d','Ð':'D','ß':'ss','æ':'ae','Æ':'AE','œ':'oe','Œ':'OE','ł':'l','Ł':'L','þ':'th','Þ':'TH','ı':'i','İ':'I','ş':'s','Ş':'S','ğ':'g','Ğ':'G','ŧ':'t','Ŧ':'T','ħ':'h','Ħ':'H','ŋ':'ng','Ŋ':'NG','ĸ':'k','ŀ':'l','Ŀ':'L','ĳ':'ij','Ĳ':'IJ'};
+function norm(s) { 
+    return s ? s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").replace(/[^a-zA-Z0-9\s]/g,"").toLowerCase().trim() : ""; 
+}
+function getPid(spid) { return spid % 1000000; }
+function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-function norm(s){if(!s)return"";let r=s;for(const[c,v]of Object.entries(CHAR_MAP))r=r.split(c).join(v);return r.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9\s]/g,"").replace(/\s+/g," ").trim().toLowerCase();}
-function getPid(spid){return spid%1000000;}
-function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
-
-function getImgUrls(spid){
-    const pid=getPid(spid);
-    return[
+// Xử lý Ảnh
+function getImgUrls(spid) {
+    const pid = getPid(spid);
+    return [
         `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${spid}.png`,
-        `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${pid}.png`,
         `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${spid}.png`,
-        `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${pid}.png`,
-        `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${spid}.png`,
-        `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${pid}.png`,
-        `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${spid}.png`,
-        `https://fo4.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${pid}.png`,
+        `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/playersAction/p${pid}.png`,
+        `https://fco.dn.nexoncdn.co.kr/live/externalAssets/common/players/p${pid}.png`
     ];
 }
-
-function handleImgErr(img,spid){
-    const urls=getImgUrls(spid);
-    let ci=parseInt(img.dataset.urlIndex||"0"); ci++;
-    if(ci<urls.length){
-        img.dataset.urlIndex=ci; img.src=urls[ci];
-        if([2,3,6,7].includes(ci))img.classList.remove('action-img');
-    } else {
-        img.style.display='none';
-        const w=img.parentElement;
-        if(w)w.innerHTML='<div class="avatar-fallback">⚽</div>';
+function handleImgErr(img, spid) {
+    const urls = getImgUrls(spid); 
+    let ci = parseInt(img.dataset.urlIndex || "0") + 1;
+    if (ci < urls.length) { 
+        img.dataset.urlIndex = ci; 
+        img.src = urls[ci]; 
+    } else { 
+        img.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzIyMiIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1zaXplPSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzU1NSI+4⚽PC90ZXh0Pjwvc3ZnPg=='; 
     }
 }
 
+// Xử lý OVR Badge Color
+function getOvrClass(ovr) {
+    if (!ovr) return 'ovr-low';
+    if (ovr >= 120) return 'ovr-120';
+    if (ovr >= 110) return 'ovr-110';
+    if (ovr >= 100) return 'ovr-100';
+    if (ovr >= 90)  return 'ovr-90';
+    return 'ovr-low';
+}
+
 // =====================================================
-// VISITOR COUNTER (unique IP)
+// COPY & TOAST NOTIFICATION
+// =====================================================
+function showToast(msg) {
+    const container = document.getElementById('toastArea');
+    const toast = document.createElement('div');
+    toast.className = 'toast';
+    toast.innerHTML = msg;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.classList.add('fade-out');
+        setTimeout(() => toast.remove(), 300);
+    }, 2000);
+}
+
+function copyToClipboard(text, label) {
+    navigator.clipboard.writeText(text).then(() => {
+        showToast(`✅ Đã sao chép ${label}: <b>${text}</b>`);
+    }).catch(err => {
+        console.error('Copy failed', err);
+    });
+}
+
+// =====================================================
+// VISITOR COUNTER (GMT+7 FIX)
 // =====================================================
 async function loadVisitorCount() {
     const el = document.getElementById('visitorCount');
-    const el2 = document.getElementById('sVisitors');
-    try {
-        // 1. Lấy IP thực của user qua api miễn phí
-        const ipRes = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipRes.json();
-        const userIP = ipData.ip;
+    
+    // Lấy ngày hiện tại theo chuẩn GMT+7
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
+    const gmt7Date = new Date(utc + (3600000 * 7));
+    const dateStr = gmt7Date.getFullYear() + '-' + String(gmt7Date.getMonth()+1).padStart(2,'0') + '-' + String(gmt7Date.getDate()).padStart(2,'0');
+    
+    const countKey = 'fco-visitors-' + dateStr.replace(/-/g, '');
+    const localHasCounted = 'counted_' + dateStr;
 
-        // 2. Dùng localStorage + date key để track unique IP trong ngày
-        const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
-        const storageKey = 'fc_visitors_' + today;
-        
-        // Lấy danh sách IP đã visit hôm nay
-        let visitorsToday = JSON.parse(localStorage.getItem(storageKey) || '[]');
-        
-        // Xóa data cũ (hôm qua trở đi)
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key && key.startsWith('fc_visitors_') && key !== storageKey) {
-                localStorage.removeItem(key);
-            }
-        }
-
-        // Thêm IP mới nếu chưa có
-        if (!visitorsToday.includes(userIP)) {
-            visitorsToday.push(userIP);
-            localStorage.setItem(storageKey, JSON.stringify(visitorsToday));
-        }
-
-        // 3. Cũng gửi lên CountAPI (hoặc dùng backup JSONbin)
-        // Dùng cơ chế đơn giản: localStorage tracks IPs, hiển thị count
-        let totalToday = visitorsToday.length;
-
-        // BONUS: Gọi API counter bên ngoài để cộng dồn từ mọi máy
-        // Sử dụng api.counterapi.dev (miễn phí, không cần đăng ký)
-        try {
-            // Tạo namespace unique cho website + ngày
-            const namespace = 'fconline-db';
-            const counterKey = 'visitors-' + today.replace(/-/g,'');
-            
-            // Kiểm tra xem IP này đã được đếm chưa trong session
-            const sessionKey = 'fc_counted_' + today;
-            const alreadyCounted = sessionStorage.getItem(sessionKey);
-            
-            if (!alreadyCounted) {
-                // Chưa đếm → gọi API tăng counter
-                const cRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/${counterKey}/up`);
-                const cData = await cRes.json();
-                if (cData && cData.count) {
-                    totalToday = cData.count;
-                }
-                sessionStorage.setItem(sessionKey, '1');
-            } else {
-                // Đã đếm → chỉ lấy giá trị hiện tại
-                const cRes = await fetch(`https://api.counterapi.dev/v1/${namespace}/${counterKey}`);
-                const cData = await cRes.json();
-                if (cData && cData.count) {
-                    totalToday = cData.count;
-                }
-            }
-        } catch(apiErr) {
-            // Nếu API lỗi → dùng localStorage count
-            console.log('Counter API unavailable, using local count');
-        }
-
-        el.textContent = totalToday.toLocaleString();
-        el2.textContent = totalToday.toLocaleString();
-        
-    } catch(e) {
-        // Nếu tất cả đều lỗi → hiển thị từ localStorage
-        const today = new Date().toISOString().slice(0, 10);
-        const visitors = JSON.parse(localStorage.getItem('fc_visitors_' + today) || '["anonymous"]');
-        el.textContent = visitors.length;
-        el2.textContent = visitors.length;
-    }
-}
-
-// =====================================================
-// COPY FUNCTION
-// =====================================================
-async function doCopy(text, label='') {
-    try {
-        await navigator.clipboard.writeText(text);
-    } catch {
-        const ta=document.createElement('textarea');
-        ta.value=text; ta.style.cssText='position:fixed;opacity:0';
-        document.body.appendChild(ta); ta.select();
-        document.execCommand('copy'); document.body.removeChild(ta);
-    }
-    copyCnt++; document.getElementById('sCopies').textContent=copyCnt;
-    toast('ok', `Đã sao chép ${label}`, text);
-}
-
-function copySpidBtn(spid, btn) {
-    doCopy(String(spid), 'SPID');
-    if(btn){
-        btn.classList.add('done'); btn.innerHTML='✓';
-        setTimeout(()=>{btn.classList.remove('done');btn.innerHTML='📋';},1500);
-    }
-}
-
-function copyAllSpids(){
-    if(!currentFiltered.length) return toast('err','Không có dữ liệu','Tìm kiếm trước');
-    doCopy(currentFiltered.map(e=>e.ref.id).join('\n'), `${currentFiltered.length} SPID`);
-}
-
-function copyInfo(){
-    const n=document.getElementById('mdName').textContent;
-    const s=document.getElementById('mdSpid').textContent;
-    const sn=document.getElementById('mdSname').textContent;
-    doCopy(`${n} | SPID: ${s} | Season: ${sn}`, 'Thông tin');
-}
-
-function exportCSV(){
-    if(!currentFiltered.length)return toast('err','Không có dữ liệu','');
-    let csv='SPID,Name,PID,SeasonID,Season\n';
-    currentFiltered.forEach(e=>{
-        const p=e.ref, sid=Math.floor(p.id/1000000), sn=seasonMap.get(sid);
-        csv+=`${p.id},"${p.name}",${getPid(p.id)},${sid},${sn?sn.className:'Unknown'}\n`;
+    // Xoá log cũ của ngày hôm trước cho nhẹ localStorage
+    Object.keys(localStorage).forEach(key => {
+        if(key.startsWith('counted_') && key !== localHasCounted) localStorage.removeItem(key);
     });
-    const a=document.createElement('a');
-    a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
-    a.download='fc_players.csv'; a.click();
-    toast('ok','Đã xuất CSV',`${currentFiltered.length} cầu thủ`);
+
+    try {
+        let url = `https://api.counterapi.dev/v1/fconlinedb_pro_v2/${countKey}`;
+        // Nếu trình duyệt chưa đếm trong ngày hôm nay -> Gửi yêu cầu Tăng (+1)
+        if (!localStorage.getItem(localHasCounted)) {
+            url += '/up';
+            localStorage.setItem(localHasCounted, 'true');
+        }
+        
+        const res = await fetch(url);
+        const data = await res.json();
+        el.textContent = data.count ? data.count.toLocaleString() : '1';
+    } catch(e) {
+        el.textContent = "1"; // Fallback nếu API lỗi
+    }
 }
 
 // =====================================================
-// TOAST
+// SEASON DROPDOWN LOGIC
 // =====================================================
-function toast(type, msg, detail=''){
-    const c=document.getElementById('toastArea');
-    const t=document.createElement('div');
-    t.className=`toast ${type}`;
-    t.innerHTML=`<div><div class="toast-msg">${msg}</div>${detail?`<div class="toast-detail">${esc(String(detail))}</div>`:''}</div>`;
-    c.appendChild(t);
-    setTimeout(()=>{t.classList.add('bye');setTimeout(()=>t.remove(),300);},2500);
+function buildSeasonList() {
+    const list = document.getElementById('seasonList');
+    list.innerHTML = seasons.map(s => 
+        `<div class="season-item" onclick="selectSeason('${s.className}')">
+            <img src="${s.seasonImg}" alt="${s.className}">
+            <span>${s.className}</span>
+        </div>`
+    ).join('');
 }
-
-// =====================================================
-// MODAL
-// =====================================================
-function openModal(spid){
-    const p=spidMap.get(spid); if(!p)return;
-    const sid=Math.floor(spid/1000000), sn=seasonMap.get(sid), pid=getPid(spid), urls=getImgUrls(spid);
-    document.getElementById('mdName').textContent=p.name;
-    document.getElementById('mdSpid').textContent=spid;
-    document.getElementById('mdPid').textContent=pid;
-    document.getElementById('mdSid').textContent=sid;
-    document.getElementById('mdSname').textContent=sn?sn.className:`Mùa ${sid}`;
-    const av=document.getElementById('mdAvatar');
-    av.src=urls[0]; av.dataset.spid=spid; av.dataset.urlIndex='0';
-    av.onerror=function(){handleImgErr(this,spid);};
-    const sd=document.getElementById('mdSeason');
-    sd.innerHTML=sn?`<img src="${sn.seasonImg}" alt="${sn.className}"><span>${sn.className}</span>`:`<span>Mùa ${sid}</span>`;
-    document.getElementById('modal').classList.add('on');
-    document.body.style.overflow='hidden';
+function showSeasonList() { document.getElementById('seasonList').classList.add('show'); }
+function hideSeasonList() { setTimeout(() => document.getElementById('seasonList').classList.remove('show'), 200); }
+function selectSeason(val) { document.getElementById('inSeason').value = val; hideSeasonList(); debouncedFilter(); }
+function filterSeasonList() {
+    const q = document.getElementById('inSeason').value.toLowerCase();
+    const items = document.querySelectorAll('.season-item');
+    items.forEach(item => {
+        const text = item.innerText.toLowerCase();
+        item.style.display = text.includes(q) ? 'flex' : 'none';
+    });
 }
-
-function closeModal(){
-    document.getElementById('modal').classList.remove('on');
-    document.body.style.overflow='';
-}
-
-// =====================================================
-// SEARCH MODE
-// =====================================================
-function setMode(m){
-    searchMode=m;
-    document.getElementById('mNameBtn').classList.toggle('active',m==='name');
-    document.getElementById('mSpidBtn').classList.toggle('active',m==='spid');
-    document.getElementById('fName').style.display=m==='name'?'':'none';
-    document.getElementById('fSpid').style.display=m==='spid'?'':'none';
-    document.getElementById('fPid').style.display=m==='name'?'':'none';
-    const row=document.getElementById('searchRow');
-    row.style.gridTemplateColumns=m==='spid'?'1fr 1fr':'1fr 1fr 1fr';
-    if(m==='spid')document.getElementById('inSpid').focus();
-    else document.getElementById('inName').focus();
-    debouncedFilter();
-}
-
-function clrIn(id){document.getElementById(id).value='';document.getElementById(id).focus();debouncedFilter();}
+// Click ra ngoài để ẩn dropdown
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.season-dropdown')) hideSeasonList();
+});
 
 // =====================================================
-// DEBOUNCE
+// TÌM KIẾM & SẮP XẾP
 // =====================================================
 let dbTimer;
-function debouncedFilter(){clearTimeout(dbTimer);dbTimer=setTimeout(filterData,150);}
+function debouncedFilter() { clearTimeout(dbTimer); dbTimer = setTimeout(filterData, 150); }
 
-// =====================================================
-// RECENT
-// =====================================================
-function addRecent(q){
-    if(!q||q.length<2)return;
-    recentSearches=recentSearches.filter(s=>s!==q);
-    recentSearches.unshift(q);
-    if(recentSearches.length>6)recentSearches.pop();
-    localStorage.setItem('rs',JSON.stringify(recentSearches));
-    renderRecent();
-}
-
-function renderRecent(){
-    const c=document.getElementById('recentBar');
-    if(!recentSearches.length){c.style.display='none';return;}
-    c.style.display='flex';
-    c.innerHTML='<span class="recent-lbl">🕐 Gần đây:</span>'+
-        recentSearches.map(s=>`<span class="recent-chip" onclick="useRecent('${esc(s)}')">${esc(s)}</span>`).join('');
-}
-
-function useRecent(q){
-    if(searchMode==='spid')document.getElementById('inSpid').value=q;
-    else document.getElementById('inName').value=q;
+function setMode(m) { 
+    searchMode = m; 
+    document.getElementById('mNameBtn').classList.toggle('active', m==='name');
+    document.getElementById('mSpidBtn').classList.toggle('active', m==='spid');
+    document.getElementById('fName').style.display = m==='name' ? '' : 'none';
+    document.getElementById('fPid').style.display = m==='name' ? '' : 'none';
+    document.getElementById('fSpid').style.display = m==='spid' ? '' : 'none';
     debouncedFilter();
 }
+function clrIn(id) { document.getElementById(id).value = ''; debouncedFilter(); }
 
-// =====================================================
-// SORT
-// =====================================================
-function changeSort(f){
-    if(currentSortBy===f)currentSortDir=currentSortDir==='asc'?'desc':'asc';
-    else{currentSortBy=f;currentSortDir=f==='name'?'asc':'desc';}
-    updSortUI();
-    if(currentFiltered.length)doSort();
-}
-
-function updSortUI(){
-    ['spid','name','season'].forEach(f=>{
-        const el=document.getElementById('si'+f.charAt(0).toUpperCase()+f.slice(1));
-        if(el){
-            if(currentSortBy===f){el.textContent=currentSortDir==='asc'?'▲':'▼';el.style.opacity='1';}
-            else{el.textContent='↕';el.style.opacity='0.3';}
-        }
-    });
-}
-
-function doSort(){
-    if(currentSortBy==='spid')currentFiltered.sort((a,b)=>currentSortDir==='asc'?a.ref.id-b.ref.id:b.ref.id-a.ref.id);
-    else if(currentSortBy==='name')currentFiltered.sort((a,b)=>{const c=a.nameNorm.localeCompare(b.nameNorm);return currentSortDir==='asc'?c:-c;});
-    else if(currentSortBy==='season')currentFiltered.sort((a,b)=>{const c=a.seasonNorm.localeCompare(b.seasonNorm);return currentSortDir==='asc'?c:-c;});
-    currentPage=1; renderPage();
-}
-
-// =====================================================
-// PAGINATION
-// =====================================================
-function renderPager(total){
-    const tp=Math.ceil(total/PAGE_SIZE), pg=document.getElementById('pager');
-    if(tp<=1){pg.style.display='none';return;}
-    pg.style.display='flex';
-    let h='';
-    h+=`<button class="pg-btn" onclick="goPage(1)" ${currentPage===1?'disabled':''}>«</button>`;
-    h+=`<button class="pg-btn" onclick="goPage(${currentPage-1})" ${currentPage===1?'disabled':''}>‹</button>`;
-    let s=Math.max(1,currentPage-2), e=Math.min(tp,currentPage+2);
-    if(s>1){h+=`<button class="pg-btn" onclick="goPage(1)">1</button>`;if(s>2)h+=`<span class="pg-info">…</span>`;}
-    for(let i=s;i<=e;i++)h+=`<button class="pg-btn ${i===currentPage?'cur':''}" onclick="goPage(${i})">${i}</button>`;
-    if(e<tp){if(e<tp-1)h+=`<span class="pg-info">…</span>`;h+=`<button class="pg-btn" onclick="goPage(${tp})">${tp}</button>`;}
-    h+=`<button class="pg-btn" onclick="goPage(${currentPage+1})" ${currentPage===tp?'disabled':''}>›</button>`;
-    h+=`<button class="pg-btn" onclick="goPage(${tp})" ${currentPage===tp?'disabled':''}>»</button>`;
-    h+=`<span class="pg-info">${currentPage}/${tp}</span>`;
-    pg.innerHTML=h;
-}
-
-function goPage(p){
-    const tp=Math.ceil(currentFiltered.length/PAGE_SIZE);
-    if(p<1||p>tp)return;
-    currentPage=p; renderPage();
-    document.querySelector('.table-panel').scrollIntoView({behavior:'smooth',block:'start'});
-}
-
-// =====================================================
-// LOAD DATA
-// =====================================================
-async function loadData(){
-    try{
-        const res=await fetch('./spid_translated.json');
-        if(!res.ok)throw new Error("File spid_translated.json không tìm thấy!");
-        playerDB=await res.json();
-        playerIndex=playerDB.map(p=>{
-            const sid=Math.floor(p.id/1000000), sn=seasonMap.get(sid);
-            spidMap.set(p.id,p);
-            return{ref:p,nameNorm:norm(p.name),seasonNorm:sn?sn.className.toLowerCase():"",seasonId:sid,spidStr:String(p.id),pidStr:String(p.id%1000000)};
-        });
-        const dl=document.getElementById('dlSeason');
-        seasons.forEach(s=>{const o=document.createElement('option');o.value=s.className;dl.appendChild(o);});
-        document.getElementById('loadArea').style.display='none';
-        document.getElementById('tHead').style.display='';
-        document.getElementById('sTotalPlayers').textContent=playerDB.length.toLocaleString();
-        document.getElementById('sTotalSeasons').textContent=seasons.length;
-        renderRecent(); updSortUI();
-        showEmpty('init');
-    }catch(err){
-        document.getElementById('loadArea').innerHTML=`<div class="empty"><div class="empty-ico">❌</div><div class="empty-title">Lỗi tải dữ liệu</div><div class="empty-desc">${err.message}</div></div>`;
+function filterData() {
+    const sq = document.getElementById('inSeason').value.trim().toLowerCase();
+    let nq = '', nk = [], spidq = '', pidq = '';
+    
+    if (searchMode === 'name') {
+        nq = norm(document.getElementById('inName').value);
+        nk = nq.split(/\s+/).filter(t => t.length > 0);
+        pidq = document.getElementById('inPid').value.trim();
+    } else {
+        spidq = document.getElementById('inSpid').value.trim();
     }
-}
 
-function showEmpty(t){
-    const tb=document.getElementById('tBody');
-    document.getElementById('toolbar').style.display='none';
-    document.getElementById('pager').style.display='none';
-    if(t==='init')tb.innerHTML=`<tr><td colspan="3"><div class="empty"><div class="empty-ico">🔍</div><div class="empty-title">Bắt đầu tìm kiếm</div><div class="empty-desc">Nhập tên, SPID hoặc mùa giải · Ít nhất 2 ký tự</div></div></td></tr>`;
-    else tb.innerHTML=`<tr><td colspan="3"><div class="empty"><div class="empty-ico">😕</div><div class="empty-title">Không tìm thấy</div><div class="empty-desc">Thử từ khóa khác · Gõ không dấu, bỏ ký tự đặc biệt</div></div></td></tr>`;
-}
+    if (!nq && !sq && !spidq && !pidq) { showEmpty('init'); return; }
 
-// =====================================================
-// FILTER
-// =====================================================
-function filterData(){
-    const seasonQ=document.getElementById('inSeason').value.trim().toLowerCase();
-    let nameN='',nameTk=[],spidQ='',pidQ='';
-    if(searchMode==='name'){
-        nameN=norm(document.getElementById('inName').value);
-        nameTk=nameN.split(/\s+/).filter(t=>t.length>0);
-        pidQ=document.getElementById('inPid').value.trim().replace(/\D/g,'');
-    }else{spidQ=document.getElementById('inSpid').value.trim().replace(/\D/g,'');}
-    const hasQ=nameN.length>=2||seasonQ!==''||spidQ.length>=3||pidQ.length>=3;
-    if(!hasQ){currentFiltered=[];showEmpty('init');return;}
-    const term=searchMode==='spid'?spidQ:document.getElementById('inName').value.trim();
-    if(term.length>=2)addRecent(term);
-    searchCnt++;document.getElementById('sSearches').textContent=searchCnt;
-    const filtered=playerIndex.filter(e=>{
-        if(searchMode==='spid'&&spidQ){
-            const sm=e.spidStr.includes(spidQ)||e.pidStr.includes(spidQ);
-            let ssm=true;
-            if(seasonQ)ssm=e.seasonNorm===seasonQ||(e.seasonNorm.includes(seasonQ)&&seasonQ.length>=2);
-            return sm&&ssm;
+    const filtered = playerIndex.filter(e => {
+        if (searchMode === 'spid' && spidq) {
+            const m = e.spidStr.includes(spidq) || e.pidStr.includes(spidq);
+            return sq ? m && e.seasonNorm.includes(sq) : m;
         }
-        let nm=true;if(nameTk.length>0)nm=nameTk.every(t=>e.nameNorm.includes(t));
-        let pm=true;if(pidQ)pm=e.pidStr.includes(pidQ)||e.spidStr.includes(pidQ);
-        let ssm=true;if(seasonQ)ssm=e.seasonNorm===seasonQ||(e.seasonNorm.includes(seasonQ)&&seasonQ.length>=2);
-        if(nameTk.length>0&&pidQ)return(nm||pm)&&ssm;
-        return nm&&pm&&ssm;
+        let nm = true; if (nk.length > 0) nm = nk.every(t => e.nameNorm.includes(t));
+        let pm = true; if (pidq) pm = e.pidStr.includes(pidq);
+        let sm = true; if (sq) sm = e.seasonNorm.includes(sq);
+        return nm && pm && sm;
     });
-    const scored=filtered.map(e=>{
-        let sc=0;
-        if(searchMode==='spid'&&spidQ){
-            if(e.spidStr===spidQ)sc+=1000;else if(e.spidStr.startsWith(spidQ))sc+=500;
-            else if(e.pidStr===spidQ)sc+=800;else if(e.pidStr.startsWith(spidQ))sc+=400;
-        }else{
-            if(nameTk.length>0&&e.nameNorm.startsWith(nameTk[0]))sc+=100;
-            const ws=e.nameNorm.split(" ");
-            for(const t of nameTk){if(ws.some(w=>w.startsWith(t)))sc+=50;if(ws.some(w=>w===t))sc+=30;}
-            sc-=e.nameNorm.length;
-            if(pidQ&&e.pidStr===pidQ)sc+=500;
-        }
-        return{entry:e,score:sc};
+
+    // CHẤM ĐIỂM ƯU TIÊN SẮP XẾP
+    const scored = filtered.map(e => {
+        let sc = 0;
+        if (nk.length > 0 && e.nameNorm.startsWith(nk[0])) sc += 100;
+        return { entry: e, score: sc, ovr: e.ref.ovr || 0 };
     });
-    scored.sort((a,b)=>b.score-a.score||b.entry.ref.id-a.entry.ref.id);
-    currentFiltered=scored.map(s=>s.entry);
-    currentPage=1;currentSortBy='relevance';
-    if(!currentFiltered.length){showEmpty('no');return;}
-    renderPage();
+
+    // Sort: Score -> OVR (Cao xuống thấp) -> ID
+    scored.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score; 
+        if (b.ovr !== a.ovr) return b.ovr - a.ovr;         
+        return b.entry.ref.id - a.entry.ref.id;
+    });
+
+    currentFiltered = scored.map(s => s.entry);
+    currentPage = 1; currentSortBy = 'ovr'; currentSortDir = 'desc';
+    updSortUI();
+    
+    if (!currentFiltered.length) showEmpty('no');
+    else renderPage();
+    
+    document.getElementById('sSearches').textContent = (++searchCnt).toLocaleString();
 }
 
-function renderPage(){
-    const s=(currentPage-1)*PAGE_SIZE, e=Math.min(s+PAGE_SIZE,currentFiltered.length);
-    const page=currentFiltered.slice(s,e).map(x=>x.ref);
-    let nameTk=[];
-    if(searchMode==='name')nameTk=norm(document.getElementById('inName').value).split(/\s+/).filter(t=>t.length>0);
-    document.getElementById('toolbar').style.display='flex';
-    document.getElementById('tbInfo').innerHTML=`Tìm thấy <strong>${currentFiltered.length.toLocaleString()}</strong> kết quả · Hiển thị ${s+1}–${e}`;
-    renderRows(page,nameTk,s);
+function changeSort(f) {
+    if (currentSortBy === f) {
+        currentSortDir = currentSortDir === 'asc' ? 'desc' : 'asc';
+    } else { 
+        currentSortBy = f; 
+        currentSortDir = (f === 'name') ? 'asc' : 'desc'; 
+    }
+    
+    currentFiltered.sort((a, b) => {
+        let valA, valB;
+        if (f === 'ovr') { valA = a.ref.ovr || 0; valB = b.ref.ovr || 0; }
+        else if (f === 'spid') { valA = a.ref.id; valB = b.ref.id; }
+        else if (f === 'name') { valA = a.nameNorm; valB = b.nameNorm; }
+        else if (f === 'season') { valA = a.seasonNorm; valB = b.seasonNorm; }
+        
+        if (valA < valB) return currentSortDir === 'asc' ? -1 : 1;
+        if (valA > valB) return currentSortDir === 'asc' ? 1 : -1;
+        return 0;
+    });
+    
+    updSortUI(); currentPage = 1; renderPage();
+}
+
+function updSortUI() {
+    ['ovr','spid','name','season'].forEach(f => {
+        const el = document.getElementById('si' + f.charAt(0).toUpperCase() + f.slice(1));
+        if (el) {
+            el.textContent = currentSortBy === f ? (currentSortDir === 'asc' ? '▲' : '▼') : '';
+            el.style.color = currentSortBy === f ? 'var(--primary)' : 'inherit';
+        }
+    });
+}
+
+function showEmpty(type) {
+    document.getElementById('tHead').style.display = 'none';
+    document.getElementById('pager').style.display = 'none';
+    const tb = document.getElementById('tBody');
+    if (type === 'init') tb.innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-ico">🔍</div><div class="empty-title">Nhập thông tin cầu thủ</div><div class="empty-desc">Nhập tên hoặc SPID để bắt đầu tìm kiếm.</div></div></td></tr>`;
+    else tb.innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-ico">😕</div><div class="empty-title">Không tìm thấy cầu thủ</div><div class="empty-desc">Vui lòng kiểm tra lại chính tả hoặc thử tên khác.</div></div></td></tr>`;
+}
+
+function renderPage() {
+    document.getElementById('tHead').style.display = '';
+    const s = (currentPage - 1) * PAGE_SIZE, e = Math.min(s + PAGE_SIZE, currentFiltered.length);
+    const data = currentFiltered.slice(s, e).map(x => x.ref);
+    const nk = searchMode === 'name' ? norm(document.getElementById('inName').value).split(/\s+/) : [];
+    
+    document.getElementById('tBody').innerHTML = data.map(p => {
+        const sid = Math.floor(p.id / 1000000), sn = seasonMap.get(sid), urls = getImgUrls(p.id);
+        
+        // Highlight Tên
+        let dName = esc(p.name);
+        if (nk.length) {
+            const nn = norm(p.name);
+            nk.forEach(t => { 
+                if (nn.includes(t)) { 
+                    const rg = new RegExp(`(${t})`,'gi'); 
+                    dName = dName.replace(rg, '<span class="hl">$1</span>'); 
+                }
+            });
+        }
+
+        return `<tr>
+            <td style="text-align:center;"><div class="ovr-badge ${getOvrClass(p.ovr)}">${p.ovr || '-'}</div></td>
+            <td><span class="spid-code" onclick="copyToClipboard('${p.id}', 'SPID')" title="Bấm để Copy">${p.id}</span></td>
+            <td>
+                <div class="player-row">
+                    <div class="avatar-wrap"><img src="${urls[0]}" class="avatar-img" data-url-index="0" onerror="handleImgErr(this,${p.id})"></div>
+                    <div><div class="player-name">${dName}</div><div class="player-pid">PID: ${getPid(p.id)}</div></div>
+                </div>
+            </td>
+            <td>
+                <div class="season-cell">
+                    ${sn ? `<img src="${sn.seasonImg}" class="season-img"><span class="season-label">${sn.className}</span>` : `<span style="color:var(--text-4)">Mùa ${sid}</span>`}
+                </div>
+            </td>
+        </tr>`;
+    }).join('');
+    
     renderPager(currentFiltered.length);
 }
 
-function hlName(orig,tokens){
-    if(!tokens||!tokens.length)return esc(orig);
-    const nn=norm(orig);let h=esc(orig);
-    for(const t of tokens){
-        if(!nn.includes(t))continue;
-        let pat='';for(const c of t)pat+=c+"[\\u0300-\\u036f]*[.'\\-]?\\s?";
-        try{h=h.replace(new RegExp(`(${pat.slice(0,-4)})`,'gi'),'<span class="hl">$1</span>');}catch{}
+function renderPager(total) {
+    const tp = Math.ceil(total / PAGE_SIZE), pg = document.getElementById('pager');
+    if (tp <= 1) { pg.style.display = 'none'; return; }
+    pg.style.display = 'flex';
+    let h = `<button class="pg-btn" onclick="currentPage=1; renderPage()" ${currentPage === 1 ? 'disabled' : ''}>«</button>`;
+    let s = Math.max(1, currentPage - 2), e = Math.min(tp, currentPage + 2);
+    for (let i = s; i <= e; i++) {
+        h += `<button class="pg-btn ${i === currentPage ? 'cur' : ''}" onclick="currentPage=${i}; renderPage()">${i}</button>`;
     }
-    return h;
-}
-
-function renderRows(data,nameTk,startIdx){
-    const tb=document.getElementById('tBody');
-    if(!data.length){showEmpty('no');return;}
-    tb.innerHTML=data.map((p,i)=>{
-        const sid=Math.floor(p.id/1000000), sn=seasonMap.get(sid), urls=getImgUrls(p.id);
-        const dn=hlName(p.name,nameTk), pid=getPid(p.id);
-        return`<tr onclick="openModal(${p.id})" title="Bấm để xem chi tiết">
-            <td><div class="spid-cell">
-                <span class="spid-code" onclick="event.stopPropagation();doCopy('${p.id}','SPID')" title="Copy SPID">${p.id}</span>
-                <button class="copy-icon" onclick="event.stopPropagation();copySpidBtn(${p.id},this)" title="Copy">📋</button>
-            </div></td>
-            <td><div class="player-row">
-                <div class="avatar-wrap"><img src="${urls[0]}" class="avatar-img action-img" alt="${esc(p.name)}" data-spid="${p.id}" data-url-index="0" onerror="handleImgErr(this,${p.id})" loading="lazy"></div>
-                <div class="player-meta"><span class="player-name">${dn}</span><span class="player-pid">PID: ${pid}</span></div>
-            </div></td>
-            <td><div class="season-cell">
-                ${sn?`<img src="${sn.seasonImg}" class="season-img" alt="${sn.className}" loading="lazy"><span class="season-label">${sn.className}</span>`:`<span class="season-label" style="color:var(--text-4)">Mùa ${sid}</span>`}
-            </div></td>
-        </tr>`;
-    }).join('');
+    h += `<button class="pg-btn" onclick="currentPage=${tp}; renderPage()" ${currentPage === tp ? 'disabled' : ''}>»</button>`;
+    pg.innerHTML = h;
 }
 
 // =====================================================
-// KEYBOARD SHORTCUTS
+// KHỞI TẠO (INIT)
 // =====================================================
-document.addEventListener('keydown',e=>{
-    const focused=document.activeElement,isIn=focused&&(focused.tagName==='INPUT'||focused.tagName==='TEXTAREA');
-    if(e.key==='/'&&!isIn){e.preventDefault();(searchMode==='spid'?document.getElementById('inSpid'):document.getElementById('inName')).focus();}
-    if(e.key==='Escape'){
-        if(document.getElementById('modal').classList.contains('on'))closeModal();
-        else{['inName','inSeason','inSpid','inPid'].forEach(id=>document.getElementById(id).value='');debouncedFilter();}
-    }
-    if((e.ctrlKey||e.metaKey)&&e.key==='k'){
-        e.preventDefault();
-        const el=searchMode==='spid'?document.getElementById('inSpid'):document.getElementById('inName');
-        el.focus();el.select();
-    }
-});
-
-// =====================================================
-// SCROLL TOP
-// =====================================================
-window.addEventListener('scroll',()=>{
-    document.getElementById('toTopBtn').classList.toggle('show',window.scrollY>400);
-});
-
-function toggleFS(){
-    if(!document.fullscreenElement)document.documentElement.requestFullscreen().catch(()=>{});
-    else document.exitFullscreen();
-}
-
-// =====================================================
-// URL PARAMS
-// =====================================================
-function checkURL(){
-    const p=new URLSearchParams(window.location.search);
-    const n=p.get('name'),s=p.get('spid'),sn=p.get('season');
-    if(s){setMode('spid');document.getElementById('inSpid').value=s;}
-    else if(n)document.getElementById('inName').value=n;
-    if(sn)document.getElementById('inSeason').value=sn;
-    if(n||s||sn)setTimeout(debouncedFilter,300);
-}
-
-// =====================================================
-// INIT
-// =====================================================
-window.onload=async()=>{
-    await loadData();
+window.onload = async () => {
+    buildSeasonList();
     loadVisitorCount();
-    checkURL();
+    try {
+        const res = await fetch('./spid_translated.json');
+        if(!res.ok) throw new Error("Không tìm thấy file JSON");
+        
+        playerDB = await res.json();
+        playerIndex = playerDB.map(p => {
+            const sid = Math.floor(p.id / 1000000), sn = seasonMap.get(sid);
+            return { 
+                ref: p, 
+                nameNorm: norm(p.name), 
+                seasonNorm: sn ? sn.className.toLowerCase() : "", 
+                spidStr: String(p.id), 
+                pidStr: String(getPid(p.id)) 
+            };
+        });
+        
+        document.getElementById('sTotalPlayers').textContent = playerDB.length.toLocaleString();
+        document.getElementById('sTotalSeasons').textContent = seasons.length;
+        showEmpty('init');
+    } catch(e) {
+        document.getElementById('tBody').innerHTML = `<tr><td colspan="4"><div class="empty">❌ Lỗi tải dữ liệu JSON: ${e.message}</div></td></tr>`;
+    }
 };
 </script>
-
 </body>
 </html>
