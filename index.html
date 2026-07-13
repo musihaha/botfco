@@ -164,6 +164,25 @@
         @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
         @keyframes fadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
 
+        /* ===== POLISHED INTERACTION LAYER ===== */
+        .search-panel { overflow: visible; background: linear-gradient(145deg, rgba(24,24,36,.98), rgba(14,14,22,.96)); }
+        .search-panel::before { content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(110deg, rgba(0,230,118,.09), transparent 28%, transparent 72%, rgba(124,77,255,.08)); }
+        .sp-header, .search-row { position:relative; }
+        .season-dropdown .field-icon { pointer-events:none; }
+        .season-list { padding:6px; background:rgba(14,14,22,.97); border-color:rgba(0,230,118,.65); }
+        .season-item { border-radius:8px; border-bottom:0; margin:1px 0; padding:10px 12px; }
+        .season-item[aria-selected="true"], .season-item.is-active { background:var(--primary-glow-md); color:var(--text-0); outline:1px solid rgba(0,230,118,.3); }
+        .season-item mark { color:var(--primary); background:transparent; font-weight:800; }
+        .season-empty { padding:20px 14px; color:var(--text-3); font-size:13px; text-align:center; }
+        .field input[aria-expanded="true"] { border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-glow); }
+        .result-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 20px; background:var(--bg-1); border-bottom:1px solid var(--border); color:var(--text-3); font-size:.8rem; }
+        .result-bar strong { color:var(--text-1); font-family:'JetBrains Mono',monospace; }
+        .kbd { padding:2px 6px; border:1px solid var(--border-light); border-radius:4px; color:var(--text-2); font-family:'JetBrains Mono',monospace; font-size:.7rem; }
+        .loading-row { padding:70px 20px; text-align:center; color:var(--text-2); }
+        .loading-spinner { width:28px; height:28px; border:3px solid var(--border); border-top-color:var(--primary); border-radius:50%; margin:0 auto 12px; animation:spin .75s linear infinite; }
+        @keyframes spin { to { transform:rotate(360deg); } }
+        @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
+
         /* Responsive */
         @media (max-width: 768px) {
             .search-row { grid-template-columns: 1fr; gap: 12px; }
@@ -235,7 +254,7 @@
             <!-- CUSTOM SEASON DROPDOWN -->
             <div class="field season-dropdown" id="fSeason">
                 <span class="field-icon">🏆</span>
-                <input type="text" id="inSeason" placeholder="Chọn hoặc gõ mùa thẻ..." autocomplete="off" onfocus="showSeasonList()" oninput="filterSeasonList()">
+                <input type="text" id="inSeason" placeholder="Chọn mùa thẻ (gõ để tìm)" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="seasonList" onfocus="showSeasonList()" oninput="onSeasonInput()" onkeydown="onSeasonKeydown(event)">
                 <button class="field-clear" onclick="clrIn('inSeason')">✕</button>
                 <div class="season-list" id="seasonList"></div>
             </div>
@@ -249,6 +268,7 @@
     </div>
 
     <div class="table-panel">
+        <div class="result-bar" id="resultBar" aria-live="polite"><span>Nhập điều kiện để bắt đầu tra cứu</span><span><span class="kbd">↑↓</span> chọn mùa · <span class="kbd">Enter</span> xác nhận</span></div>
         <div class="tb-scroll">
             <table>
                 <thead id="tHead" style="display:none;">
@@ -523,192 +543,181 @@ async function loadVisitorCount() {
 }
 
 // =====================================================
-// SEASON DROPDOWN LOGIC
+// SEASON COMBOBOX — selection is always keyed by seasonId
+// This prevents partial text such as "ICON" from accidentally matching "ICON TM".
 // =====================================================
-function buildSeasonList() {
+let selectedSeasonId = null;
+let visibleSeasonIds = [];
+let activeSeasonIndex = -1;
+
+function seasonById(id) { return seasons.find(s => s.seasonId === Number(id)); }
+function safeHighlight(text, query) {
+    const clean = esc(text);
+    if (!query) return clean;
+    const at = text.toLowerCase().indexOf(query.toLowerCase());
+    if (at < 0) return clean;
+    return esc(text.slice(0, at)) + '<mark>' + esc(text.slice(at, at + query.length)) + '</mark>' + esc(text.slice(at + query.length));
+}
+function buildSeasonList() { renderSeasonList(''); }
+function renderSeasonList(query) {
     const list = document.getElementById('seasonList');
-    list.innerHTML = seasons.map(s => 
-        `<div class="season-item" onclick="selectSeason('${s.className}')">
-            <img src="${s.seasonImg}" alt="${s.className}">
-            <span>${s.className}</span>
-        </div>`
-    ).join('');
+    const q = query.trim().toLowerCase();
+    const matches = seasons.filter(s => s.className.toLowerCase().includes(q));
+    visibleSeasonIds = matches.map(s => s.seasonId);
+    if (activeSeasonIndex >= visibleSeasonIds.length) activeSeasonIndex = visibleSeasonIds.length - 1;
+    list.innerHTML = matches.length ? matches.map((s, i) => `
+        <div class="season-item ${i === activeSeasonIndex ? 'is-active' : ''}" role="option" id="season-option-${s.seasonId}" aria-selected="${s.seasonId === selectedSeasonId}" data-season-id="${s.seasonId}" onmousedown="event.preventDefault(); selectSeason(${s.seasonId})">
+            <img src="${s.seasonImg}" alt="" onerror="this.style.visibility='hidden'">
+            <span>${safeHighlight(s.className, q)}</span>
+        </div>`).join('') : '<div class="season-empty">Không có mùa thẻ phù hợp</div>';
 }
-function showSeasonList() { document.getElementById('seasonList').classList.add('show'); }
-function hideSeasonList() { setTimeout(() => document.getElementById('seasonList').classList.remove('show'), 200); }
-function selectSeason(val) { document.getElementById('inSeason').value = val; hideSeasonList(); debouncedFilter(); }
-function filterSeasonList() {
-    const q = document.getElementById('inSeason').value.toLowerCase();
-    const items = document.querySelectorAll('.season-item');
-    items.forEach(item => {
-        const text = item.innerText.toLowerCase();
-        item.style.display = text.includes(q) ? 'flex' : 'none';
-    });
+function showSeasonList() {
+    const input = document.getElementById('inSeason');
+    document.getElementById('seasonList').classList.add('show');
+    input.setAttribute('aria-expanded', 'true');
+    renderSeasonList(input.value);
 }
-// Click ra ngoài để ẩn dropdown
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.season-dropdown')) hideSeasonList();
-});
+function hideSeasonList() {
+    const input = document.getElementById('inSeason');
+    document.getElementById('seasonList').classList.remove('show');
+    input.setAttribute('aria-expanded', 'false');
+    activeSeasonIndex = -1;
+}
+function selectSeason(id) {
+    const season = seasonById(id);
+    if (!season) return;
+    selectedSeasonId = season.seasonId;
+    document.getElementById('inSeason').value = season.className;
+    hideSeasonList();
+    filterData();
+}
+function clearSeason() {
+    selectedSeasonId = null;
+    document.getElementById('inSeason').value = '';
+    renderSeasonList('');
+    filterData();
+}
+function onSeasonInput() {
+    // Typing searches choices only. A result is filtered only after an explicit selection.
+    selectedSeasonId = null;
+    activeSeasonIndex = -1;
+    showSeasonList();
+}
+function onSeasonKeydown(event) {
+    if (event.key === 'Escape') { hideSeasonList(); return; }
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        event.preventDefault(); showSeasonList();
+        if (!visibleSeasonIds.length) return;
+        activeSeasonIndex = event.key === 'ArrowDown'
+            ? Math.min(activeSeasonIndex + 1, visibleSeasonIds.length - 1)
+            : Math.max(activeSeasonIndex - 1, 0);
+        renderSeasonList(document.getElementById('inSeason').value);
+        document.getElementById(`season-option-${visibleSeasonIds[activeSeasonIndex]}`)?.scrollIntoView({block:'nearest'});
+    }
+    if (event.key === 'Enter' && activeSeasonIndex >= 0 && visibleSeasonIds[activeSeasonIndex] !== undefined) {
+        event.preventDefault(); selectSeason(visibleSeasonIds[activeSeasonIndex]);
+    }
+}
+document.addEventListener('click', (e) => { if (!e.target.closest('.season-dropdown')) hideSeasonList(); });
 
 // =====================================================
-// TÌM KIẾM & SẮP XẾP
+// SEARCH, SORT & RENDER
 // =====================================================
 let dbTimer;
 function debouncedFilter() { clearTimeout(dbTimer); dbTimer = setTimeout(filterData, 150); }
-
-function setMode(m) { 
-    searchMode = m; 
-    document.getElementById('mNameBtn').classList.toggle('active', m==='name');
-    document.getElementById('mSpidBtn').classList.toggle('active', m==='spid');
-    document.getElementById('fName').style.display = m==='name' ? '' : 'none';
-    document.getElementById('fPid').style.display = m==='name' ? '' : 'none';
-    document.getElementById('fSpid').style.display = m==='spid' ? '' : 'none';
-    debouncedFilter();
+function setMode(m) {
+    searchMode = m;
+    document.getElementById('mNameBtn').classList.toggle('active', m === 'name');
+    document.getElementById('mSpidBtn').classList.toggle('active', m === 'spid');
+    document.getElementById('fName').style.display = m === 'name' ? '' : 'none';
+    document.getElementById('fPid').style.display = m === 'name' ? '' : 'none';
+    document.getElementById('fSpid').style.display = m === 'spid' ? '' : 'none';
+    filterData();
 }
-function clrIn(id) { document.getElementById(id).value = ''; debouncedFilter(); }
-
+function clrIn(id) {
+    if (id === 'inSeason') clearSeason();
+    else { document.getElementById(id).value = ''; debouncedFilter(); }
+}
+function updateResultBar(message, count) {
+    const bar = document.getElementById('resultBar');
+    bar.querySelector('span').innerHTML = count === undefined ? message : `<strong>${count.toLocaleString()}</strong> ${message}`;
+}
 function filterData() {
-    const sq = document.getElementById('inSeason').value.trim().toLowerCase();
-    let nq = '', nk = [], spidq = '', pidq = '';
-    
-    if (searchMode === 'name') {
-        nq = norm(document.getElementById('inName').value);
-        nk = nq.split(/\s+/).filter(t => t.length > 0);
-        pidq = document.getElementById('inPid').value.trim();
-    } else {
-        spidq = document.getElementById('inSpid').value.trim();
-    }
-
-    if (!nq && !sq && !spidq && !pidq) { showEmpty('init'); return; }
+    const nq = searchMode === 'name' ? norm(document.getElementById('inName').value) : '';
+    const nk = nq ? nq.split(/\s+/).filter(Boolean) : [];
+    const spidq = searchMode === 'spid' ? document.getElementById('inSpid').value.trim() : '';
+    const pidq = searchMode === 'name' ? document.getElementById('inPid').value.trim() : '';
+    const hasSearch = Boolean(nq || spidq || pidq || selectedSeasonId !== null);
+    if (!hasSearch) { showEmpty('init'); return; }
 
     const filtered = playerIndex.filter(e => {
-        if (searchMode === 'spid' && spidq) {
-            const m = e.spidStr.includes(spidq) || e.pidStr.includes(spidq);
-            return sq ? m && e.seasonNorm.includes(sq) : m;
-        }
-        let nm = true; if (nk.length > 0) nm = nk.every(t => e.nameNorm.includes(t));
-        let pm = true; if (pidq) pm = e.pidStr.includes(pidq);
-        let sm = true; if (sq) sm = e.seasonNorm.includes(sq);
-        return nm && pm && sm;
+        const seasonMatch = selectedSeasonId === null || e.seasonId === selectedSeasonId;
+        if (!seasonMatch) return false;
+        if (searchMode === 'spid') return !spidq || e.spidStr.includes(spidq) || e.pidStr.includes(spidq);
+        return (!nk.length || nk.every(t => e.nameNorm.includes(t))) && (!pidq || e.pidStr.includes(pidq));
     });
-
-    // CHẤM ĐIỂM ƯU TIÊN SẮP XẾP
-    const scored = filtered.map(e => {
-        let sc = 0;
-        if (nk.length > 0 && e.nameNorm.startsWith(nk[0])) sc += 100;
-        return { entry: e, score: sc, ovr: e.ref.ovr || 0 };
-    });
-
-    // Sort: Score -> OVR (Cao xuống thấp) -> ID
-    scored.sort((a, b) => {
-        if (b.score !== a.score) return b.score - a.score; 
-        if (b.ovr !== a.ovr) return b.ovr - a.ovr;         
-        return b.entry.ref.id - a.entry.ref.id;
-    });
-
-    currentFiltered = scored.map(s => s.entry);
+    currentFiltered = filtered;
     currentPage = 1; currentSortBy = 'ovr'; currentSortDir = 'desc';
-    updSortUI();
-    
-    if (!currentFiltered.length) showEmpty('no');
-    else renderPage();
-    
+    sortCurrent(); updSortUI();
+    if (!currentFiltered.length) showEmpty('no'); else renderPage();
     document.getElementById('sSearches').textContent = (++searchCnt).toLocaleString();
 }
-
-function changeSort(f) {
-    if (currentSortBy === f) {
-        currentSortDir = currentSortDir === 'asc' ? 'desc' : 'asc';
-    } else { 
-        currentSortBy = f; 
-        currentSortDir = (f === 'name') ? 'asc' : 'desc'; 
-    }
-    
+function sortCurrent() {
+    const f = currentSortBy, dir = currentSortDir;
     currentFiltered.sort((a, b) => {
-        let valA, valB;
-        if (f === 'ovr') { valA = a.ref.ovr || 0; valB = b.ref.ovr || 0; }
-        else if (f === 'spid') { valA = a.ref.id; valB = b.ref.id; }
-        else if (f === 'name') { valA = a.nameNorm; valB = b.nameNorm; }
-        else if (f === 'season') { valA = a.seasonNorm; valB = b.seasonNorm; }
-        
-        if (valA < valB) return currentSortDir === 'asc' ? -1 : 1;
-        if (valA > valB) return currentSortDir === 'asc' ? 1 : -1;
-        return 0;
+        const val = e => f === 'ovr' ? (e.ref.ovr || 0) : f === 'spid' ? e.ref.id : f === 'name' ? e.nameNorm : e.seasonNorm;
+        const va = val(a), vb = val(b);
+        if (va < vb) return dir === 'asc' ? -1 : 1;
+        if (va > vb) return dir === 'asc' ? 1 : -1;
+        return a.ref.id - b.ref.id;
     });
-    
-    updSortUI(); currentPage = 1; renderPage();
 }
-
+function changeSort(f) {
+    currentSortDir = currentSortBy === f ? (currentSortDir === 'asc' ? 'desc' : 'asc') : (f === 'name' || f === 'season' ? 'asc' : 'desc');
+    currentSortBy = f; currentPage = 1; sortCurrent(); updSortUI(); renderPage();
+}
 function updSortUI() {
     ['ovr','spid','name','season'].forEach(f => {
-        const el = document.getElementById('si' + f.charAt(0).toUpperCase() + f.slice(1));
-        if (el) {
-            el.textContent = currentSortBy === f ? (currentSortDir === 'asc' ? '▲' : '▼') : '';
-            el.style.color = currentSortBy === f ? 'var(--primary)' : 'inherit';
-        }
+        const el = document.getElementById('si' + f[0].toUpperCase() + f.slice(1));
+        el.textContent = currentSortBy === f ? (currentSortDir === 'asc' ? '▲' : '▼') : '';
+        el.style.color = currentSortBy === f ? 'var(--primary)' : 'inherit';
     });
 }
-
 function showEmpty(type) {
-    document.getElementById('tHead').style.display = 'none';
-    document.getElementById('pager').style.display = 'none';
-    const tb = document.getElementById('tBody');
-    if (type === 'init') tb.innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-ico">🔍</div><div class="empty-title">Nhập thông tin cầu thủ</div><div class="empty-desc">Nhập tên hoặc SPID để bắt đầu tìm kiếm.</div></div></td></tr>`;
-    else tb.innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-ico">😕</div><div class="empty-title">Không tìm thấy cầu thủ</div><div class="empty-desc">Vui lòng kiểm tra lại chính tả hoặc thử tên khác.</div></div></td></tr>`;
+    document.getElementById('tHead').style.display = 'none'; document.getElementById('pager').style.display = 'none';
+    updateResultBar(type === 'init' ? 'Chọn mùa, nhập tên, PID hoặc SPID để bắt đầu' : 'Không có kết quả phù hợp');
+    const message = type === 'init' ? ['🔍','Nhập thông tin cầu thủ','Dùng tên, PID, SPID hoặc chọn một mùa thẻ.'] : ['😕','Không tìm thấy cầu thủ','Thử đổi từ khóa, PID hoặc mùa thẻ.'];
+    document.getElementById('tBody').innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-ico">${message[0]}</div><div class="empty-title">${message[1]}</div><div class="empty-desc">${message[2]}</div></div></td></tr>`;
 }
-
+function highlightName(name, tokens) {
+    if (!tokens.length) return esc(name);
+    // Keep output safe and use literal matching against the displayed name.
+    let output = esc(name);
+    tokens.forEach(token => { const re = new RegExp(`(${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'ig'); output = output.replace(re, '<span class="hl">$1</span>'); });
+    return output;
+}
 function renderPage() {
     document.getElementById('tHead').style.display = '';
-    const s = (currentPage - 1) * PAGE_SIZE, e = Math.min(s + PAGE_SIZE, currentFiltered.length);
-    const data = currentFiltered.slice(s, e).map(x => x.ref);
-    const nk = searchMode === 'name' ? norm(document.getElementById('inName').value).split(/\s+/) : [];
-    
+    const start = (currentPage - 1) * PAGE_SIZE, end = Math.min(start + PAGE_SIZE, currentFiltered.length);
+    const data = currentFiltered.slice(start, end).map(x => x.ref);
+    const tokens = searchMode === 'name' ? norm(document.getElementById('inName').value).split(/\s+/).filter(Boolean) : [];
+    updateResultBar(`kết quả · hiển thị ${start + 1}–${end}`, currentFiltered.length);
     document.getElementById('tBody').innerHTML = data.map(p => {
         const sid = Math.floor(p.id / 1000000), sn = seasonMap.get(sid), urls = getImgUrls(p.id);
-        
-        // Highlight Tên
-        let dName = esc(p.name);
-        if (nk.length) {
-            const nn = norm(p.name);
-            nk.forEach(t => { 
-                if (nn.includes(t)) { 
-                    const rg = new RegExp(`(${t})`,'gi'); 
-                    dName = dName.replace(rg, '<span class="hl">$1</span>'); 
-                }
-            });
-        }
-
-        return `<tr>
-            <td style="text-align:center;"><div class="ovr-badge ${getOvrClass(p.ovr)}">${p.ovr || '-'}</div></td>
-            <td><span class="spid-code" onclick="copyToClipboard('${p.id}', 'SPID')" title="Bấm để Copy">${p.id}</span></td>
-            <td>
-                <div class="player-row">
-                    <div class="avatar-wrap"><img src="${urls[0]}" class="avatar-img" data-url-index="0" onerror="handleImgErr(this,${p.id})"></div>
-                    <div><div class="player-name">${dName}</div><div class="player-pid">PID: ${getPid(p.id)}</div></div>
-                </div>
-            </td>
-            <td>
-                <div class="season-cell">
-                    ${sn ? `<img src="${sn.seasonImg}" class="season-img"><span class="season-label">${sn.className}</span>` : `<span style="color:var(--text-4)">Mùa ${sid}</span>`}
-                </div>
-            </td>
-        </tr>`;
+        return `<tr><td style="text-align:center;"><div class="ovr-badge ${getOvrClass(p.ovr)}">${p.ovr || '-'}</div></td><td><button class="spid-code" type="button" onclick="copyToClipboard('${p.id}', 'SPID')" title="Sao chép SPID">${p.id}</button></td><td><div class="player-row"><div class="avatar-wrap"><img src="${urls[0]}" alt="" class="avatar-img" data-url-index="0" onerror="handleImgErr(this,${p.id})"></div><div><div class="player-name">${highlightName(p.name, tokens)}</div><div class="player-pid">PID: ${getPid(p.id)}</div></div></div></td><td><div class="season-cell">${sn ? `<img src="${sn.seasonImg}" class="season-img" alt=""><span class="season-label">${esc(sn.className)}</span>` : `<span style="color:var(--text-4)">Mùa ${sid}</span>`}</div></td></tr>`;
     }).join('');
-    
     renderPager(currentFiltered.length);
 }
-
 function renderPager(total) {
     const tp = Math.ceil(total / PAGE_SIZE), pg = document.getElementById('pager');
     if (tp <= 1) { pg.style.display = 'none'; return; }
     pg.style.display = 'flex';
-    let h = `<button class="pg-btn" onclick="currentPage=1; renderPage()" ${currentPage === 1 ? 'disabled' : ''}>«</button>`;
-    let s = Math.max(1, currentPage - 2), e = Math.min(tp, currentPage + 2);
-    for (let i = s; i <= e; i++) {
-        h += `<button class="pg-btn ${i === currentPage ? 'cur' : ''}" onclick="currentPage=${i}; renderPage()">${i}</button>`;
-    }
-    h += `<button class="pg-btn" onclick="currentPage=${tp}; renderPage()" ${currentPage === tp ? 'disabled' : ''}>»</button>`;
-    pg.innerHTML = h;
+    const pageButton = n => `<button class="pg-btn ${n === currentPage ? 'cur' : ''}" type="button" aria-label="Trang ${n}" onclick="currentPage=${n}; renderPage()">${n}</button>`;
+    const pages = new Set([1, tp, currentPage - 1, currentPage, currentPage + 1].filter(n => n >= 1 && n <= tp));
+    let html = `<button class="pg-btn" type="button" onclick="currentPage--;renderPage()" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
+    let last = 0; [...pages].sort((a,b) => a-b).forEach(n => { if (n - last > 1) html += '<span style="padding:8px;color:var(--text-3)">…</span>'; html += pageButton(n); last = n; });
+    html += `<button class="pg-btn" type="button" onclick="currentPage++;renderPage()" ${currentPage === tp ? 'disabled' : ''}>›</button>`;
+    pg.innerHTML = html;
 }
 
 // =====================================================
@@ -717,6 +726,7 @@ function renderPager(total) {
 window.onload = async () => {
     buildSeasonList();
     loadVisitorCount();
+    document.getElementById('tBody').innerHTML = '<tr><td colspan="4"><div class="loading-row"><div class="loading-spinner"></div>Đang tải dữ liệu cầu thủ…</div></td></tr>';
     try {
         const res = await fetch('./spid_translated.json');
         if(!res.ok) throw new Error("Không tìm thấy file JSON");
@@ -727,7 +737,8 @@ window.onload = async () => {
             return { 
                 ref: p, 
                 nameNorm: norm(p.name), 
-                seasonNorm: sn ? sn.className.toLowerCase() : "", 
+                seasonNorm: sn ? sn.className.toLowerCase() : "",
+                seasonId: sid,
                 spidStr: String(p.id), 
                 pidStr: String(getPid(p.id)) 
             };
@@ -743,3 +754,5 @@ window.onload = async () => {
 </script>
 </body>
 </html>
+
+hãy nâng cấp giao diện đẹp đẽ chuyên nghiệp và fix full lỗi 100% đi như là lỗi:gõ icon mà hiện ra cả icontm(nếu gõ và ấn mùa thẻ nào thì chỉ được hiện mùa thẻ đó) và còn nhiều lỗi khác nữa
