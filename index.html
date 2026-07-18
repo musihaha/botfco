@@ -3,198 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FC Online Player Database — Pro Edition</title>
+    <title>FC Online Player Database — Pro Edition V2</title>
     <meta name="description" content="Tra cứu SPID cầu thủ FC Online nhanh nhất. Tìm theo tên, SPID, mùa giải.">
+    <meta name="theme-color" content="#050508">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        /* ===== CSS RESET & VARIABLES ===== */
+        /* ============================================================
+           FC ONLINE DATABASE — PRO EDITION V2
+           Aurora glassmorphism · Smart search · Micro-interactions
+        ============================================================ */
         :root {
             --primary: #00e676;
             --primary-dark: #00c853;
             --primary-glow: rgba(0, 230, 118, 0.12);
-            --primary-glow-md: rgba(0, 230, 118, 0.20);
-            --primary-glow-lg: rgba(0, 230, 118, 0.30);
+            --primary-glow-md: rgba(0, 230, 118, 0.22);
+            --primary-glow-lg: rgba(0, 230, 118, 0.34);
             --accent: #7c4dff;
-            --bg-0: #050508;
-            --bg-1: #0a0a10;
-            --bg-2: #12121a;
-            --bg-3: #181824;
-            --bg-4: #222232;
-            --glass: rgba(18, 18, 26, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-0: #ffffff;
-            --text-1: #e2e2ec;
-            --text-2: #a0a0b8;
-            --text-3: #666680;
-            --text-4: #44445a;
-            --border: #262636;
-            --border-light: #36364a;
-            --success: #66bb6a;
-            --warning: #ffb74d;
-            --danger: #ef5350;
-            --info: #42a5f5;
-            --r-xs: 6px; --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 20px;
+            --accent-2: #00b0ff;
+            --bg-0: #050508; --bg-1: #0a0a10; --bg-2: #12121a; --bg-3: #181824; --bg-4: #222232;
+            --glass: rgba(16, 16, 24, 0.72);
+            --glass-border: rgba(255, 255, 255, 0.09);
+            --text-0: #ffffff; --text-1: #e2e2ec; --text-2: #a0a0b8; --text-3: #666680; --text-4: #44445a;
+            --border: #262636; --border-light: #36364a;
+            --danger: #ef5350; --warning: #ffb74d; --info: #42a5f5;
+            --r-sm: 8px; --r-md: 12px; --r-lg: 16px; --r-xl: 22px;
             --s-sm: 0 2px 8px rgba(0,0,0,0.3);
-            --s-md: 0 6px 24px rgba(0,0,0,0.4);
-            --s-lg: 0 12px 48px rgba(0,0,0,0.6);
+            --s-md: 0 8px 28px rgba(0,0,0,0.45);
+            --s-lg: 0 16px 56px rgba(0,0,0,0.65);
             --t-fast: 0.15s ease;
             --t-norm: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            --t-spring: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-
         *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+        html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-0); color: var(--text-1); min-height: 100vh; overflow-x: hidden; line-height: 1.6; }
         ::selection { background: var(--primary-glow-lg); color: var(--primary); }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-1); }
-        ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(var(--border-light), var(--bg-4)); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-4); }
 
-        /* ===== BACKGROUND ===== */
+        /* ===== AURORA BACKGROUND (chuyển động) ===== */
         .bg-ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-        .bg-ambient::before { content: ''; position: absolute; top: -30%; left: 50%; transform: translateX(-50%); width: 140%; height: 60%; background: radial-gradient(ellipse, rgba(0,230,118,0.05) 0%, transparent 60%); }
-        .bg-ambient::after { content: ''; position: absolute; bottom: -20%; right: -10%; width: 60%; height: 50%; background: radial-gradient(ellipse, rgba(124,77,255,0.04) 0%, transparent 60%); }
-        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px); background-size: 60px 60px; mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 30%, transparent 100%); -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 30%, black 30%, transparent 100%); }
+        .aurora { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55; will-change: transform; }
+        .aurora-1 { width: 55vw; height: 55vw; top: -25vw; left: 8vw; background: radial-gradient(circle, rgba(0,230,118,.10), transparent 65%); animation: drift1 26s ease-in-out infinite alternate; }
+        .aurora-2 { width: 45vw; height: 45vw; bottom: -18vw; right: -8vw; background: radial-gradient(circle, rgba(124,77,255,.09), transparent 65%); animation: drift2 32s ease-in-out infinite alternate; }
+        .aurora-3 { width: 34vw; height: 34vw; top: 30vh; left: -12vw; background: radial-gradient(circle, rgba(0,176,255,.07), transparent 65%); animation: drift3 38s ease-in-out infinite alternate; }
+        @keyframes drift1 { to { transform: translate(9vw, 7vh) scale(1.15); } }
+        @keyframes drift2 { to { transform: translate(-7vw, -8vh) scale(1.1) rotate(20deg); } }
+        @keyframes drift3 { to { transform: translate(10vw, -6vh) scale(1.2); } }
+        .bg-grid { position: fixed; inset: 0; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(255,255,255,0.016) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.016) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 72% 72% at 50% 26%, black 28%, transparent 100%); -webkit-mask-image: radial-gradient(ellipse 72% 72% at 50% 26%, black 28%, transparent 100%); }
 
         /* ===== HEADER ===== */
-        .header { position: sticky; top: 0; z-index: 200; background: var(--glass); backdrop-filter: blur(24px); border-bottom: 1px solid var(--glass-border); }
-        .header-inner { max-width: 1320px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 68px; }
+        .header { position: sticky; top: 0; z-index: 200; background: var(--glass); backdrop-filter: blur(24px) saturate(1.4); -webkit-backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid var(--glass-border); }
+        .header::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: linear-gradient(90deg, transparent, var(--primary-glow-lg), transparent); }
+        .header-inner { max-width: 1320px; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; justify-content: space-between; height: 66px; }
         .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; cursor: pointer; }
-        .logo-glyph { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), #00bfa5); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 16px rgba(0,230,118,0.25); transition: transform var(--t-norm); }
-        .logo:hover .logo-glyph { transform: rotate(-10deg) scale(1.05); }
-        .logo-title { font-size: 1.15rem; font-weight: 800; background: linear-gradient(135deg, #fff 30%, var(--text-2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .logo-sub { font-size: 0.65rem; color: var(--text-3); letter-spacing: 2px; text-transform: uppercase; font-weight: 600; display: block; }
-        
+        .logo-glyph { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), #00bfa5); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 4px 18px rgba(0,230,118,0.3), inset 0 1px 0 rgba(255,255,255,.3); transition: transform var(--t-spring); }
+        .logo:hover .logo-glyph { transform: rotate(-12deg) scale(1.1); }
+        .logo-title { font-size: 1.12rem; font-weight: 800; background: linear-gradient(135deg, #fff 30%, var(--text-2) 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .logo-sub { font-size: 0.62rem; color: var(--text-3); letter-spacing: 2.4px; text-transform: uppercase; font-weight: 700; display: block; margin-top: -2px; }
+        .header-right { display: flex; align-items: center; gap: 10px; }
+        .kbd-hint { display: none; align-items: center; gap: 6px; padding: 6px 12px; background: var(--bg-2); border: 1px solid var(--border); border-radius: 30px; font-size: .72rem; color: var(--text-3); }
+        @media (min-width: 900px) { .kbd-hint { display: flex; } }
         .visitor-badge { display: flex; align-items: center; gap: 8px; padding: 6px 14px; background: var(--bg-3); border: 1px solid var(--border); border-radius: 30px; font-size: 0.75rem; color: var(--text-2); }
-        .visitor-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 8px var(--primary); animation: pulse-dot 2s infinite; }
-        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        .visitor-dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 10px var(--primary); animation: pulse-dot 2s infinite; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.45; transform: scale(.8); } }
         .visitor-count { font-family: 'JetBrains Mono', monospace; font-weight: 700; color: var(--text-0); }
 
-        /* ===== MAIN & HERO ===== */
+        /* ===== HERO ===== */
         .main { position: relative; z-index: 1; max-width: 1320px; margin: 0 auto; padding: 24px; }
-        .hero { text-align: center; padding: 40px 0 20px; }
-        .hero h1 { font-size: 2.6rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 12px; background: linear-gradient(to right, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { color: var(--text-3); max-width: 500px; margin: 0 auto; font-size: 1.05rem; }
+        .hero { text-align: center; padding: 46px 0 26px; }
+        .hero-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: .7rem; letter-spacing: 3px; text-transform: uppercase; font-weight: 700; color: var(--primary); background: var(--primary-glow); padding: 6px 16px; border-radius: 30px; border: 1px solid rgba(0,230,118,.25); margin-bottom: 18px; animation: rise .5s ease both; }
+        .hero h1 { font-size: clamp(2rem, 5vw, 3.1rem); font-weight: 900; letter-spacing: -1.5px; margin-bottom: 12px; line-height: 1.15; background: linear-gradient(110deg, #fff 20%, var(--primary) 50%, #6effb4 60%, #fff 85%); background-size: 220% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 7s linear infinite, rise .5s .05s ease both; }
+        @keyframes shine { to { background-position: 220% center; } }
+        .hero p { color: var(--text-3); max-width: 520px; margin: 0 auto; font-size: 1.02rem; animation: rise .5s .1s ease both; }
+        @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
         /* ===== STATS ===== */
-        .stats-ribbon { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
-        .stat-tile { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px 20px; display: flex; align-items: center; gap: 16px; transition: var(--t-norm); }
-        .stat-tile:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--s-md); }
-        .stat-glyph { width: 44px; height: 44px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; background: var(--bg-3); color: var(--primary); }
-        .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 1.5rem; font-weight: 800; color: var(--text-0); line-height: 1.1; }
-        .stat-lbl { font-size: 0.7rem; color: var(--text-3); text-transform: uppercase; font-weight: 600; margin-top: 4px; }
+        .stats-ribbon { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 14px; margin-bottom: 22px; }
+        .stat-tile { position: relative; overflow: hidden; background: linear-gradient(150deg, rgba(24,24,36,.9), rgba(12,12,20,.92)); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 16px 18px; display: flex; align-items: center; gap: 14px; transition: var(--t-norm); animation: rise .5s ease both; }
+        .stat-tile:nth-child(2) { animation-delay: .06s; } .stat-tile:nth-child(3) { animation-delay: .12s; } .stat-tile:nth-child(4) { animation-delay: .18s; }
+        .stat-tile::before { content: ''; position: absolute; top: 0; left: -80%; width: 60%; height: 100%; background: linear-gradient(100deg, transparent, rgba(255,255,255,.05), transparent); transition: left .6s ease; }
+        .stat-tile:hover { border-color: rgba(0,230,118,.5); transform: translateY(-3px); box-shadow: var(--s-md), 0 0 24px var(--primary-glow); }
+        .stat-tile:hover::before { left: 120%; }
+        .stat-glyph { width: 42px; height: 42px; border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; font-size: 1.15rem; background: var(--bg-3); color: var(--primary); border: 1px solid var(--border); flex-shrink: 0; }
+        .stat-num { font-family: 'JetBrains Mono', monospace; font-size: 1.42rem; font-weight: 800; color: var(--text-0); line-height: 1.1; font-variant-numeric: tabular-nums; }
+        .stat-lbl { font-size: 0.68rem; color: var(--text-3); text-transform: uppercase; font-weight: 700; letter-spacing: 1px; margin-top: 3px; }
 
         /* ===== SEARCH PANEL ===== */
-        .search-panel { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 24px; margin-bottom: 24px; box-shadow: var(--s-md); position: relative; }
-        .sp-header { display: flex; justify-content: space-between; margin-bottom: 20px; align-items: center; }
-        .mode-switch { display: flex; background: var(--bg-1); padding: 4px; border-radius: var(--r-sm); border: 1px solid var(--border); }
-        .mode-btn { padding: 8px 20px; border: none; background: transparent; color: var(--text-3); font-weight: 600; border-radius: 6px; cursor: pointer; transition: var(--t-fast); }
-        .mode-btn.active { background: var(--primary); color: #000; box-shadow: 0 2px 10px rgba(0,230,118,0.3); }
-        
-        .search-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+        .search-panel { background: linear-gradient(150deg, rgba(24,24,38,.96), rgba(12,12,20,.96)); border: 1px solid var(--border); border-radius: var(--r-xl); padding: 24px; margin-bottom: 22px; box-shadow: var(--s-md); position: relative; overflow: visible; animation: rise .5s .1s ease both; }
+        .search-panel::before { content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; background: linear-gradient(110deg, rgba(0,230,118,.10), transparent 30%, transparent 70%, rgba(124,77,255,.09)); }
+        .search-panel::after { content: ''; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none; padding: 1px; background: linear-gradient(120deg, rgba(0,230,118,.4), transparent 30%, transparent 70%, rgba(124,77,255,.35)); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask-composite: exclude; opacity: .5; }
+        .sp-header { display: flex; justify-content: space-between; margin-bottom: 18px; align-items: center; position: relative; flex-wrap: wrap; gap: 10px; }
+        .sp-title { font-size: 15px; display: flex; align-items: center; gap: 9px; font-weight: 700; color: var(--text-0); }
+        .sp-title .dot { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; box-shadow: 0 0 12px var(--primary); }
+        .mode-switch { display: flex; background: var(--bg-1); padding: 4px; border-radius: var(--r-sm); border: 1px solid var(--border); position: relative; }
+        .mode-btn { padding: 8px 20px; border: none; background: transparent; color: var(--text-3); font-weight: 650; font-family: inherit; font-size: .85rem; border-radius: 6px; cursor: pointer; transition: var(--t-fast); position: relative; z-index: 1; }
+        .mode-btn.active { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #003018; box-shadow: 0 2px 12px rgba(0,230,118,0.35); }
+
+        .search-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; position: relative; }
         .field { position: relative; }
-        .field-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-4); z-index: 2; transition: var(--t-norm); }
+        /* 🔧 FIX: input đặt TRƯỚC icon trong HTML để selector `input:focus ~ .field-icon`
+           hoạt động thật sự — bản cũ icon đứng trước nên hiệu ứng focus không bao giờ chạy */
+        .field-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-4); z-index: 2; transition: var(--t-norm); pointer-events: none; }
         .field input { width: 100%; background: var(--bg-1); border: 1px solid var(--border); color: var(--text-0); padding: 14px 40px 14px 44px; border-radius: var(--r-md); font-size: 15px; outline: none; transition: var(--t-norm); font-family: 'Inter', sans-serif; }
-        .field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); background: var(--bg-0); }
-        .field input:focus ~ .field-icon { color: var(--primary); }
-        .field-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; border: none; background: var(--bg-3); color: var(--text-2); cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 2; }
+        .field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow), 0 4px 20px rgba(0,0,0,.3); background: var(--bg-0); }
+        .field input:focus ~ .field-icon { color: var(--primary); transform: translateY(-50%) scale(1.15); }
+        .field-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); width: 24px; height: 24px; border-radius: 50%; border: none; background: var(--bg-3); color: var(--text-2); cursor: pointer; display: none; align-items: center; justify-content: center; z-index: 2; font-size: 11px; transition: var(--t-fast); }
         .field input:not(:placeholder-shown) ~ .field-clear { display: flex; }
-        .field-clear:hover { background: var(--danger); color: #fff; }
+        .field-clear:hover { background: var(--danger); color: #fff; transform: translateY(-50%) rotate(90deg); }
+
+        /* ===== 🆕 SMART CHIPS (lọc OVR + lịch sử) ===== */
+        .chips-row { display: flex; align-items: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; position: relative; }
+        .chips-label { font-size: .7rem; color: var(--text-4); text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; margin-right: 2px; }
+        .chip { padding: 6px 14px; border-radius: 30px; border: 1px solid var(--border); background: var(--bg-1); color: var(--text-2); font-size: .78rem; font-weight: 650; font-family: inherit; cursor: pointer; transition: var(--t-fast); user-select: none; }
+        .chip:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
+        .chip.on { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #003018; border-color: transparent; box-shadow: 0 2px 12px rgba(0,230,118,.35); }
+        .chip.recent { border-style: dashed; }
+        .chip.recent:hover { border-style: solid; }
+        .chip-x { margin-left: 6px; opacity: .6; }
+        .chip-x:hover { opacity: 1; color: var(--danger); }
 
         /* CUSTOM SEASON DROPDOWN */
         .season-dropdown { position: relative; }
-        .season-list { position: absolute; top: 100%; left: 0; right: 0; background: var(--glass); backdrop-filter: blur(20px); border: 1px solid var(--primary); border-radius: var(--r-md); margin-top: 8px; max-height: 280px; overflow-y: auto; z-index: 999; box-shadow: var(--s-lg); display: none; opacity: 0; transform: translateY(-10px); transition: all 0.2s ease; }
+        .season-list { position: absolute; top: 100%; left: 0; right: 0; background: rgba(13,13,21,.97); backdrop-filter: blur(20px); border: 1px solid rgba(0,230,118,.55); border-radius: var(--r-md); margin-top: 8px; max-height: 300px; overflow-y: auto; z-index: 999; box-shadow: var(--s-lg), 0 0 30px var(--primary-glow); display: none; opacity: 0; transform: translateY(-8px); transition: opacity .2s ease, transform .2s ease; padding: 6px; }
         .season-list.show { display: block; opacity: 1; transform: translateY(0); }
-        .season-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; border-bottom: 1px solid var(--border); transition: background var(--t-fast); }
-        .season-item:last-child { border-bottom: none; }
+        .season-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; cursor: pointer; border-radius: 8px; margin: 1px 0; transition: background var(--t-fast); }
         .season-item:hover { background: var(--primary-glow); color: var(--text-0); }
+        .season-item[aria-selected="true"], .season-item.is-active { background: var(--primary-glow-md); color: var(--text-0); outline: 1px solid rgba(0,230,118,.35); }
         .season-item img { width: 32px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5)); }
         .season-item span { font-weight: 600; font-size: 14px; }
+        .season-item mark { color: var(--primary); background: transparent; font-weight: 800; }
+        .season-empty { padding: 20px 14px; color: var(--text-3); font-size: 13px; text-align: center; }
+        .field input[aria-expanded="true"] { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
 
         /* ===== TABLE ===== */
-        .table-panel { background: var(--bg-2); border: 1px solid var(--border); border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--s-md); }
-        .tb-scroll { overflow-x: auto; }
+        .table-panel { background: linear-gradient(160deg, rgba(22,22,34,.95), rgba(11,11,18,.95)); border: 1px solid var(--border); border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--s-md); animation: rise .5s .15s ease both; }
+        .result-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 20px; background: var(--bg-1); border-bottom: 1px solid var(--border); color: var(--text-3); font-size: .8rem; flex-wrap: wrap; }
+        .result-bar strong { color: var(--primary); font-family: 'JetBrains Mono', monospace; }
+        .result-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .search-time { font-family: 'JetBrains Mono', monospace; color: var(--text-4); font-size: .72rem; }
+        .kbd { padding: 2px 6px; border: 1px solid var(--border-light); border-radius: 4px; color: var(--text-2); font-family: 'JetBrains Mono', monospace; font-size: .7rem; }
+        .page-size-sel { background: var(--bg-2); color: var(--text-2); border: 1px solid var(--border); border-radius: 6px; padding: 3px 8px; font-family: inherit; font-size: .75rem; cursor: pointer; outline: none; }
+        .page-size-sel:hover { border-color: var(--primary); }
+        .tb-scroll { overflow-x: auto; max-height: 72vh; overflow-y: auto; }
         table { width: 100%; border-collapse: collapse; }
-        th { background: var(--bg-1); padding: 16px 24px; text-align: left; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-3); font-weight: 700; border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap; user-select: none; }
+        /* 🆕 sticky header — cuộn bảng dài vẫn thấy tên cột */
+        th { position: sticky; top: 0; z-index: 10; background: #0c0c14; padding: 15px 22px; text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-3); font-weight: 700; border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap; user-select: none; box-shadow: 0 3px 10px rgba(0,0,0,.4); transition: color var(--t-fast); }
         th:hover { color: var(--primary); }
-        td { padding: 14px 24px; border-bottom: 1px solid var(--border); vertical-align: middle; }
-        tr:hover { background: var(--bg-3); }
-        
-        /* OVR BADGE */
-        .ovr-badge { display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; border-radius: 8px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #fff; box-shadow: var(--s-sm); text-shadow: 0 1px 2px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.2); }
-        .ovr-120 { background: linear-gradient(135deg, #ffb300, #f57c00); box-shadow: 0 0 10px rgba(255,152,0,0.3); } /* Gold */
-        .ovr-110 { background: linear-gradient(135deg, #e040fb, #aa00ff); box-shadow: 0 0 10px rgba(170,0,255,0.3); } /* Purple */
-        .ovr-100 { background: linear-gradient(135deg, #f06292, #d81b60); } /* Pink/Red */
-        .ovr-90  { background: linear-gradient(135deg, #4dd0e1, #0097a7); } /* Blue */
-        .ovr-low { background: linear-gradient(135deg, #78909c, #455a64); } /* Gray */
+        td { padding: 13px 22px; border-bottom: 1px solid rgba(38,38,54,.55); vertical-align: middle; }
+        tbody tr { transition: background var(--t-fast); animation: rowIn .3s ease both; }
+        tbody tr:nth-child(n+16) { animation: none; }
+        @keyframes rowIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+        tbody tr:hover { background: linear-gradient(90deg, var(--primary-glow) 0%, transparent 55%); box-shadow: inset 3px 0 0 var(--primary); }
 
-        .spid-code { font-family: 'JetBrains Mono', monospace; color: var(--primary); background: var(--primary-glow); padding: 6px 12px; border-radius: 6px; font-weight: 600; cursor: pointer; transition: var(--t-fast); border: 1px solid transparent; }
-        .spid-code:hover { background: var(--primary-glow-md); border-color: var(--primary); transform: translateY(-1px); }
-        .spid-code:active { transform: scale(0.95); }
-        
-        .player-row { display: flex; align-items: center; gap: 16px; }
-        .avatar-wrap { width: 52px; height: 52px; position: relative; flex-shrink: 0; }
-        .avatar-img { width: 100%; height: 100%; border-radius: 8px; object-fit: contain; object-position: top; background: transparent; transition: transform var(--t-norm); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); }
-        tr:hover .avatar-img { transform: scale(1.15); }
+        /* OVR BADGE */
+        .ovr-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; padding: 0 6px; border-radius: 10px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #fff; box-shadow: var(--s-sm); text-shadow: 0 1px 3px rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.22); transition: transform var(--t-spring); }
+        tr:hover .ovr-badge { transform: scale(1.12); }
+        .ovr-120 { background: linear-gradient(135deg, #ffd54f, #ff8f00); box-shadow: 0 0 14px rgba(255,167,38,0.45); }
+        .ovr-110 { background: linear-gradient(135deg, #ea80fc, #9500ff); box-shadow: 0 0 14px rgba(170,0,255,0.4); }
+        .ovr-100 { background: linear-gradient(135deg, #ff80ab, #d81b60); box-shadow: 0 0 10px rgba(216,27,96,.3); }
+        .ovr-90  { background: linear-gradient(135deg, #4dd0e1, #0097a7); }
+        .ovr-low { background: linear-gradient(135deg, #78909c, #455a64); }
+
+        .spid-code { font-family: 'JetBrains Mono', monospace; color: var(--primary); background: var(--primary-glow); padding: 6px 12px; border-radius: 8px; font-weight: 650; cursor: pointer; transition: var(--t-fast); border: 1px solid transparent; font-size: .88rem; }
+        .spid-code:hover { background: var(--primary-glow-md); border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 4px 14px var(--primary-glow-md); }
+        .spid-code:active { transform: scale(0.94); }
+
+        .player-row { display: flex; align-items: center; gap: 15px; }
+        .avatar-wrap { width: 52px; height: 52px; position: relative; flex-shrink: 0; border-radius: 10px; background: radial-gradient(circle at 50% 30%, var(--bg-4), transparent 75%); }
+        .avatar-img { width: 100%; height: 100%; border-radius: 10px; object-fit: contain; object-position: top; transition: transform var(--t-spring); filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5)); }
+        tr:hover .avatar-img { transform: scale(1.35) translateY(-3px); }
         .player-name { font-weight: 700; color: var(--text-0); font-size: 15px; }
-        .player-pid { font-size: 11px; color: var(--text-4); font-family: 'JetBrains Mono', monospace; margin-top: 2px;}
-        
+        .player-pid { font-size: 11px; color: var(--text-4); font-family: 'JetBrains Mono', monospace; margin-top: 2px; }
+
         .season-cell { display: flex; align-items: center; gap: 12px; }
-        .season-img { width: 34px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); }
+        .season-img { width: 34px; object-fit: contain; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4)); transition: transform var(--t-spring); }
+        tr:hover .season-img { transform: scale(1.2); }
         .season-label { font-weight: 600; font-size: 14px; color: var(--text-1); }
 
-        /* ===== PAGINATION & EXTRAS ===== */
-        .pager { display: flex; justify-content: center; padding: 20px; gap: 8px; flex-wrap: wrap; }
-        .pg-btn { min-width: 40px; height: 40px; padding: 0 10px; border-radius: 8px; border: 1px solid var(--border); background: var(--bg-1); color: var(--text-2); font-weight: 600; cursor: pointer; transition: var(--t-fast); }
-        .pg-btn:hover:not(:disabled) { background: var(--primary); color: #000; border-color: var(--primary); }
-        .pg-btn.cur { background: var(--primary); color: #000; border-color: var(--primary); box-shadow: 0 2px 8px rgba(0,230,118,0.3); }
+        /* ===== PAGINATION ===== */
+        .pager { display: flex; justify-content: center; align-items: center; padding: 18px; gap: 7px; flex-wrap: wrap; border-top: 1px solid var(--border); }
+        .pg-btn { min-width: 40px; height: 40px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-1); color: var(--text-2); font-weight: 650; font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: var(--t-fast); }
+        .pg-btn:hover:not(:disabled) { background: var(--primary); color: #003018; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,230,118,.3); }
+        .pg-btn.cur { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #003018; border-color: transparent; box-shadow: 0 2px 12px rgba(0,230,118,0.35); }
         .pg-btn:disabled { opacity: 0.3; cursor: not-allowed; }
 
         .hl { color: var(--primary); background: var(--primary-glow); padding: 0 4px; border-radius: 4px; font-weight: bold; }
-        .empty { padding: 80px 20px; text-align: center; }
-        .empty-ico { font-size: 48px; margin-bottom: 16px; opacity: 0.5; filter: grayscale(1); }
+        .empty { padding: 76px 20px; text-align: center; }
+        .empty-ico { font-size: 52px; margin-bottom: 16px; opacity: 0.55; filter: grayscale(.6); animation: floatY 3s ease-in-out infinite; }
+        @keyframes floatY { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
         .empty-title { font-size: 18px; font-weight: 700; color: var(--text-1); }
         .empty-desc { color: var(--text-3); font-size: 14px; margin-top: 8px; }
 
-        /* Toast Notification */
+        /* Toast */
         .toast-area { position: fixed; bottom: 24px; right: 24px; z-index: 9999; display: flex; flex-direction: column-reverse; gap: 10px; pointer-events: none; }
-        .toast { padding: 12px 20px; background: var(--glass); backdrop-filter: blur(10px); border: 1px solid var(--primary); border-left: 4px solid var(--primary); border-radius: var(--r-sm); color: #fff; font-weight: 500; font-size: 14px; box-shadow: var(--s-md); animation: slideIn 0.3s ease forwards; pointer-events: auto; }
+        .toast { padding: 12px 20px; background: rgba(13,13,21,.92); backdrop-filter: blur(12px); border: 1px solid var(--primary); border-left: 4px solid var(--primary); border-radius: var(--r-sm); color: #fff; font-weight: 500; font-size: 14px; box-shadow: var(--s-md), 0 0 24px var(--primary-glow); animation: slideIn 0.3s var(--t-spring) forwards; pointer-events: auto; }
         .toast.fade-out { animation: fadeOut 0.3s ease forwards; }
-        @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes fadeOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+        @keyframes slideIn { from { transform: translateX(110%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { to { transform: translateX(110%); opacity: 0; } }
 
-        /* ===== POLISHED INTERACTION LAYER ===== */
-        .search-panel { overflow: visible; background: linear-gradient(145deg, rgba(24,24,36,.98), rgba(14,14,22,.96)); }
-        .search-panel::before { content:''; position:absolute; inset:0; border-radius:inherit; pointer-events:none; background:linear-gradient(110deg, rgba(0,230,118,.09), transparent 28%, transparent 72%, rgba(124,77,255,.08)); }
-        .sp-header, .search-row { position:relative; }
-        .season-dropdown .field-icon { pointer-events:none; }
-        .season-list { padding:6px; background:rgba(14,14,22,.97); border-color:rgba(0,230,118,.65); }
-        .season-item { border-radius:8px; border-bottom:0; margin:1px 0; padding:10px 12px; }
-        .season-item[aria-selected="true"], .season-item.is-active { background:var(--primary-glow-md); color:var(--text-0); outline:1px solid rgba(0,230,118,.3); }
-        .season-item mark { color:var(--primary); background:transparent; font-weight:800; }
-        .season-empty { padding:20px 14px; color:var(--text-3); font-size:13px; text-align:center; }
-        .field input[aria-expanded="true"] { border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-glow); }
-        .result-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 20px; background:var(--bg-1); border-bottom:1px solid var(--border); color:var(--text-3); font-size:.8rem; }
-        .result-bar strong { color:var(--text-1); font-family:'JetBrains Mono',monospace; }
-        .kbd { padding:2px 6px; border:1px solid var(--border-light); border-radius:4px; color:var(--text-2); font-family:'JetBrains Mono',monospace; font-size:.7rem; }
-        .loading-row { padding:70px 20px; text-align:center; color:var(--text-2); }
-        .loading-spinner { width:28px; height:28px; border:3px solid var(--border); border-top-color:var(--primary); border-radius:50%; margin:0 auto 12px; animation:spin .75s linear infinite; }
-        @keyframes spin { to { transform:rotate(360deg); } }
-        @media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; scroll-behavior:auto!important; } }
+        /* Loading */
+        .loading-row { padding: 70px 20px; text-align: center; color: var(--text-2); }
+        .loading-spinner { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; margin: 0 auto 14px; animation: spin .7s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Responsive */
+        /* 🆕 Nút lên đầu trang */
+        .to-top { position: fixed; bottom: 26px; left: 26px; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--border-light); background: var(--glass); backdrop-filter: blur(12px); color: var(--primary); font-size: 18px; cursor: pointer; z-index: 300; opacity: 0; transform: translateY(16px); pointer-events: none; transition: all var(--t-norm); box-shadow: var(--s-md); }
+        .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
+        .to-top:hover { border-color: var(--primary); box-shadow: 0 0 22px var(--primary-glow-md); transform: translateY(-3px); }
+
+        .footer { position: relative; z-index: 1; text-align: center; padding: 34px 20px 42px; color: var(--text-4); font-size: .78rem; }
+        .footer b { color: var(--text-3); }
+
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; } }
         @media (max-width: 768px) {
             .search-row { grid-template-columns: 1fr; gap: 12px; }
-            .hero h1 { font-size: 1.8rem; }
             .stats-ribbon { grid-template-columns: repeat(2, 1fr); }
-            th, td { padding: 12px 16px; }
+            th, td { padding: 11px 14px; }
+            .header-inner { padding: 0 16px; }
+            .main { padding: 16px; }
+            tr:hover .avatar-img { transform: none; }
+            .to-top { left: auto; right: 20px; bottom: 84px; }
         }
     </style>
 </head>
 <body>
-
-<div class="bg-ambient"></div><div class="bg-grid"></div>
+<div class="bg-ambient"><div class="aurora aurora-1"></div><div class="aurora aurora-2"></div><div class="aurora aurora-3"></div></div>
+<div class="bg-grid"></div>
 
 <header class="header">
     <div class="header-inner">
@@ -206,6 +245,7 @@
             </div>
         </a>
         <div class="header-right">
+            <div class="kbd-hint"><span class="kbd">/</span><span>tìm nhanh</span></div>
             <div class="visitor-badge" title="Đã reset lúc 0h sáng (Giờ VN)">
                 <div class="visitor-dot"></div>
                 <span>Hôm nay:</span>
@@ -218,6 +258,7 @@
 
 <main class="main">
     <section class="hero">
+        <div class="hero-eyebrow">⚡ Realtime Database</div>
         <h1>Tra cứu cầu thủ FC Online</h1>
         <p>Tìm kiếm thông minh ưu tiên chỉ số (OVR). Dữ liệu cập nhật liên tục.</p>
     </section>
@@ -226,54 +267,79 @@
         <div class="stat-tile"><div class="stat-glyph">👤</div><div><div class="stat-num" id="sTotalPlayers">—</div><div class="stat-lbl">Cầu thủ</div></div></div>
         <div class="stat-tile"><div class="stat-glyph" style="color:var(--warning)">🏆</div><div><div class="stat-num" id="sTotalSeasons">—</div><div class="stat-lbl">Mùa giải</div></div></div>
         <div class="stat-tile"><div class="stat-glyph" style="color:var(--info)">🔍</div><div><div class="stat-num" id="sSearches">0</div><div class="stat-lbl">Lượt tìm</div></div></div>
+        <div class="stat-tile"><div class="stat-glyph" style="color:var(--accent)">⚡</div><div><div class="stat-num" id="sSpeed">—</div><div class="stat-lbl">Tốc độ tìm</div></div></div>
     </div>
 
     <div class="search-panel">
         <div class="sp-header">
-            <h3 style="font-size:16px; display:flex; align-items:center; gap:8px;">
-                <span style="width:8px;height:8px;background:var(--primary);border-radius:50%;box-shadow:0 0 10px var(--primary);"></span> Tìm kiếm Nâng cao
-            </h3>
+            <h3 class="sp-title"><span class="dot"></span> Tìm kiếm Nâng cao</h3>
             <div class="mode-switch">
                 <button class="mode-btn active" id="mNameBtn" onclick="setMode('name')">Theo Tên</button>
                 <button class="mode-btn" id="mSpidBtn" onclick="setMode('spid')">Theo SPID</button>
             </div>
         </div>
-
         <div class="search-row" id="searchRow">
             <div class="field" id="fName">
-                <span class="field-icon">👤</span>
                 <input type="text" id="inName" placeholder="Tên cầu thủ (VD: ronaldo, gullit...)" oninput="debouncedFilter()" autocomplete="off">
+                <span class="field-icon">👤</span>
                 <button class="field-clear" onclick="clrIn('inName')">✕</button>
             </div>
             <div class="field" id="fSpid" style="display:none;">
-                <span class="field-icon">🔢</span>
                 <input type="text" id="inSpid" placeholder="Nhập SPID (VD: 300209658)" oninput="debouncedFilter()" autocomplete="off">
+                <span class="field-icon">🔢</span>
                 <button class="field-clear" onclick="clrIn('inSpid')">✕</button>
             </div>
-            
+
             <!-- CUSTOM SEASON DROPDOWN -->
             <div class="field season-dropdown" id="fSeason">
-                <span class="field-icon">🏆</span>
                 <input type="text" id="inSeason" placeholder="Chọn mùa thẻ (gõ để tìm)" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="seasonList" onfocus="showSeasonList()" oninput="onSeasonInput()" onkeydown="onSeasonKeydown(event)">
+                <span class="field-icon">🏆</span>
                 <button class="field-clear" onclick="clrIn('inSeason')">✕</button>
                 <div class="season-list" id="seasonList"></div>
             </div>
-            
+
             <div class="field" id="fPid">
-                <span class="field-icon">#️⃣</span>
                 <input type="text" id="inPid" placeholder="PID gốc (VD: 209658)" oninput="debouncedFilter()" autocomplete="off">
+                <span class="field-icon">#️⃣</span>
                 <button class="field-clear" onclick="clrIn('inPid')">✕</button>
             </div>
+        </div>
+
+        <!-- 🆕 CHIP LỌC OVR NHANH -->
+        <div class="chips-row">
+            <span class="chips-label">Lọc OVR</span>
+            <button class="chip" data-ovr="90" onclick="toggleOvrChip(this)">90+</button>
+            <button class="chip" data-ovr="100" onclick="toggleOvrChip(this)">100+</button>
+            <button class="chip" data-ovr="110" onclick="toggleOvrChip(this)">110+</button>
+            <button class="chip" data-ovr="120" onclick="toggleOvrChip(this)">120+</button>
+        </div>
+        <!-- 🆕 LỊCH SỬ TÌM KIẾM -->
+        <div class="chips-row" id="recentRow" style="display:none;">
+            <span class="chips-label">Gần đây</span>
+            <span id="recentChips" style="display:contents;"></span>
         </div>
     </div>
 
     <div class="table-panel">
-        <div class="result-bar" id="resultBar" aria-live="polite"><span>Nhập điều kiện để bắt đầu tra cứu</span><span><span class="kbd">↑↓</span> chọn mùa · <span class="kbd">Enter</span> xác nhận</span></div>
+        <div class="result-bar" id="resultBar" aria-live="polite">
+            <span id="rbText">Nhập điều kiện để bắt đầu tra cứu</span>
+            <div class="result-meta">
+                <span class="search-time" id="searchTime"></span>
+                <label style="display:flex;align-items:center;gap:6px;font-size:.72rem;">Dòng/trang
+                    <select class="page-size-sel" id="pageSizeSel" onchange="changePageSize(this.value)">
+                        <option value="25">25</option>
+                        <option value="50" selected>50</option>
+                        <option value="100">100</option>
+                    </select>
+                </label>
+                <span><span class="kbd">↑↓</span> chọn mùa · <span class="kbd">Enter</span> xác nhận</span>
+            </div>
+        </div>
         <div class="tb-scroll">
             <table>
                 <thead id="tHead" style="display:none;">
                     <tr>
-                        <th style="width:90px; text-align:center;" onclick="changeSort('ovr')" title="Sắp xếp theo Chỉ số">OVR <span id="siOvr" style="color:var(--primary)">▲</span></th>
+                        <th style="width:90px; text-align:center;" onclick="changeSort('ovr')" title="Sắp xếp theo Chỉ số">OVR <span id="siOvr" style="color:var(--primary)">▼</span></th>
                         <th style="width:180px;" onclick="changeSort('spid')" title="Sắp xếp theo SPID">SPID <span id="siSpid"></span></th>
                         <th onclick="changeSort('name')" title="Sắp xếp theo Tên">Cầu thủ <span id="siName"></span></th>
                         <th style="width:250px;" onclick="changeSort('season')" title="Sắp xếp theo Mùa">Mùa giải <span id="siSeason"></span></th>
@@ -286,6 +352,8 @@
     </div>
 </main>
 
+<button class="to-top" id="toTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Lên đầu trang">↑</button>
+<footer class="footer">Made with 💚 — <b>FC Online Player Database</b> · Dữ liệu ảnh &amp; mùa giải thuộc về Nexon/Garena</footer>
 <div class="toast-area" id="toastArea"></div>
 
 <script>
@@ -295,8 +363,8 @@
 const seasons = [
     {"seasonId":100,"className":"ICONTM","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm.png"},
     {"seasonId":866,"className":"26 TOTS","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26tots.png"},
-    {"seasonId":861,"className":"WG","seasonImg" : "https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/wg.png"},
-    {"seasonId":863,"className":"PTG","seasonImg" :"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ptg.png"},
+    {"seasonId":861,"className":"WG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/wg.png"},
+    {"seasonId":863,"className":"PTG","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/ptg.png"},
     {"seasonId":110,"className":"ICON TM(Bound)","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm_b.png"},
     {"seasonId":101,"className":"ICON","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icon.png"},
     {"seasonId":113,"className":"25IM - S&P","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25im_sp.png"},
@@ -438,21 +506,23 @@ const seasons = [
     {"seasonId":854,"className":"26TY","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/26toty.png"},
     {"seasonId":856,"className":"25UCL","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/25ucl.png"}
 ];
-
 const seasonMap = new Map(seasons.map(s => [s.seasonId, s]));
 let playerDB = [], playerIndex = [], currentFiltered = [];
-let currentPage = 1; const PAGE_SIZE = 50;
+let currentPage = 1;
+let PAGE_SIZE = 50;               // 🆕 đổi được qua dropdown
 let searchMode = 'name', searchCnt = 0;
-let currentSortBy = 'ovr', currentSortDir = 'desc'; 
-const CHAR_MAP = {'đ':'d','Đ':'D'}; 
+let currentSortBy = 'ovr', currentSortDir = 'desc';
+let minOvrFilter = 0;             // 🆕 chip lọc OVR
 
-function norm(s) { 
-    return s ? s.normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").replace(/[^a-zA-Z0-9\s]/g,"").toLowerCase().trim() : ""; 
+function norm(s) {
+    return s ? s.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").replace(/[^a-zA-Z0-9\s]/g,"").toLowerCase().trim() : "";
 }
 function getPid(spid) { return spid % 1000000; }
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-// Xử lý Ảnh
+// 🔧 FIX: fallback SVG bản cũ chứa base64 hỏng (ký tự lạ "4⚽" trong chuỗi mã hóa)
+// → trình duyệt không decode được, ảnh lỗi hiện icon vỡ. Dùng SVG URI-encode chuẩn.
+const IMG_FALLBACK = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="14" fill="#181824"/><text x="50" y="64" font-size="42" text-anchor="middle">⚽</text></svg>');
 function getImgUrls(spid) {
     const pid = getPid(spid);
     return [
@@ -463,17 +533,11 @@ function getImgUrls(spid) {
     ];
 }
 function handleImgErr(img, spid) {
-    const urls = getImgUrls(spid); 
+    const urls = getImgUrls(spid);
     let ci = parseInt(img.dataset.urlIndex || "0") + 1;
-    if (ci < urls.length) { 
-        img.dataset.urlIndex = ci; 
-        img.src = urls[ci]; 
-    } else { 
-        img.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDAgMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iIzIyMiIvPjx0ZXh0IHg9IjUwIiB5PSI1NSIgZm9udC1zaXplPSI0MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iIzU1NSI+4⚽PC90ZXh0Pjwvc3ZnPg=='; 
-    }
+    if (ci < urls.length) { img.dataset.urlIndex = ci; img.src = urls[ci]; }
+    else { img.onerror = null; img.src = IMG_FALLBACK; }  // 🔧 FIX: gỡ onerror tránh lặp vô hạn
 }
-
-// Xử lý OVR Badge Color
 function getOvrClass(ovr) {
     if (!ovr) return 'ovr-low';
     if (ovr >= 120) return 'ovr-120';
@@ -484,7 +548,7 @@ function getOvrClass(ovr) {
 }
 
 // =====================================================
-// COPY & TOAST NOTIFICATION
+// COPY & TOAST
 // =====================================================
 function showToast(msg) {
     const container = document.getElementById('toastArea');
@@ -492,64 +556,45 @@ function showToast(msg) {
     toast.className = 'toast';
     toast.innerHTML = msg;
     container.appendChild(toast);
-    setTimeout(() => {
-        toast.classList.add('fade-out');
-        setTimeout(() => toast.remove(), 300);
-    }, 2000);
+    setTimeout(() => { toast.classList.add('fade-out'); setTimeout(() => toast.remove(), 300); }, 2000);
 }
-
 function copyToClipboard(text, label) {
     navigator.clipboard.writeText(text).then(() => {
-        showToast(`✅ Đã sao chép ${label}: <b>${text}</b>`);
-    }).catch(err => {
-        console.error('Copy failed', err);
+        showToast(`✅ Đã sao chép ${label}: <b>${esc(text)}</b>`);
+    }).catch(() => {
+        showToast('⚠️ Trình duyệt chặn clipboard — hãy copy thủ công.');  // 🔧 FIX: bản cũ nuốt lỗi im lặng
     });
 }
 
 // =====================================================
-// VISITOR COUNTER (GMT+7 FIX)
+// VISITOR COUNTER (GMT+7)
 // =====================================================
 async function loadVisitorCount() {
     const el = document.getElementById('visitorCount');
-    
-    // Lấy ngày hiện tại theo chuẩn GMT+7
     const now = new Date();
     const utc = now.getTime() + (now.getTimezoneOffset() * 60000);
     const gmt7Date = new Date(utc + (3600000 * 7));
     const dateStr = gmt7Date.getFullYear() + '-' + String(gmt7Date.getMonth()+1).padStart(2,'0') + '-' + String(gmt7Date.getDate()).padStart(2,'0');
-    
     const countKey = 'fco-visitors-' + dateStr.replace(/-/g, '');
     const localHasCounted = 'counted_' + dateStr;
-
-    // Xoá log cũ của ngày hôm trước cho nhẹ localStorage
     Object.keys(localStorage).forEach(key => {
-        if(key.startsWith('counted_') && key !== localHasCounted) localStorage.removeItem(key);
+        if (key.startsWith('counted_') && key !== localHasCounted) localStorage.removeItem(key);
     });
-
     try {
         let url = `https://api.counterapi.dev/v1/fconlinedb_pro_v2/${countKey}`;
-        // Nếu trình duyệt chưa đếm trong ngày hôm nay -> Gửi yêu cầu Tăng (+1)
-        if (!localStorage.getItem(localHasCounted)) {
-            url += '/up';
-            localStorage.setItem(localHasCounted, 'true');
-        }
-        
+        if (!localStorage.getItem(localHasCounted)) { url += '/up'; localStorage.setItem(localHasCounted, 'true'); }
         const res = await fetch(url);
         const data = await res.json();
         el.textContent = data.count ? data.count.toLocaleString() : '1';
-    } catch(e) {
-        el.textContent = "1"; // Fallback nếu API lỗi
-    }
+    } catch(e) { el.textContent = "1"; }
 }
 
 // =====================================================
-// SEASON COMBOBOX — selection is always keyed by seasonId
-// This prevents partial text such as "ICON" from accidentally matching "ICON TM".
+// SEASON COMBOBOX — keyed by seasonId
 // =====================================================
 let selectedSeasonId = null;
 let visibleSeasonIds = [];
 let activeSeasonIndex = -1;
-
 function seasonById(id) { return seasons.find(s => s.seasonId === Number(id)); }
 function safeHighlight(text, query) {
     const clean = esc(text);
@@ -567,7 +612,7 @@ function renderSeasonList(query) {
     if (activeSeasonIndex >= visibleSeasonIds.length) activeSeasonIndex = visibleSeasonIds.length - 1;
     list.innerHTML = matches.length ? matches.map((s, i) => `
         <div class="season-item ${i === activeSeasonIndex ? 'is-active' : ''}" role="option" id="season-option-${s.seasonId}" aria-selected="${s.seasonId === selectedSeasonId}" data-season-id="${s.seasonId}" onmousedown="event.preventDefault(); selectSeason(${s.seasonId})">
-            <img src="${s.seasonImg}" alt="" onerror="this.style.visibility='hidden'">
+            <img src="${s.seasonImg}" alt="" loading="lazy" onerror="this.style.visibility='hidden'">
             <span>${safeHighlight(s.className, q)}</span>
         </div>`).join('') : '<div class="season-empty">Không có mùa thẻ phù hợp</div>';
 }
@@ -598,7 +643,6 @@ function clearSeason() {
     filterData();
 }
 function onSeasonInput() {
-    // Typing searches choices only. A result is filtered only after an explicit selection.
     selectedSeasonId = null;
     activeSeasonIndex = -1;
     showSeasonList();
@@ -621,6 +665,63 @@ function onSeasonKeydown(event) {
 document.addEventListener('click', (e) => { if (!e.target.closest('.season-dropdown')) hideSeasonList(); });
 
 // =====================================================
+// 🆕 TÍNH NĂNG THÔNG MINH: chip OVR, lịch sử tìm, phím "/"
+// =====================================================
+function toggleOvrChip(btn) {
+    const val = Number(btn.dataset.ovr);
+    const wasOn = btn.classList.contains('on');
+    document.querySelectorAll('.chip[data-ovr]').forEach(c => c.classList.remove('on'));
+    minOvrFilter = wasOn ? 0 : val;
+    if (!wasOn) btn.classList.add('on');
+    filterData();
+}
+const RECENT_KEY = 'fco_recent_v1';
+function getRecent() { try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); } catch (e) { return []; } }
+function saveRecent(term) {
+    if (!term || term.length < 2) return;
+    let arr = [term, ...getRecent().filter(x => x !== term)].slice(0, 6);
+    localStorage.setItem(RECENT_KEY, JSON.stringify(arr));
+    renderRecent();
+}
+function renderRecent() {
+    const arr = getRecent();
+    const row = document.getElementById('recentRow');
+    const box = document.getElementById('recentChips');
+    if (!arr.length) { row.style.display = 'none'; return; }
+    row.style.display = 'flex';
+    box.innerHTML = '';
+    arr.forEach(t => {
+        const chip = document.createElement('button');
+        chip.className = 'chip recent';
+        chip.textContent = t;
+        chip.onclick = () => applyRecent(t);
+        const x = document.createElement('span');
+        x.className = 'chip-x';
+        x.textContent = '✕';
+        x.onclick = (ev) => { ev.stopPropagation(); removeRecent(t); };
+        chip.appendChild(x);
+        box.appendChild(chip);
+    });
+}
+function applyRecent(term) {
+    setMode('name');
+    document.getElementById('inName').value = term;
+    filterData();
+}
+function removeRecent(term) {
+    localStorage.setItem(RECENT_KEY, JSON.stringify(getRecent().filter(x => x !== term)));
+    renderRecent();
+}
+let recentSaveTimer;
+// Phím tắt "/" → focus ô tìm kiếm (bỏ qua khi đang gõ trong input)
+document.addEventListener('keydown', (e) => {
+    if (e.key === '/' && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) {
+        e.preventDefault();
+        (searchMode === 'name' ? document.getElementById('inName') : document.getElementById('inSpid')).focus();
+    }
+});
+
+// =====================================================
 // SEARCH, SORT & RENDER
 // =====================================================
 let dbTimer;
@@ -638,29 +739,40 @@ function clrIn(id) {
     if (id === 'inSeason') clearSeason();
     else { document.getElementById(id).value = ''; debouncedFilter(); }
 }
+function changePageSize(v) {
+    PAGE_SIZE = Number(v) || 50;
+    currentPage = 1;
+    if (currentFiltered.length) renderPage();
+}
 function updateResultBar(message, count) {
-    const bar = document.getElementById('resultBar');
-    bar.querySelector('span').innerHTML = count === undefined ? message : `<strong>${count.toLocaleString()}</strong> ${message}`;
+    document.getElementById('rbText').innerHTML = count === undefined ? message : `<strong>${count.toLocaleString()}</strong> ${message}`;
 }
 function filterData() {
+    const t0 = performance.now();
     const nq = searchMode === 'name' ? norm(document.getElementById('inName').value) : '';
     const nk = nq ? nq.split(/\s+/).filter(Boolean) : [];
     const spidq = searchMode === 'spid' ? document.getElementById('inSpid').value.trim() : '';
     const pidq = searchMode === 'name' ? document.getElementById('inPid').value.trim() : '';
-    const hasSearch = Boolean(nq || spidq || pidq || selectedSeasonId !== null);
+    const hasSearch = Boolean(nq || spidq || pidq || selectedSeasonId !== null || minOvrFilter > 0);
     if (!hasSearch) { showEmpty('init'); return; }
-
-    const filtered = playerIndex.filter(e => {
+    currentFiltered = playerIndex.filter(e => {
+        if (minOvrFilter > 0 && (e.ref.ovr || 0) < minOvrFilter) return false;  // 🆕 chip OVR
         const seasonMatch = selectedSeasonId === null || e.seasonId === selectedSeasonId;
         if (!seasonMatch) return false;
         if (searchMode === 'spid') return !spidq || e.spidStr.includes(spidq) || e.pidStr.includes(spidq);
         return (!nk.length || nk.every(t => e.nameNorm.includes(t))) && (!pidq || e.pidStr.includes(pidq));
     });
-    currentFiltered = filtered;
-    currentPage = 1; currentSortBy = 'ovr'; currentSortDir = 'desc';
+    currentPage = 1;
+    // 🔧 FIX: GIỮ NGUYÊN cột sort người dùng chọn — bản cũ mỗi lần gõ phím lại reset về OVR
     sortCurrent(); updSortUI();
+    const ms = performance.now() - t0;
+    const msTxt = ms < 1 ? '<1' : String(Math.round(ms));
+    document.getElementById('searchTime').textContent = `⚡ ${msTxt}ms`;
+    document.getElementById('sSpeed').textContent = msTxt + 'ms';
     if (!currentFiltered.length) showEmpty('no'); else renderPage();
     document.getElementById('sSearches').textContent = (++searchCnt).toLocaleString();
+    // 🆕 lưu lịch sử tìm theo tên (sau khi ngừng gõ 1.2s)
+    if (nq) { clearTimeout(recentSaveTimer); recentSaveTimer = setTimeout(() => saveRecent(document.getElementById('inName').value.trim()), 1200); }
 }
 function sortCurrent() {
     const f = currentSortBy, dir = currentSortDir;
@@ -684,16 +796,22 @@ function updSortUI() {
     });
 }
 function showEmpty(type) {
-    document.getElementById('tHead').style.display = 'none'; document.getElementById('pager').style.display = 'none';
+    document.getElementById('tHead').style.display = 'none';
+    document.getElementById('pager').style.display = 'none';
+    document.getElementById('searchTime').textContent = '';
     updateResultBar(type === 'init' ? 'Chọn mùa, nhập tên, PID hoặc SPID để bắt đầu' : 'Không có kết quả phù hợp');
-    const message = type === 'init' ? ['🔍','Nhập thông tin cầu thủ','Dùng tên, PID, SPID hoặc chọn một mùa thẻ.'] : ['😕','Không tìm thấy cầu thủ','Thử đổi từ khóa, PID hoặc mùa thẻ.'];
+    const message = type === 'init'
+        ? ['🔍','Nhập thông tin cầu thủ','Dùng tên, PID, SPID, chip OVR hoặc chọn một mùa thẻ.']
+        : ['😕','Không tìm thấy cầu thủ','Thử đổi từ khóa, PID, mùa thẻ hoặc bỏ bớt chip lọc OVR.'];
     document.getElementById('tBody').innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-ico">${message[0]}</div><div class="empty-title">${message[1]}</div><div class="empty-desc">${message[2]}</div></div></td></tr>`;
 }
 function highlightName(name, tokens) {
     if (!tokens.length) return esc(name);
-    // Keep output safe and use literal matching against the displayed name.
     let output = esc(name);
-    tokens.forEach(token => { const re = new RegExp(`(${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'ig'); output = output.replace(re, '<span class="hl">$1</span>'); });
+    tokens.forEach(token => {
+        const re = new RegExp(`(${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'ig');
+        output = output.replace(re, '<span class="hl">$1</span>');
+    });
     return output;
 }
 function renderPage() {
@@ -704,9 +822,15 @@ function renderPage() {
     updateResultBar(`kết quả · hiển thị ${start + 1}–${end}`, currentFiltered.length);
     document.getElementById('tBody').innerHTML = data.map(p => {
         const sid = Math.floor(p.id / 1000000), sn = seasonMap.get(sid), urls = getImgUrls(p.id);
-        return `<tr><td style="text-align:center;"><div class="ovr-badge ${getOvrClass(p.ovr)}">${p.ovr || '-'}</div></td><td><button class="spid-code" type="button" onclick="copyToClipboard('${p.id}', 'SPID')" title="Sao chép SPID">${p.id}</button></td><td><div class="player-row"><div class="avatar-wrap"><img src="${urls[0]}" alt="" class="avatar-img" data-url-index="0" onerror="handleImgErr(this,${p.id})"></div><div><div class="player-name">${highlightName(p.name, tokens)}</div><div class="player-pid">PID: ${getPid(p.id)}</div></div></div></td><td><div class="season-cell">${sn ? `<img src="${sn.seasonImg}" class="season-img" alt=""><span class="season-label">${esc(sn.className)}</span>` : `<span style="color:var(--text-4)">Mùa ${sid}</span>`}</div></td></tr>`;
+        return `<tr>
+            <td style="text-align:center;"><div class="ovr-badge ${getOvrClass(p.ovr)}">${p.ovr || '-'}</div></td>
+            <td><button class="spid-code" type="button" onclick="copyToClipboard('${p.id}', 'SPID')" title="Bấm để sao chép SPID">${p.id}</button></td>
+            <td><div class="player-row"><div class="avatar-wrap"><img src="${urls[0]}" alt="" class="avatar-img" loading="lazy" decoding="async" data-url-index="0" onerror="handleImgErr(this,${p.id})"></div><div><div class="player-name">${highlightName(p.name, tokens)}</div><div class="player-pid">PID: ${getPid(p.id)}</div></div></div></td>
+            <td><div class="season-cell">${sn ? `<img src="${sn.seasonImg}" class="season-img" alt="" loading="lazy"><span class="season-label">${esc(sn.className)}</span>` : `<span style="color:var(--text-4)">Mùa ${sid}</span>`}</div></td>
+        </tr>`;
     }).join('');
     renderPager(currentFiltered.length);
+    document.querySelector('.tb-scroll').scrollTop = 0;  // 🆕 cuộn về đầu khi đổi trang
 }
 function renderPager(total) {
     const tp = Math.ceil(total / PAGE_SIZE), pg = document.getElementById('pager');
@@ -715,10 +839,19 @@ function renderPager(total) {
     const pageButton = n => `<button class="pg-btn ${n === currentPage ? 'cur' : ''}" type="button" aria-label="Trang ${n}" onclick="currentPage=${n}; renderPage()">${n}</button>`;
     const pages = new Set([1, tp, currentPage - 1, currentPage, currentPage + 1].filter(n => n >= 1 && n <= tp));
     let html = `<button class="pg-btn" type="button" onclick="currentPage--;renderPage()" ${currentPage === 1 ? 'disabled' : ''}>‹</button>`;
-    let last = 0; [...pages].sort((a,b) => a-b).forEach(n => { if (n - last > 1) html += '<span style="padding:8px;color:var(--text-3)">…</span>'; html += pageButton(n); last = n; });
+    let last = 0;
+    [...pages].sort((a,b) => a-b).forEach(n => {
+        if (n - last > 1) html += '<span style="padding:8px;color:var(--text-3)">…</span>';
+        html += pageButton(n); last = n;
+    });
     html += `<button class="pg-btn" type="button" onclick="currentPage++;renderPage()" ${currentPage === tp ? 'disabled' : ''}>›</button>`;
     pg.innerHTML = html;
 }
+
+// 🆕 Nút lên đầu trang
+window.addEventListener('scroll', () => {
+    document.getElementById('toTop').classList.toggle('show', window.scrollY > 500);
+}, { passive: true });
 
 // =====================================================
 // KHỞI TẠO (INIT)
@@ -726,32 +859,30 @@ function renderPager(total) {
 window.onload = async () => {
     buildSeasonList();
     loadVisitorCount();
+    renderRecent();
     document.getElementById('tBody').innerHTML = '<tr><td colspan="4"><div class="loading-row"><div class="loading-spinner"></div>Đang tải dữ liệu cầu thủ…</div></td></tr>';
     try {
         const res = await fetch('./spid_translated.json');
-        if(!res.ok) throw new Error("Không tìm thấy file JSON");
-        
+        if (!res.ok) throw new Error("Không tìm thấy file JSON");
         playerDB = await res.json();
         playerIndex = playerDB.map(p => {
             const sid = Math.floor(p.id / 1000000), sn = seasonMap.get(sid);
-            return { 
-                ref: p, 
-                nameNorm: norm(p.name), 
+            return {
+                ref: p,
+                nameNorm: norm(p.name),
                 seasonNorm: sn ? sn.className.toLowerCase() : "",
                 seasonId: sid,
-                spidStr: String(p.id), 
-                pidStr: String(getPid(p.id)) 
+                spidStr: String(p.id),
+                pidStr: String(getPid(p.id))
             };
         });
-        
         document.getElementById('sTotalPlayers').textContent = playerDB.length.toLocaleString();
         document.getElementById('sTotalSeasons').textContent = seasons.length;
         showEmpty('init');
     } catch(e) {
-        document.getElementById('tBody').innerHTML = `<tr><td colspan="4"><div class="empty">❌ Lỗi tải dữ liệu JSON: ${e.message}</div></td></tr>`;
+        document.getElementById('tBody').innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-ico">❌</div><div class="empty-title">Lỗi tải dữ liệu JSON</div><div class="empty-desc">${esc(e.message)} — hãy đặt file <b>spid_translated.json</b> cùng thư mục.</div></div></td></tr>`;
     }
 };
 </script>
 </body>
 </html>
-
