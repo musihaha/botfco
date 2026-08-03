@@ -45,7 +45,7 @@
         ::-webkit-scrollbar-thumb { background: linear-gradient(var(--border-light), var(--bg-4)); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-4); }
 
-        /* ===== AURORA BACKGROUND (chuyển động) ===== */
+        /* ===== AURORA BACKGROUND ===== */
         .bg-ambient { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
         .aurora { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .55; will-change: transform; }
         .aurora-1 { width: 55vw; height: 55vw; top: -25vw; left: 8vw; background: radial-gradient(circle, rgba(0,230,118,.10), transparent 65%); animation: drift1 26s ease-in-out infinite alternate; }
@@ -106,8 +106,6 @@
 
         .search-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; position: relative; }
         .field { position: relative; }
-        /* 🔧 FIX: input đặt TRƯỚC icon trong HTML để selector `input:focus ~ .field-icon`
-           hoạt động thật sự — bản cũ icon đứng trước nên hiệu ứng focus không bao giờ chạy */
         .field-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-4); z-index: 2; transition: var(--t-norm); pointer-events: none; }
         .field input { width: 100%; background: var(--bg-1); border: 1px solid var(--border); color: var(--text-0); padding: 14px 40px 14px 44px; border-radius: var(--r-md); font-size: 15px; outline: none; transition: var(--t-norm); font-family: 'Inter', sans-serif; }
         .field input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow), 0 4px 20px rgba(0,0,0,.3); background: var(--bg-0); }
@@ -116,7 +114,7 @@
         .field input:not(:placeholder-shown) ~ .field-clear { display: flex; }
         .field-clear:hover { background: var(--danger); color: #fff; transform: translateY(-50%) rotate(90deg); }
 
-        /* ===== 🆕 SMART CHIPS (lọc OVR + lịch sử) ===== */
+        /* SMART CHIPS */
         .chips-row { display: flex; align-items: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; position: relative; }
         .chips-label { font-size: .7rem; color: var(--text-4); text-transform: uppercase; letter-spacing: 1.4px; font-weight: 700; margin-right: 2px; }
         .chip { padding: 6px 14px; border-radius: 30px; border: 1px solid var(--border); background: var(--bg-1); color: var(--text-2); font-size: .78rem; font-weight: 650; font-family: inherit; cursor: pointer; transition: var(--t-fast); user-select: none; }
@@ -138,7 +136,6 @@
         .season-item span { font-weight: 600; font-size: 14px; }
         .season-item mark { color: var(--primary); background: transparent; font-weight: 800; }
         .season-empty { padding: 20px 14px; color: var(--text-3); font-size: 13px; text-align: center; }
-        .field input[aria-expanded="true"] { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-glow); }
 
         /* ===== TABLE ===== */
         .table-panel { background: linear-gradient(160deg, rgba(22,22,34,.95), rgba(11,11,18,.95)); border: 1px solid var(--border); border-radius: var(--r-xl); overflow: hidden; box-shadow: var(--s-md); animation: rise .5s .15s ease both; }
@@ -151,7 +148,6 @@
         .page-size-sel:hover { border-color: var(--primary); }
         .tb-scroll { overflow-x: auto; max-height: 72vh; overflow-y: auto; }
         table { width: 100%; border-collapse: collapse; }
-        /* 🆕 sticky header — cuộn bảng dài vẫn thấy tên cột */
         th { position: sticky; top: 0; z-index: 10; background: #0c0c14; padding: 15px 22px; text-align: left; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-3); font-weight: 700; border-bottom: 1px solid var(--border); cursor: pointer; white-space: nowrap; user-select: none; box-shadow: 0 3px 10px rgba(0,0,0,.4); transition: color var(--t-fast); }
         th:hover { color: var(--primary); }
         td { padding: 13px 22px; border-bottom: 1px solid rgba(38,38,54,.55); vertical-align: middle; }
@@ -161,13 +157,14 @@
         tbody tr:hover { background: linear-gradient(90deg, var(--primary-glow) 0%, transparent 55%); box-shadow: inset 3px 0 0 var(--primary); }
 
         /* OVR BADGE */
-        .ovr-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; padding: 0 6px; border-radius: 10px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 16px; color: #fff; box-shadow: var(--s-sm); text-shadow: 0 1px 3px rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.22); transition: transform var(--t-spring); }
+        .ovr-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 40px; height: 40px; padding: 0 6px; border-radius: 10px; font-weight: 800; font-family: 'JetBrains Mono', monospace; font-size: 15px; color: #fff; box-shadow: var(--s-sm); text-shadow: 0 1px 3px rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.22); transition: transform var(--t-spring); }
         tr:hover .ovr-badge { transform: scale(1.12); }
         .ovr-120 { background: linear-gradient(135deg, #ffd54f, #ff8f00); box-shadow: 0 0 14px rgba(255,167,38,0.45); }
         .ovr-110 { background: linear-gradient(135deg, #ea80fc, #9500ff); box-shadow: 0 0 14px rgba(170,0,255,0.4); }
         .ovr-100 { background: linear-gradient(135deg, #ff80ab, #d81b60); box-shadow: 0 0 10px rgba(216,27,96,.3); }
         .ovr-90  { background: linear-gradient(135deg, #4dd0e1, #0097a7); }
         .ovr-low { background: linear-gradient(135deg, #78909c, #455a64); }
+        .ovr-null { background: linear-gradient(135deg, #37474f, #263238); border-color: rgba(255,255,255,0.1); color: #90a4ae; font-size: 13px; }
 
         .spid-code { font-family: 'JetBrains Mono', monospace; color: var(--primary); background: var(--primary-glow); padding: 6px 12px; border-radius: 8px; font-weight: 650; cursor: pointer; transition: var(--t-fast); border: 1px solid transparent; font-size: .88rem; }
         .spid-code:hover { background: var(--primary-glow-md); border-color: var(--primary); transform: translateY(-1px); box-shadow: 0 4px 14px var(--primary-glow-md); }
@@ -185,7 +182,7 @@
         tr:hover .season-img { transform: scale(1.2); }
         .season-label { font-weight: 600; font-size: 14px; color: var(--text-1); }
 
-        /* ===== PAGINATION ===== */
+        /* PAGINATION */
         .pager { display: flex; justify-content: center; align-items: center; padding: 18px; gap: 7px; flex-wrap: wrap; border-top: 1px solid var(--border); }
         .pg-btn { min-width: 40px; height: 40px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--border); background: var(--bg-1); color: var(--text-2); font-weight: 650; font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: var(--t-fast); }
         .pg-btn:hover:not(:disabled) { background: var(--primary); color: #003018; border-color: var(--primary); transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,230,118,.3); }
@@ -211,7 +208,6 @@
         .loading-spinner { width: 30px; height: 30px; border: 3px solid var(--border); border-top-color: var(--primary); border-radius: 50%; margin: 0 auto 14px; animation: spin .7s linear infinite; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* 🆕 Nút lên đầu trang */
         .to-top { position: fixed; bottom: 26px; left: 26px; width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--border-light); background: var(--glass); backdrop-filter: blur(12px); color: var(--primary); font-size: 18px; cursor: pointer; z-index: 300; opacity: 0; transform: translateY(16px); pointer-events: none; transition: all var(--t-norm); box-shadow: var(--s-md); }
         .to-top.show { opacity: 1; transform: none; pointer-events: auto; }
         .to-top:hover { border-color: var(--primary); box-shadow: 0 0 22px var(--primary-glow-md); transform: translateY(-3px); }
@@ -260,7 +256,7 @@
     <section class="hero">
         <div class="hero-eyebrow">⚡ Realtime Database</div>
         <h1>Tra cứu cầu thủ FC Online</h1>
-        <p>Tìm kiếm thông minh ưu tiên chỉ số (OVR). Dữ liệu cập nhật liên tục.</p>
+        <p>Tìm kiếm thông minh ưu tiên chỉ số (OVR). Hỗ trợ OVR: null.</p>
     </section>
 
     <div class="stats-ribbon">
@@ -280,7 +276,7 @@
         </div>
         <div class="search-row" id="searchRow">
             <div class="field" id="fName">
-                <input type="text" id="inName" placeholder="Tên cầu thủ (VD: ronaldo, gullit...)" oninput="debouncedFilter()" autocomplete="off">
+                <input type="text" id="inName" placeholder="Tên cầu thủ hoặc 'ovr:null'" oninput="debouncedFilter()" autocomplete="off">
                 <span class="field-icon">👤</span>
                 <button class="field-clear" onclick="clrIn('inName')">✕</button>
             </div>
@@ -290,7 +286,6 @@
                 <button class="field-clear" onclick="clrIn('inSpid')">✕</button>
             </div>
 
-            <!-- CUSTOM SEASON DROPDOWN -->
             <div class="field season-dropdown" id="fSeason">
                 <input type="text" id="inSeason" placeholder="Chọn mùa thẻ (gõ để tìm)" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="seasonList" onfocus="showSeasonList()" oninput="onSeasonInput()" onkeydown="onSeasonKeydown(event)">
                 <span class="field-icon">🏆</span>
@@ -305,15 +300,16 @@
             </div>
         </div>
 
-        <!-- 🆕 CHIP LỌC OVR NHANH -->
+        <!-- 🆕 LỌC OVR NHANH (Bao gồm N/A - Chưa có OVR) -->
         <div class="chips-row">
             <span class="chips-label">Lọc OVR</span>
             <button class="chip" data-ovr="90" onclick="toggleOvrChip(this)">90+</button>
             <button class="chip" data-ovr="100" onclick="toggleOvrChip(this)">100+</button>
             <button class="chip" data-ovr="110" onclick="toggleOvrChip(this)">110+</button>
             <button class="chip" data-ovr="120" onclick="toggleOvrChip(this)">120+</button>
+            <button class="chip" data-ovr="null" onclick="toggleOvrChip(this)">N/A (Chưa OVR)</button>
         </div>
-        <!-- 🆕 LỊCH SỬ TÌM KIẾM -->
+
         <div class="chips-row" id="recentRow" style="display:none;">
             <span class="chips-label">Gần đây</span>
             <span id="recentChips" style="display:contents;"></span>
@@ -357,9 +353,7 @@
 <div class="toast-area" id="toastArea"></div>
 
 <script>
-// =====================================================
-// DATA & STATE (FULL SEASONS)
-// =====================================================
+// DATA & STATE
 const seasons = [
     {"seasonId":867,"className":"SPT","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/spt.png"},
     {"seasonId":100,"className":"ICONTM","seasonImg":"https://ssl.nexon.com/s2/game/fc/online/obt/externalAssets/new/season/icontm.png"},
@@ -510,10 +504,10 @@ const seasons = [
 const seasonMap = new Map(seasons.map(s => [s.seasonId, s]));
 let playerDB = [], playerIndex = [], currentFiltered = [];
 let currentPage = 1;
-let PAGE_SIZE = 50;               // 🆕 đổi được qua dropdown
+let PAGE_SIZE = 50;
 let searchMode = 'name', searchCnt = 0;
 let currentSortBy = 'ovr', currentSortDir = 'desc';
-let minOvrFilter = 0;             // 🆕 chip lọc OVR
+let ovrFilterVal = null; // null: không lọc, 'only_null': chỉ lọc ovr:null, number: lọc theo min OVR
 
 function norm(s) {
     return s ? s.normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/đ/g,"d").replace(/Đ/g,"D").replace(/[^a-zA-Z0-9\s]/g,"").toLowerCase().trim() : "";
@@ -521,8 +515,6 @@ function norm(s) {
 function getPid(spid) { return spid % 1000000; }
 function esc(s) { const d = document.createElement('div'); d.textContent = s; return d.innerHTML; }
 
-// 🔧 FIX: fallback SVG bản cũ chứa base64 hỏng (ký tự lạ "4⚽" trong chuỗi mã hóa)
-// → trình duyệt không decode được, ảnh lỗi hiện icon vỡ. Dùng SVG URI-encode chuẩn.
 const IMG_FALLBACK = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="14" fill="#181824"/><text x="50" y="64" font-size="42" text-anchor="middle">⚽</text></svg>');
 function getImgUrls(spid) {
     const pid = getPid(spid);
@@ -537,10 +529,11 @@ function handleImgErr(img, spid) {
     const urls = getImgUrls(spid);
     let ci = parseInt(img.dataset.urlIndex || "0") + 1;
     if (ci < urls.length) { img.dataset.urlIndex = ci; img.src = urls[ci]; }
-    else { img.onerror = null; img.src = IMG_FALLBACK; }  // 🔧 FIX: gỡ onerror tránh lặp vô hạn
+    else { img.onerror = null; img.src = IMG_FALLBACK; }
 }
+
 function getOvrClass(ovr) {
-    if (!ovr) return 'ovr-low';
+    if (ovr === null || ovr === undefined || ovr === 0) return 'ovr-null';
     if (ovr >= 120) return 'ovr-120';
     if (ovr >= 110) return 'ovr-110';
     if (ovr >= 100) return 'ovr-100';
@@ -548,9 +541,7 @@ function getOvrClass(ovr) {
     return 'ovr-low';
 }
 
-// =====================================================
 // COPY & TOAST
-// =====================================================
 function showToast(msg) {
     const container = document.getElementById('toastArea');
     const toast = document.createElement('div');
@@ -563,13 +554,11 @@ function copyToClipboard(text, label) {
     navigator.clipboard.writeText(text).then(() => {
         showToast(`✅ Đã sao chép ${label}: <b>${esc(text)}</b>`);
     }).catch(() => {
-        showToast('⚠️ Trình duyệt chặn clipboard — hãy copy thủ công.');  // 🔧 FIX: bản cũ nuốt lỗi im lặng
+        showToast('⚠️ Trình duyệt chặn clipboard — hãy copy thủ công.');
     });
 }
 
-// =====================================================
-// VISITOR COUNTER (GMT+7)
-// =====================================================
+// VISITOR COUNTER
 async function loadVisitorCount() {
     const el = document.getElementById('visitorCount');
     const now = new Date();
@@ -590,9 +579,7 @@ async function loadVisitorCount() {
     } catch(e) { el.textContent = "1"; }
 }
 
-// =====================================================
-// SEASON COMBOBOX — keyed by seasonId
-// =====================================================
+// SEASON COMBOBOX
 let selectedSeasonId = null;
 let visibleSeasonIds = [];
 let activeSeasonIndex = -1;
@@ -665,21 +652,24 @@ function onSeasonKeydown(event) {
 }
 document.addEventListener('click', (e) => { if (!e.target.closest('.season-dropdown')) hideSeasonList(); });
 
-// =====================================================
-// 🆕 TÍNH NĂNG THÔNG MINH: chip OVR, lịch sử tìm, phím "/"
-// =====================================================
+// CHIP LỌC OVR
 function toggleOvrChip(btn) {
-    const val = Number(btn.dataset.ovr);
+    const val = btn.dataset.ovr;
     const wasOn = btn.classList.contains('on');
     document.querySelectorAll('.chip[data-ovr]').forEach(c => c.classList.remove('on'));
-    minOvrFilter = wasOn ? 0 : val;
-    if (!wasOn) btn.classList.add('on');
+    if (wasOn) {
+        ovrFilterVal = null;
+    } else {
+        btn.classList.add('on');
+        ovrFilterVal = (val === 'null') ? 'only_null' : Number(val);
+    }
     filterData();
 }
+
 const RECENT_KEY = 'fco_recent_v1';
 function getRecent() { try { return JSON.parse(localStorage.getItem(RECENT_KEY) || '[]'); } catch (e) { return []; } }
 function saveRecent(term) {
-    if (!term || term.length < 2) return;
+    if (!term || term.length < 2 || term.toLowerCase() === 'ovr:null' || term.toLowerCase() === 'null') return;
     let arr = [term, ...getRecent().filter(x => x !== term)].slice(0, 6);
     localStorage.setItem(RECENT_KEY, JSON.stringify(arr));
     renderRecent();
@@ -714,7 +704,7 @@ function removeRecent(term) {
     renderRecent();
 }
 let recentSaveTimer;
-// Phím tắt "/" → focus ô tìm kiếm (bỏ qua khi đang gõ trong input)
+
 document.addEventListener('keydown', (e) => {
     if (e.key === '/' && !['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)) {
         e.preventDefault();
@@ -722,9 +712,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 
-// =====================================================
 // SEARCH, SORT & RENDER
-// =====================================================
 let dbTimer;
 function debouncedFilter() { clearTimeout(dbTimer); dbTimer = setTimeout(filterData, 150); }
 function setMode(m) {
@@ -748,47 +736,88 @@ function changePageSize(v) {
 function updateResultBar(message, count) {
     document.getElementById('rbText').innerHTML = count === undefined ? message : `<strong>${count.toLocaleString()}</strong> ${message}`;
 }
+
 function filterData() {
     const t0 = performance.now();
-    const nq = searchMode === 'name' ? norm(document.getElementById('inName').value) : '';
+    const rawNameInput = document.getElementById('inName').value.trim();
+    const nq = searchMode === 'name' ? norm(rawNameInput) : '';
     const nk = nq ? nq.split(/\s+/).filter(Boolean) : [];
     const spidq = searchMode === 'spid' ? document.getElementById('inSpid').value.trim() : '';
     const pidq = searchMode === 'name' ? document.getElementById('inPid').value.trim() : '';
-    const hasSearch = Boolean(nq || spidq || pidq || selectedSeasonId !== null || minOvrFilter > 0);
+
+    // Xử lý từ khóa tìm kiếm "ovr:null" hoặc "null"
+    const isSearchingNullOvr = (rawNameInput.toLowerCase() === 'ovr:null' || rawNameInput.toLowerCase() === 'null');
+
+    const hasSearch = Boolean(nq || spidq || pidq || selectedSeasonId !== null || ovrFilterVal !== null);
     if (!hasSearch) { showEmpty('init'); return; }
+
     currentFiltered = playerIndex.filter(e => {
-        if (minOvrFilter > 0 && (e.ref.ovr || 0) < minOvrFilter) return false;  // 🆕 chip OVR
+        const playerOvr = e.ref.ovr;
+        const isNullOvr = (playerOvr === null || playerOvr === undefined || playerOvr === 0);
+
+        // Lọc theo nút Chip OVR
+        if (ovrFilterVal === 'only_null') {
+            if (!isNullOvr) return false;
+        } else if (typeof ovrFilterVal === 'number' && ovrFilterVal > 0) {
+            if (isNullOvr || playerOvr < ovrFilterVal) return false;
+        }
+
+        // Lọc theo từ khóa "ovr:null"
+        if (isSearchingNullOvr) {
+            if (!isNullOvr) return false;
+        }
+
         const seasonMatch = selectedSeasonId === null || e.seasonId === selectedSeasonId;
         if (!seasonMatch) return false;
+
         if (searchMode === 'spid') return !spidq || e.spidStr.includes(spidq) || e.pidStr.includes(spidq);
+
+        // Nếu đang gõ "ovr:null" thì bỏ qua kiểm tra tên thông thường
+        if (isSearchingNullOvr) return !pidq || e.pidStr.includes(pidq);
+
         return (!nk.length || nk.every(t => e.nameNorm.includes(t))) && (!pidq || e.pidStr.includes(pidq));
     });
+
     currentPage = 1;
-    // 🔧 FIX: GIỮ NGUYÊN cột sort người dùng chọn — bản cũ mỗi lần gõ phím lại reset về OVR
-    sortCurrent(); updSortUI();
+    sortCurrent();
+    updSortUI();
     const ms = performance.now() - t0;
     const msTxt = ms < 1 ? '<1' : String(Math.round(ms));
     document.getElementById('searchTime').textContent = `⚡ ${msTxt}ms`;
     document.getElementById('sSpeed').textContent = msTxt + 'ms';
     if (!currentFiltered.length) showEmpty('no'); else renderPage();
     document.getElementById('sSearches').textContent = (++searchCnt).toLocaleString();
-    // 🆕 lưu lịch sử tìm theo tên (sau khi ngừng gõ 1.2s)
-    if (nq) { clearTimeout(recentSaveTimer); recentSaveTimer = setTimeout(() => saveRecent(document.getElementById('inName').value.trim()), 1200); }
+
+    if (nq && !isSearchingNullOvr) {
+        clearTimeout(recentSaveTimer);
+        recentSaveTimer = setTimeout(() => saveRecent(rawNameInput), 1200);
+    }
 }
+
 function sortCurrent() {
     const f = currentSortBy, dir = currentSortDir;
     currentFiltered.sort((a, b) => {
-        const val = e => f === 'ovr' ? (e.ref.ovr || 0) : f === 'spid' ? e.ref.id : f === 'name' ? e.nameNorm : e.seasonNorm;
+        const val = e => {
+            if (f === 'ovr') {
+                const ovr = e.ref.ovr;
+                return (ovr === null || ovr === undefined) ? -1 : ovr;
+            }
+            if (f === 'spid') return e.ref.id;
+            if (f === 'name') return e.nameNorm;
+            return e.seasonNorm;
+        };
         const va = val(a), vb = val(b);
         if (va < vb) return dir === 'asc' ? -1 : 1;
         if (va > vb) return dir === 'asc' ? 1 : -1;
         return a.ref.id - b.ref.id;
     });
 }
+
 function changeSort(f) {
     currentSortDir = currentSortBy === f ? (currentSortDir === 'asc' ? 'desc' : 'asc') : (f === 'name' || f === 'season' ? 'asc' : 'desc');
     currentSortBy = f; currentPage = 1; sortCurrent(); updSortUI(); renderPage();
 }
+
 function updSortUI() {
     ['ovr','spid','name','season'].forEach(f => {
         const el = document.getElementById('si' + f[0].toUpperCase() + f.slice(1));
@@ -796,25 +825,29 @@ function updSortUI() {
         el.style.color = currentSortBy === f ? 'var(--primary)' : 'inherit';
     });
 }
+
 function showEmpty(type) {
     document.getElementById('tHead').style.display = 'none';
     document.getElementById('pager').style.display = 'none';
     document.getElementById('searchTime').textContent = '';
     updateResultBar(type === 'init' ? 'Chọn mùa, nhập tên, PID hoặc SPID để bắt đầu' : 'Không có kết quả phù hợp');
     const message = type === 'init'
-        ? ['🔍','Nhập thông tin cầu thủ','Dùng tên, PID, SPID, chip OVR hoặc chọn một mùa thẻ.']
+        ? ['🔍','Nhập thông tin cầu thủ','Dùng tên, PID, SPID, chip OVR (hoặc ovr:null) để tìm kiếm.']
         : ['😕','Không tìm thấy cầu thủ','Thử đổi từ khóa, PID, mùa thẻ hoặc bỏ bớt chip lọc OVR.'];
     document.getElementById('tBody').innerHTML = `<tr><td colspan="4"><div class="empty"><div class="empty-ico">${message[0]}</div><div class="empty-title">${message[1]}</div><div class="empty-desc">${message[2]}</div></div></td></tr>`;
 }
+
 function highlightName(name, tokens) {
     if (!tokens.length) return esc(name);
     let output = esc(name);
     tokens.forEach(token => {
+        if (token.toLowerCase() === 'ovr:null' || token.toLowerCase() === 'null') return;
         const re = new RegExp(`(${token.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'ig');
         output = output.replace(re, '<span class="hl">$1</span>');
     });
     return output;
 }
+
 function renderPage() {
     document.getElementById('tHead').style.display = '';
     const start = (currentPage - 1) * PAGE_SIZE, end = Math.min(start + PAGE_SIZE, currentFiltered.length);
@@ -823,16 +856,18 @@ function renderPage() {
     updateResultBar(`kết quả · hiển thị ${start + 1}–${end}`, currentFiltered.length);
     document.getElementById('tBody').innerHTML = data.map(p => {
         const sid = Math.floor(p.id / 1000000), sn = seasonMap.get(sid), urls = getImgUrls(p.id);
+        const displayOvr = (p.ovr !== null && p.ovr !== undefined && p.ovr !== 0) ? p.ovr : 'N/A';
         return `<tr>
-            <td style="text-align:center;"><div class="ovr-badge ${getOvrClass(p.ovr)}">${p.ovr || '-'}</div></td>
+            <td style="text-align:center;"><div class="ovr-badge ${getOvrClass(p.ovr)}">${displayOvr}</div></td>
             <td><button class="spid-code" type="button" onclick="copyToClipboard('${p.id}', 'SPID')" title="Bấm để sao chép SPID">${p.id}</button></td>
             <td><div class="player-row"><div class="avatar-wrap"><img src="${urls[0]}" alt="" class="avatar-img" loading="lazy" decoding="async" data-url-index="0" onerror="handleImgErr(this,${p.id})"></div><div><div class="player-name">${highlightName(p.name, tokens)}</div><div class="player-pid">PID: ${getPid(p.id)}</div></div></div></td>
             <td><div class="season-cell">${sn ? `<img src="${sn.seasonImg}" class="season-img" alt="" loading="lazy"><span class="season-label">${esc(sn.className)}</span>` : `<span style="color:var(--text-4)">Mùa ${sid}</span>`}</div></td>
         </tr>`;
     }).join('');
     renderPager(currentFiltered.length);
-    document.querySelector('.tb-scroll').scrollTop = 0;  // 🆕 cuộn về đầu khi đổi trang
+    document.querySelector('.tb-scroll').scrollTop = 0;
 }
+
 function renderPager(total) {
     const tp = Math.ceil(total / PAGE_SIZE), pg = document.getElementById('pager');
     if (tp <= 1) { pg.style.display = 'none'; return; }
@@ -849,14 +884,11 @@ function renderPager(total) {
     pg.innerHTML = html;
 }
 
-// 🆕 Nút lên đầu trang
 window.addEventListener('scroll', () => {
     document.getElementById('toTop').classList.toggle('show', window.scrollY > 500);
 }, { passive: true });
 
-// =====================================================
 // KHỞI TẠO (INIT)
-// =====================================================
 window.onload = async () => {
     buildSeasonList();
     loadVisitorCount();
